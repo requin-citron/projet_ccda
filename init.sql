@@ -3,8 +3,8 @@ CREATE TABLE IF NOT EXISTS clients (
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
     enterprise TEXT,
-    phone INTEGER ,
-    photo TEXT,
+    phone INTEGER UNIQUE,
+    photo TEXT UNIQUE,
     dt datetime default current_timestamp
 );
 

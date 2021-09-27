@@ -20,8 +20,8 @@ fiche create_fiche(string nom, string prenom, string entreprise, string mail, st
 }
 
 
-int main(int argc, char const *argv[]) {
-  fiche client = create_fiche("kleman","chevalo", "la fac", "test@example.com", "0605040302","./chevalo.png", "01-01-1971");
-  print_fiche(&client);
-  return 0;
-}
+// int main(int argc, char const *argv[]) {
+//   fiche client = create_fiche("kleman","chevalo", "la fac", "test@example.com", "0605040302","./chevalo.png", "01-01-1971");
+//   print_fiche(&client);
+//   return 0;
+// }

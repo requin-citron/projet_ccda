@@ -5,10 +5,8 @@ RM=rm
 
 
 
-all: bdd_utils fiche_client
-bdd_utils:bdd_utils.cpp
-		$(CC) $(CXXFLAG) $(LIBS) bdd_utils.cpp -o bdd_utils
-fiche_client:fiche_client.cpp
-				$(CC) $(CXXFLAG) $(LIBS) fiche_client.cpp -o fiche_client
+all: main
+main:bdd_utils.cpp fiche_client.cpp main.cpp
+		$(CC) $(CXXFLAG) $(LIBS) bdd_utils.cpp fiche_client.cpp  main.cpp -o main
 clear:
-		$(RM) bdd_utils fiche_client
+		$(RM) main
