@@ -1,7 +1,7 @@
 #include "contact.hpp"
 
 
-Contact::Contact(std::string firstName, std::string lastName, std::string enterprise, std::string mail, std::string phone, std::string pathPicture, std::string date): firstName(firstName), lastName(lastName), enterprise(enterprise), mail(mail), phone(phone), pathPicture(pathPicture), date(date){}
+Contact::Contact(std::string firstName, std::string lastName, std::string enterprise, std::string mail, std::string phone, std::string pathPicture): firstName(firstName), lastName(lastName), enterprise(enterprise), mail(mail), phone(phone), pathPicture(pathPicture){}
 
 void Contact::print_debug(){
   std::cerr << "firstName :" << this->firstName << std::endl;
@@ -10,7 +10,7 @@ void Contact::print_debug(){
   std::cerr << "mail :" << this->mail << std::endl;
   std::cerr << "phone :" << this->phone << std::endl;
   std::cerr << "pathPicture :" << this->pathPicture << std::endl;
-  std::cerr << "date :" << this->date << std::endl;
+  //std::cerr << "date :" << this->date << std::endl;
 }
 
 void Contact::setFirstName(std::string fn){
@@ -31,7 +31,7 @@ void Contact::setPhone(std::string ph){
 void Contact::setPathPicture(std::string path){
   this->pathPicture = path;
 }
-void Contact::setDate(std::string da){
+void Contact::setDate(struct tm &da){
   this->date=da;
 }
 
@@ -53,12 +53,28 @@ std::string Contact::getPhone(){
 std::string Contact::getPathPicture(){
   return this->pathPicture;
 }
-std::string Contact::getDate(){
+struct tm Contact::getDate(){
   return this->date;
 }
 
+std::ostream& operator<<(std::ostream &os, Contact &curr){
+  os << "firstName :" << curr.getFirstName() << std::endl;
+  os << "lastName :" << curr.getFirstName() << std::endl;
+  os << "enterprise :" << curr.getEnterprise() << std::endl;
+  os << "mail :" << curr.getMail() << std::endl;
+  os << "phone :" << curr.getPhone() << std::endl;
+  os << "pathPicture :" << curr.getPathPicture() << std::endl;
+  return os;
+}
+
+
 int main(int argc, char const *argv[]) {
-  Contact chevalo("eva", "rodrigues", "pornhub", "chevalo@chevalo.com", "01020304", "blabla", "aze");
+  Contact chevalo("eva", "rodrigues", "pornhub", "chevalo@chevalo.com", "01020304", "blabla");
   chevalo.print_debug();
+  std::cout << "==========================="<<std::endl;
+  std::cout << chevalo ;
+  std::cout << "==========================="<<std::endl;
+  Interaction test("chevalo");
+  std::cout << test << std::endl;
   return 0;
 }

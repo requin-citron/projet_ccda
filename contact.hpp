@@ -2,6 +2,9 @@
 #define HPP_CONTACT
 #include <cstdlib>
 #include <iostream>
+#include <chrono>
+#include <list>
+#include "interaction.hpp"
 
 //! class Contact
 /*!
@@ -18,7 +21,14 @@ private:
   std::string mail;
   std::string phone;
   std::string pathPicture;
-  std::string date;
+  struct tm date;
+  std::list<Interaction*> interactions;
+
+  //!surcharge de <<
+  /*!
+  identique a print_debug mais affiche utilise les flux standar du cpp
+  */
+  friend std::ostream& operator<<(std::ostream &os, Contact &curr);
 public:
   //! declaration des fonctions publique
   //! Constructeur
@@ -33,7 +43,7 @@ public:
     \param pathPicture Chemain du fichier photo
     \param date Date de creation
   */
-  Contact (std::string firstName, std::string lastName, std::string enterprise, std::string mail, std::string phone, std::string pathPicture, std::string date);
+  Contact (std::string firstName, std::string lastName, std::string enterprise, std::string mail, std::string phone, std::string pathPicture);
   //! fonction de debug
   /*!
     la fonction affiche tout les champs dans stderr
@@ -52,7 +62,7 @@ public:
   //! fonction de mofication de pathPicture
   void setPathPicture(std::string path);
   //! fonction de mofication de date
-  void setDate(std::string da);
+  void setDate(struct tm &da);
 
   //! fonction renvoyant firstName
   std::string getFirstName();
@@ -67,7 +77,8 @@ public:
   //! fonction renvoyant pathPicture
   std::string getPathPicture();
   //! fonction renvoyant date
-  std::string getDate();
+  struct tm getDate();
+
 };
 
 #endif
