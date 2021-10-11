@@ -1,13 +1,22 @@
 #include "interaction.hpp"
 
 
+
 void Interaction::initDate(){
   this->contenu = "";
   time_t tn = time(NULL);
   *(this->date) = tm(*localtime(&tn));
 }
-Interaction::Interaction(std::string con):contenu(con){
+Interaction::Interaction(std::string contenu,Contact *attach_contact){
   this->initDate();
+  this->target = attach_contact;
+  this->contenu = contenu;
+}
+Interaction::~Interaction(){
+  delete this->date;
+  for(auto &it:this->tags_lst){
+    delete it;
+  }
 }
 
 Interaction::Interaction(){
@@ -15,12 +24,17 @@ Interaction::Interaction(){
 }
 
 
-std::string Interaction::getContenu(){
-  return this->contenu;
-}
 
 void Interaction::setDate(struct tm &dt){
   *(this->date) = dt;
+}
+void Interaction::addTag(std::string tag){
+  Tag *tmp = new Tag(tag, this);
+  this->tags_lst.push_back(tmp);
+}
+
+std::string Interaction::getContenu(){
+  return this->contenu;
 }
 
 std::ostream& operator<<(std::ostream &os, Interaction &inte){
@@ -32,6 +46,13 @@ std::ostream& operator<<(std::ostream &os, Interaction &inte){
   return os;
 }
 
+std::list<Tag*>* Interaction::getTags(){
+  return &(this->tags_lst);
+}
 struct tm Interaction::getDate(){
   return *(this->date);
+}
+
+Contact* Interaction::getContact(){
+  return this->target;
 }

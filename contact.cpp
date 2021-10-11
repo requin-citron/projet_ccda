@@ -1,7 +1,13 @@
 #include "contact.hpp"
+#include "tagList.hpp"
 
 
 Contact::Contact(std::string firstName, std::string lastName, std::string enterprise, std::string mail, std::string phone, std::string pathPicture): firstName(firstName), lastName(lastName), enterprise(enterprise), mail(mail), phone(phone), pathPicture(pathPicture){}
+Contact::~Contact(){
+  for(auto &it: this->interaction_lst){
+    delete it;
+  }
+}
 
 void Contact::print_debug(){
   std::cerr << "firstName :" << this->firstName << std::endl;
@@ -34,7 +40,19 @@ void Contact::setPathPicture(std::string path){
 void Contact::setDate(struct tm &da){
   this->date=da;
 }
+void Contact::addInteraction(std::string contenue){
+  Interaction *inte = new Interaction(contenue, this);
+  this->interaction_lst.push_back(inte);
+}
+void Contact::addInteraction(std::string contenue, std::string tag){
+  Interaction *inte = new Interaction(contenue, this);
+  inte->addTag(tag);
+  this->interaction_lst.push_back(inte);
+}
 
+std::list<Interaction*>* Contact::getInteractionLst(){
+  return &(this->interaction_lst);
+}
 std::string Contact::getFirstName(){
   return this->firstName;
 }
@@ -69,12 +87,21 @@ std::ostream& operator<<(std::ostream &os, Contact &curr){
 
 
 int main(int argc, char const *argv[]) {
-  Contact chevalo("eva", "rodrigues", "pornhub", "chevalo@chevalo.com", "01020304", "blabla");
-  chevalo.print_debug();
+  Contact *chevalo = new Contact("eva", "rodrigues", "pornhub", "chevalo@chevalo.com", "01020304", "blabla");
+  chevalo->print_debug();
   std::cout << "==========================="<<std::endl;
-  std::cout << chevalo ;
+  std::cout << *chevalo ;
   std::cout << "==========================="<<std::endl;
-  Interaction test("chevalo");
-  std::cout << test << std::endl;
+  chevalo->addInteraction("TestTest","pwn");
+  chevalo->addInteraction("Test1","reverse");
+  chevalo->addInteraction("Test2","pwn");
+  chevalo->addInteraction("Test3","cheval");
+  for (auto &it: *chevalo->getInteractionLst()) {
+    std::cout <<"Interactions: " << it->getContenu() << " from "<< it->getContact()->getFirstName() <<std::endl;
+    for (auto &it1: *it->getTags()){
+      std::cout << "Tags: " << it1->getName() << std::endl;
+    }
+  }
+  delete chevalo;
   return 0;
 }

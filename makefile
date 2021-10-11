@@ -1,12 +1,12 @@
 CC=g++
 CXXFLAG=-Wall
-LIBS=-lsqlite3
+LIBS=
 RM=rm
 
 
 
 all: main
-main:bdd_utils.cpp fiche_client.cpp main.cpp
-		$(CC) $(CXXFLAG) $(LIBS) bdd_utils.cpp fiche_client.cpp  main.cpp -o main
+main: interaction.cpp contact.cpp tag.cpp 
+		$(CC) $(CXXFLAG) $(LIBS) interaction.cpp contact.cpp tagList.cpp tag.cpp -o main
 clear:
 		$(RM) main

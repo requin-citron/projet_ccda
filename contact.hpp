@@ -12,6 +12,7 @@
   contact.
 */
 
+class Interaction;
 class Contact {
 private:
   //! declaration des variables privées
@@ -22,7 +23,7 @@ private:
   std::string phone;
   std::string pathPicture;
   struct tm date;
-  std::list<Interaction*> interactions;
+  std::list<Interaction*> interaction_lst;
 
   //!surcharge de <<
   /*!
@@ -44,6 +45,10 @@ public:
     \param date Date de creation
   */
   Contact (std::string firstName, std::string lastName, std::string enterprise, std::string mail, std::string phone, std::string pathPicture);
+  /*!
+    Un destructeur qui free le contact ainsi que toute les interactions
+  */
+  ~Contact();
   //! fonction de debug
   /*!
     la fonction affiche tout les champs dans stderr
@@ -63,7 +68,16 @@ public:
   void setPathPicture(std::string path);
   //! fonction de mofication de date
   void setDate(struct tm &da);
+  //! fonction pour ajouter une interaction
+  // \param contenue contenue de l'interaction
+  void addInteraction(std::string contenue);
+  //! fonction pour ajouter une interaction avec un tag
+  // \param contenu contenu de l'interaction
+  // \param tag de l'interaction
+  void addInteraction(std::string contenue, std::string tag);
 
+  //! fonction renvoyant la list des interactions d'un contact
+  std::list<Interaction*>* getInteractionLst();
   //! fonction renvoyant firstName
   std::string getFirstName();
   //! fonction renvoyant lastName
