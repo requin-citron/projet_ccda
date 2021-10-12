@@ -7,7 +7,10 @@ void Interaction::initDate(){
   time_t tn = time(NULL);
   *(this->date) = tm(*localtime(&tn));
 }
-Interaction::Interaction(std::string contenu,Contact *attach_contact){
+Interaction::Interaction(std::string contenu,Contact *attach_contact, TagList *tag_lst){
+  if(this->tag_list == NULL){
+    this->tag_list = tag_lst;
+  }
   this->initDate();
   this->target = attach_contact;
   this->contenu = contenu;
@@ -15,8 +18,12 @@ Interaction::Interaction(std::string contenu,Contact *attach_contact){
 Interaction::~Interaction(){
   delete this->date;
   for(auto &it:this->tags_lst){
-    delete it;
+    it->getInteraction()->remove(this);
   }
+}
+void Interaction::unlinkTarget(){
+  this->target->eraseInteraction(this);
+  this->tags_lst.erase(this->tags_lst.begin(), this->tags_lst.end());
 }
 
 Interaction::Interaction(){
@@ -29,7 +36,11 @@ void Interaction::setDate(struct tm &dt){
   *(this->date) = dt;
 }
 void Interaction::addTag(std::string tag){
-  Tag *tmp = new Tag(tag, this);
+  if(this->tag_list == NULL){
+    std::cerr << "you need ton link tag list to use addTag" << std::endl;
+    exit(2);
+  }
+  Tag *tmp = this->tag_list->getTag(tag, this);
   this->tags_lst.push_back(tmp);
 }
 

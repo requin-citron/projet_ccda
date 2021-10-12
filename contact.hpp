@@ -4,6 +4,7 @@
 #include <iostream>
 #include <chrono>
 #include <list>
+#include "tagList.hpp"
 #include "interaction.hpp"
 
 //! class Contact
@@ -13,6 +14,7 @@
 */
 
 class Interaction;
+class TagList;
 class Contact {
 private:
   //! declaration des variables privées
@@ -74,7 +76,7 @@ public:
   //! fonction pour ajouter une interaction avec un tag
   // \param contenu contenu de l'interaction
   // \param tag de l'interaction
-  void addInteraction(std::string contenue, std::string tag);
+  void addInteraction(std::string contenue, std::string tag, TagList *tag_lst);
 
   //! fonction renvoyant la list des interactions d'un contact
   std::list<Interaction*>* getInteractionLst();
@@ -92,6 +94,10 @@ public:
   std::string getPathPicture();
   //! fonction renvoyant date
   struct tm getDate();
+
+  //! erase Interaction
+  // \param inte pointeur sur l'interaction a supprimé
+  void eraseInteraction(Interaction *inte);
 
 };
 

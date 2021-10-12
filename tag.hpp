@@ -2,6 +2,7 @@
 #define TAG_HPP
 #include <list>
 #include <string>
+#include "interaction.hpp"
 
 /*
   Il n'y a pas de possibilité encore pour faire
@@ -24,9 +25,11 @@ private:
 
 public:
   Tag (std::string name,Interaction* interac);
+  ~Tag();
   void add(std::string);
-
+  void addInteraction(Interaction* inte);
   std::string getName();
+  std::list<Interaction*>* getInteraction();
 };
 
 
