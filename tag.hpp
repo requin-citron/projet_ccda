@@ -30,6 +30,7 @@ public:
   void addInteraction(Interaction* inte);
   std::string getName();
   std::list<Interaction*>* getInteraction();
+  void eraseInteraction(Interaction * inte);
 };
 
 

@@ -5,9 +5,11 @@ Tag::Tag(std::string name,Interaction *interac){
   this->name = name;
 }
 Tag::~Tag(){
-  for(auto &it:this->interaction_lst){
-    it->unlinkTarget();
-    delete it;
+  std::list<Interaction*>::iterator it = this->interaction_lst.begin();
+  std::list<Interaction*>::iterator end = this->interaction_lst.end();
+  while(it != end){
+    (*it)->unlinkAll();
+    delete (*it++);
   }
 }
 
@@ -21,4 +23,8 @@ void Tag::addInteraction(Interaction* inte){
 
 std::list<Interaction*>* Tag::getInteraction(){
   return &(this->interaction_lst);
+}
+
+void Tag::eraseInteraction(Interaction *inte){
+  this->interaction_lst.remove(inte);
 }

@@ -17,13 +17,14 @@ Interaction::Interaction(std::string contenu,Contact *attach_contact, TagList *t
 }
 Interaction::~Interaction(){
   delete this->date;
-  for(auto &it:this->tags_lst){
-    it->getInteraction()->remove(this);
-  }
+  this->unlinkAll();
 }
-void Interaction::unlinkTarget(){
+void Interaction::unlinkAll(){
   this->target->eraseInteraction(this);
-  this->tags_lst.erase(this->tags_lst.begin(), this->tags_lst.end());
+  //this->tags_lst.erase(this->tags_lst.begin(), this->tags_lst.end());
+  for(auto &it : this->tags_lst){
+    it->eraseInteraction(this);
+  }
 }
 
 Interaction::Interaction(){

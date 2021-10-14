@@ -2,9 +2,13 @@
 
 
 Contact::Contact(std::string firstName, std::string lastName, std::string enterprise, std::string mail, std::string phone, std::string pathPicture): firstName(firstName), lastName(lastName), enterprise(enterprise), mail(mail), phone(phone), pathPicture(pathPicture){}
+
+
 Contact::~Contact(){
-  for(auto &it: this->interaction_lst){
-    delete it;
+  std::list<Interaction*>::iterator it = this->interaction_lst.begin();
+  std::list<Interaction*>::iterator end = this->interaction_lst.end();
+  while (it != end) {
+    delete (*it++);
   }
 }
 

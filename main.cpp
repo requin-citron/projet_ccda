@@ -48,31 +48,8 @@ int main(int argc, char const *argv[]) {
   chevalo1->addInteraction("asd","cheval",&tag_lst);
   for (auto &it: *chevalo->getInteractionLst()) {
     cout <<"Interactions: " << it->getContenu() << " from "<< it->getContact()->getFirstName() <<endl;
-    for (auto &it1: *it->getTags()){
-      cout << "Tags: " << it1->getName() << endl;
-    }
   }
-  for (auto &it:*tag_lst.getTagList()) {
-    cout << "il exite le tag: " << it->getName() << endl;
-  }
-  cout << "on cherche tout les interaction et contact de pwn" << endl;
-  tag_lst.eraseTag("pwn");
-  cout << "erase" << endl;
-  for (auto &it:*tag_lst.getTagList()) {
-    cout << "il exite le tag: " << it->getName() << endl;
-  }
-  Tag* pwn_tag = tag_lst.findTag("pwn");
-  if(pwn_tag == NULL){
-    cout << "le tag n'existe pas" << endl;
-  }else{
-    for(auto &it:*pwn_tag->getInteraction()){
-        cout << "contenue: " << it->getContenu() << " ";
-        cout << "Contact: " << it->getContact()->getLastName() << endl;
-    }
-  }
-  delete chevalo1;
   delete chevalo;
-
-  contactInteractionTestCase(&tag_lst);
+  delete chevalo1;
   return 0;
 }

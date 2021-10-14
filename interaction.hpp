@@ -34,7 +34,7 @@ public:
   struct tm getDate();
   Contact* getContact();
 
-  void unlinkTarget();
+  void unlinkAll();
 
 };
 

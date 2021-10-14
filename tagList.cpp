@@ -4,9 +4,10 @@ TagList::TagList(){
   this->size = 0;
 }
 TagList::~TagList(){
-  for(auto &it:this->tags_list){
-    //std::cout << "delete: " << it->getName()<< std::endl;
-    delete it;
+std::list<Tag*>::iterator it = this->tags_list.begin();
+std::list<Tag*>::iterator end = this->tags_list.end();
+  while(it != end){
+    delete (*it++);
   }
 }
 
