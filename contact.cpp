@@ -1,7 +1,7 @@
 #include "contact.hpp"
 
 
-Contact::Contact(std::string firstName, std::string lastName, std::string enterprise, std::string mail, std::string phone, std::string pathPicture): firstName(firstName), lastName(lastName), enterprise(enterprise), mail(mail), phone(phone), pathPicture(pathPicture){}
+Contact::Contact(std::string firstName, std::string lastName, std::string enterprise, std::string mail, std::string phone, std::string pathPicture,TagList *lst): firstName(firstName), lastName(lastName), enterprise(enterprise), mail(mail), phone(phone), pathPicture(pathPicture), tags_lst(lst){}
 
 
 Contact::~Contact(){
@@ -47,8 +47,8 @@ void Contact::addInteraction(std::string contenue){
   Interaction *inte = new Interaction(contenue, this, NULL);
   this->interaction_lst.push_back(inte);
 }
-void Contact::addInteraction(std::string contenue, std::string tag, TagList *tag_lst){
-  Interaction *inte = new Interaction(contenue, this, tag_lst);
+void Contact::addInteraction(std::string contenue, std::string tag){
+  Interaction *inte = new Interaction(contenue, this, this->tags_lst);
   inte->addTag(tag);
   this->interaction_lst.push_back(inte);
 }
@@ -89,5 +89,9 @@ std::ostream& operator<<(std::ostream &os, Contact &curr){
 }
 
 void Contact::eraseInteraction(Interaction *inte){
+  delete inte;
+}
+
+void Contact::unlinkInteraction(Interaction *inte){
   this->interaction_lst.remove(inte);
 }

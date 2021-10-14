@@ -4,15 +4,6 @@
 #include <string>
 #include "interaction.hpp"
 
-/*
-  Il n'y a pas de possibilité encore pour faire
-  une recherche par tag il aurait était possible de faire un objet
-  list tag qui permet de faire des pointeur pour faire récupérer tout
-  les intéractions et donc les contact relier mais dans le futur
-  nous utiliseron la BDD pour faire. Donc l'implementation attendera la BDD
-*/
-
-
 
 
 
@@ -30,7 +21,7 @@ public:
   void addInteraction(Interaction* inte);
   std::string getName();
   std::list<Interaction*>* getInteraction();
-  void eraseInteraction(Interaction * inte);
+  void unlinkInteraction(Interaction * inte);
 };
 
 

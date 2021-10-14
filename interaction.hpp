@@ -34,7 +34,10 @@ public:
   struct tm getDate();
   Contact* getContact();
 
+  //unlink all dependancies pointer
   void unlinkAll();
+  //unlink tag
+  void unlinkTag(std::string name);
 
 };
 

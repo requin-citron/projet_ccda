@@ -20,10 +20,12 @@ Interaction::~Interaction(){
   this->unlinkAll();
 }
 void Interaction::unlinkAll(){
-  this->target->eraseInteraction(this);
+  this->target->unlinkInteraction(this);
   //this->tags_lst.erase(this->tags_lst.begin(), this->tags_lst.end());
-  for(auto &it : this->tags_lst){
-    it->eraseInteraction(this);
+  std::list<Tag*>::iterator it = this->tags_lst.begin();
+  std::list<Tag*>::iterator end = this->tags_lst.end();
+  while(it != end){
+    (*it++)->unlinkInteraction(this);
   }
 }
 
@@ -67,4 +69,20 @@ struct tm Interaction::getDate(){
 
 Contact* Interaction::getContact(){
   return this->target;
+}
+
+//peut etre rajouter un flag en cas d'erreur
+void Interaction::unlinkTag(std::string name){
+  std::list<Tag*>::iterator it = this->tags_lst.begin();
+  std::list<Tag*>::iterator end = this->tags_lst.end();
+  while(it != end){
+    if((*it)->getName() == name){
+      break;
+    }
+    it++;
+  }
+  if(it != end){
+    (*it)->unlinkInteraction(this);
+    this->tags_lst.erase(it);
+  }
 }

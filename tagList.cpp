@@ -37,11 +37,16 @@ Tag* TagList::findTag(std::string name){
 
 
 void TagList::eraseTag(std::string name){
-  for (auto &it:this->tags_list) {
-    if(it->getName() == name){
-      delete it;
-      this->tags_list.remove(it);
-      return;
-    }
+  std::list<Tag*>::iterator it = this->tags_list.begin();
+  std::list<Tag*>::iterator end = this->tags_list.end();
+  std::list<Tag*>::iterator back;
+  while (it != end) {
+    if((*it)->getName() == name){
+     delete (*it);
+     it = this->tags_list.erase(it);
+     //let me here
+   }else{
+     it++;
+   }
   }
 }

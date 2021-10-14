@@ -26,6 +26,7 @@ private:
   std::string pathPicture;
   struct tm date;
   std::list<Interaction*> interaction_lst;
+  TagList *tags_lst;
 
   //!surcharge de <<
   /*!
@@ -45,8 +46,9 @@ public:
     \param phone Phone
     \param pathPicture Chemain du fichier photo
     \param date Date de creation
+    \param lst list de tags
   */
-  Contact (std::string firstName, std::string lastName, std::string enterprise, std::string mail, std::string phone, std::string pathPicture);
+  Contact (std::string firstName, std::string lastName, std::string enterprise, std::string mail, std::string phone, std::string pathPicture, TagList *lst);
   /*!
     Un destructeur qui free le contact ainsi que toute les interactions
   */
@@ -76,7 +78,7 @@ public:
   //! fonction pour ajouter une interaction avec un tag
   // \param contenu contenu de l'interaction
   // \param tag de l'interaction
-  void addInteraction(std::string contenue, std::string tag, TagList *tag_lst);
+  void addInteraction(std::string contenue, std::string tag);
 
   //! fonction renvoyant la list des interactions d'un contact
   std::list<Interaction*>* getInteractionLst();
@@ -98,6 +100,9 @@ public:
   //! erase Interaction
   // \param inte pointeur sur l'interaction a supprimé
   void eraseInteraction(Interaction *inte);
+  //! unlink Interaction
+  // \param inte pointeur sur l'interaction a unlink de la list
+  void unlinkInteraction(Interaction *inte);
 
 };
 
