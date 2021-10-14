@@ -11,20 +11,38 @@
 class Contact;
 class Tag;
 class TagList;
+
+//!class des intéractions
+/*!
+  permet de stocker les interaction et les tags
+  associer
+*/
 class Interaction {
 private:
+  //!variable privées
   std::string contenu;
   struct tm *date = new tm;
   Contact *target = NULL;
   std::list<Tag*> tags_lst;
   TagList *tag_list = NULL;
 
-
+  //! initialise le membre date de l'objet avec la date actuelle
+  /*!
+  la fonction est privé elle est appellé que par le constructeur
+  */
   void initDate();
+  //! fonction d'affichage
   friend std::ostream& operator<<(std::ostream &os, Interaction &inte);
 
 public:
-  Interaction(std::string contenu, Contact *attach_contact, TagList* tag_lst=NULL);
+  //! constructeur de la class
+  /*!
+    \param contenu string qui contient  l'interaction
+    \param attach_contact pointeur qui renvoie sur le contact qui a instancier l'interaction
+    \param tag_lst permé de passer la list de tag
+    \warning il est une list de tag pour pouvoir donner des tag a sont interaction
+  */
+  Interaction(std::string contenu, Contact *attach_contact, TagList* tag_lst);
   Interaction();
   ~Interaction();
   std::string getContenu();

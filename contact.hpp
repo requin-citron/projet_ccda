@@ -34,9 +34,9 @@ private:
   */
   friend std::ostream& operator<<(std::ostream &os, Contact &curr);
 public:
-  //! declaration des fonctions publique
-  //! Constructeur
+  //!declaration des fonctions publique
   /*!
+    Constructeur
     Un unique constructeur qui demande toute les informations
     du contact. Dans les éléments non rensegnier sont géré en amont
     \param firstName Prenom
@@ -75,9 +75,10 @@ public:
   //! fonction pour ajouter une interaction
   // \param contenue contenue de l'interaction
   void addInteraction(std::string contenue);
-  //! fonction pour ajouter une interaction avec un tag
-  // \param contenu contenu de l'interaction
-  // \param tag de l'interaction
+  /*! fonction pour ajouter une interaction avec un tag
+    \param contenu contenu de l'interaction
+    \param tag de l'interaction
+  */
   void addInteraction(std::string contenue, std::string tag);
 
   //! fonction renvoyant la list des interactions d'un contact
