@@ -5,7 +5,7 @@ TagList::TagList(){
 }
 TagList::~TagList(){
   for(auto &it:this->tags_list){
-    std::cout << "delete: " << it->getName()<< std::endl;
+    //std::cout << "delete: " << it->getName()<< std::endl;
     delete it;
   }
 }

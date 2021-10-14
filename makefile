@@ -6,7 +6,7 @@ RM=rm
 
 
 all: main
-main: interaction.cpp contact.cpp tag.cpp 
-		$(CC) $(CXXFLAG) $(LIBS) interaction.cpp contact.cpp tagList.cpp tag.cpp -o main
-clear:
+main: interaction.cpp contact.cpp tag.cpp
+		$(CC) $(CXXFLAG) $(LIBS) interaction.cpp contact.cpp tagList.cpp tag.cpp main.cpp -o main
+clean:
 		$(RM) main

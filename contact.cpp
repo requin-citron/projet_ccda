@@ -1,5 +1,4 @@
 #include "contact.hpp"
-#include "tagList.hpp"
 
 
 Contact::Contact(std::string firstName, std::string lastName, std::string enterprise, std::string mail, std::string phone, std::string pathPicture): firstName(firstName), lastName(lastName), enterprise(enterprise), mail(mail), phone(phone), pathPicture(pathPicture){}
@@ -77,7 +76,7 @@ struct tm Contact::getDate(){
 
 std::ostream& operator<<(std::ostream &os, Contact &curr){
   os << "firstName :" << curr.getFirstName() << std::endl;
-  os << "lastName :" << curr.getFirstName() << std::endl;
+  os << "lastName :" << curr.getLastName() << std::endl;
   os << "enterprise :" << curr.getEnterprise() << std::endl;
   os << "mail :" << curr.getMail() << std::endl;
   os << "phone :" << curr.getPhone() << std::endl;
@@ -87,50 +86,4 @@ std::ostream& operator<<(std::ostream &os, Contact &curr){
 
 void Contact::eraseInteraction(Interaction *inte){
   this->interaction_lst.remove(inte);
-}
-
-
-int main(int argc, char const *argv[]) {
-  Contact *chevalo = new Contact("eva", "rodrigues", "pornhub", "chevalo@chevalo.com", "01020304", "blabla");
-  Contact *chevalo1 = new Contact("klemou", "aze", "pornhub", "chevalo@chevalo.com", "01020304", "blabla");
-  chevalo->print_debug();
-  std::cout << "==========================="<<std::endl;
-  std::cout << *chevalo ;
-  std::cout << "==========================="<<std::endl;
-  TagList tag_lst;
-  chevalo->addInteraction("TestTest","pwn",&tag_lst);
-  chevalo->addInteraction("Test1","reverse",&tag_lst);
-  chevalo->addInteraction("Test2","pwn",&tag_lst);
-  chevalo->addInteraction("Test3","cheval",&tag_lst);
-  chevalo1->addInteraction("kamion","pwn",&tag_lst);
-  chevalo1->addInteraction("aze","reverse",&tag_lst);
-  chevalo1->addInteraction("eza","pwn",&tag_lst);
-  chevalo1->addInteraction("asd","cheval",&tag_lst);
-  for (auto &it: *chevalo->getInteractionLst()) {
-    std::cout <<"Interactions: " << it->getContenu() << " from "<< it->getContact()->getFirstName() <<std::endl;
-    for (auto &it1: *it->getTags()){
-      std::cout << "Tags: " << it1->getName() << std::endl;
-    }
-  }
-  for (auto &it:*tag_lst.getTagList()) {
-    std::cout << "il exite le tag: " << it->getName() << std::endl;
-  }
-  std::cout << "on cherche tout les interaction et contact de pwn" << std::endl;
-  tag_lst.eraseTag("pwn");
-  std::cout << "erase" << std::endl;
-  for (auto &it:*tag_lst.getTagList()) {
-    std::cout << "il exite le tag: " << it->getName() << std::endl;
-  }
-  Tag* pwn_tag = tag_lst.findTag("pwn");
-  if(pwn_tag == NULL){
-    std::cout << "le tag n'existe pas" << std::endl;
-  }else{
-    for(auto &it:*pwn_tag->getInteraction()){
-        std::cout << "contenue: " << it->getContenu() << " ";
-        std::cout << "Contact: " << it->getContact()->getLastName() << std::endl;
-    }
-  }
-  delete chevalo1;
-  delete chevalo;
-  return 0;
 }
