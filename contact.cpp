@@ -1,10 +1,15 @@
 #include "contact.hpp"
 
+size_t Contact::id = 0;
 
-Contact::Contact(std::string firstName, std::string lastName, std::string enterprise, std::string mail, std::string phone, std::string pathPicture,TagList *lst): firstName(firstName), lastName(lastName), enterprise(enterprise), mail(mail), phone(phone), pathPicture(pathPicture), tags_lst(lst){}
+Contact::Contact(std::string firstName, std::string lastName, std::string enterprise, std::string mail, std::string phone, std::string pathPicture,TagList *lst): firstName(firstName), lastName(lastName), enterprise(enterprise), mail(mail), phone(phone), pathPicture(pathPicture), tags_lst(lst){
+  this->local_hist = new HistLocal();
+  this->id ++;
+}
 
 
 Contact::~Contact(){
+  delete this->local_hist;
   std::list<Interaction*>::iterator it = this->interaction_lst.begin();
   std::list<Interaction*>::iterator end = this->interaction_lst.end();
   while (it != end) {
@@ -27,6 +32,7 @@ void Contact::setFirstName(std::string fn){
 }
 void Contact::setLastName(std::string ln){
   this->lastName = ln;
+  this->local_hist->insertHist(this, CHANGE_LAST_NAME);
 }
 void Contact::setEnterprise(std::string et){
   this->enterprise = et;
@@ -53,6 +59,10 @@ void Contact::addInteraction(std::string contenue, std::string tag){
   this->interaction_lst.push_back(inte);
 }
 
+size_t Contact::getId(){
+  return this->id;
+}
+
 std::list<Interaction*>* Contact::getInteractionLst(){
   return &(this->interaction_lst);
 }
@@ -76,6 +86,9 @@ std::string Contact::getPathPicture(){
 }
 struct tm Contact::getDate(){
   return this->date;
+}
+HistLocal *Contact::getHist(){
+  return this->local_hist;
 }
 
 std::ostream& operator<<(std::ostream &os, Contact &curr){

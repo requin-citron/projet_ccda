@@ -6,7 +6,7 @@ using namespace std;
 void contactShowInteraction(Contact *conta){
   int c = 0;
   for(auto &it: *conta->getInteractionLst()){
-    cout << conta->getFirstName() << " Interaction n°" << c << " "<<it->getContenu() << endl;
+    cout << conta->getFirstName() << " Interaction n°" << c << " "<<it->getContenu() << " "<< it->getId() << endl;
     c++;
   }
 }
@@ -126,7 +126,17 @@ void tagListEraseAllTagsTestCase(){
   cout << "tagListEraseAllTagsTestCase ----------------------- END" << endl;
 }
 
-
+void testHistLocal(){
+  cout << "testHistLocal -----------------------" << endl;
+  TagList t;
+  Contact *chevalo = new Contact("kleman", "l3", "sans23.re", "commit.leaks@gmail.com","0605040302", "/tmp/kamtar", &t);
+  chevalo->setLastName("Kamion");
+  for(auto &it: *(chevalo->getHist()->getLst())){
+    cout << it.first << endl;
+  }
+  delete chevalo;
+  cout << "testHistLocal ----------------------- END" << endl;
+}
 
 //tests cases
 int main(int argc, char const *argv[]) {
@@ -135,5 +145,6 @@ int main(int argc, char const *argv[]) {
   tagListTestCase();
   tagListEraseAllTagsTestCase();
   InteractionEraseTag();
+  testHistLocal();
   return 0;
 }

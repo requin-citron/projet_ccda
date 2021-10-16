@@ -6,24 +6,28 @@
 #include <list>
 #include "tagList.hpp"
 #include "interaction.hpp"
+#include "histlocal.hpp"
 
-//! class Contact
+
+class Interaction;
+class TagList;
+class HistLocal;
+//! class des Contact
 /*!
   permet de stocker toutes les informations d'un
   contact.
 */
-
-class Interaction;
-class TagList;
 class Contact {
 private:
   //! declaration des variables privées
+  static size_t id;
   std::string firstName;
   std::string lastName;
   std::string enterprise;
   std::string mail;
   std::string phone;
   std::string pathPicture;
+  HistLocal *local_hist = NULL;
   struct tm date;
   std::list<Interaction*> interaction_lst;
   TagList *tags_lst;
@@ -83,6 +87,8 @@ public:
 
   //! fonction renvoyant la list des interactions d'un contact
   std::list<Interaction*>* getInteractionLst();
+  //! fonction renvoyant l'identifiant du Contact
+  size_t getId();
   //! fonction renvoyant firstName
   std::string getFirstName();
   //! fonction renvoyant lastName
@@ -97,6 +103,9 @@ public:
   std::string getPathPicture();
   //! fonction renvoyant date
   struct tm getDate();
+  //! fonction qui renvoie l'historique
+  HistLocal *getHist();
+
 
   //! erase Interaction
   // \param inte pointeur sur l'interaction a supprimé
@@ -106,5 +115,6 @@ public:
   void unlinkInteraction(Interaction *inte);
 
 };
+
 
 #endif

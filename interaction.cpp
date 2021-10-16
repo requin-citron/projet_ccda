@@ -8,14 +8,17 @@ void Interaction::initDate(){
   *(this->date) = tm(*localtime(&tn));
 }
 Interaction::Interaction(std::string contenu,Contact *attach_contact, TagList *tag_lst){
+  this->local_hist = new HistLocal();
   if(this->tag_list == NULL){
     this->tag_list = tag_lst;
   }
   this->initDate();
   this->target = attach_contact;
   this->contenu = contenu;
+  this->id = this->target->getInteractionLst()->size();
 }
 Interaction::~Interaction(){
+  delete this->local_hist;
   delete this->date;
   this->unlinkAll();
 }
@@ -27,10 +30,6 @@ void Interaction::unlinkAll(){
   while(it != end){
     (*it++)->unlinkInteraction(this);
   }
-}
-
-Interaction::Interaction(){
-    this->initDate();
 }
 
 
@@ -45,6 +44,14 @@ void Interaction::addTag(std::string tag){
   }
   Tag *tmp = this->tag_list->getTag(tag, this);
   this->tags_lst.push_back(tmp);
+}
+
+HistLocal *Interaction::getHist(){
+  return this->local_hist;
+}
+
+size_t Interaction::getId(){
+  return this->id;
 }
 
 std::string Interaction::getContenu(){

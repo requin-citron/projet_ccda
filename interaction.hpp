@@ -7,10 +7,12 @@
 #include "contact.hpp"
 #include "tag.hpp"
 #include "tagList.hpp"
+#include "histlocal.hpp"
 
 class Contact;
 class Tag;
 class TagList;
+class HistLocal;
 
 //!class des intéractions
 /*!
@@ -25,7 +27,8 @@ private:
   Contact *target = NULL;
   std::list<Tag*> tags_lst;
   TagList *tag_list = NULL;
-
+  size_t id = 0;
+  HistLocal *local_hist = NULL;
   //! initialise le membre date de l'objet avec la date actuelle
   /*!
   la fonction est privé elle est appellé que par le constructeur
@@ -43,12 +46,14 @@ public:
     \warning il est une list de tag pour pouvoir donner des tag a sont interaction
   */
   Interaction(std::string contenu, Contact *attach_contact, TagList* tag_lst);
-  Interaction();
   ~Interaction();
   std::string getContenu();
   void setDate(struct tm &dt);
   void addTag(std::string tag);
+  //! fonction qui renvoie l'historique
+  HistLocal *getHist();
   std::list<Tag*>* getTags();
+  size_t getId();
   struct tm getDate();
   Contact* getContact();
 
