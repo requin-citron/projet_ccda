@@ -7,6 +7,7 @@ void Interaction::initDate(){
   time_t tn = time(NULL);
   *(this->date) = tm(*localtime(&tn));
 }
+
 Interaction::Interaction(std::string contenu,Contact *attach_contact, TagList *tag_lst){
   this->local_hist = new HistLocal();
   if(this->tag_list == NULL){
@@ -15,13 +16,16 @@ Interaction::Interaction(std::string contenu,Contact *attach_contact, TagList *t
   this->initDate();
   this->target = attach_contact;
   this->contenu = contenu;
-  this->id = this->target->getInteractionLst()->size();
+  this->id = this->target->getInteractionId();
+  this->local_hist->insertHist(this->target, this, ADD_INTERACTION);
 }
+
 Interaction::~Interaction(){
   delete this->local_hist;
   delete this->date;
   this->unlinkAll();
 }
+
 void Interaction::unlinkAll(){
   this->target->unlinkInteraction(this);
   //this->tags_lst.erase(this->tags_lst.begin(), this->tags_lst.end());
@@ -33,10 +37,15 @@ void Interaction::unlinkAll(){
 }
 
 
+void Interaction::setContenu(std::string magie){
+  this->contenu = magie;
+  this->local_hist->insertHist(this->target,this, CHANGE_CONTENUE);
+}
 
 void Interaction::setDate(struct tm &dt){
   *(this->date) = dt;
 }
+
 void Interaction::addTag(std::string tag){
   if(this->tag_list == NULL){
     std::cerr << "you need ton link tag list to use addTag" << std::endl;
@@ -44,6 +53,7 @@ void Interaction::addTag(std::string tag){
   }
   Tag *tmp = this->tag_list->getTag(tag, this);
   this->tags_lst.push_back(tmp);
+  this->local_hist->insertHist(this->target,this, ADD_TAG);
 }
 
 HistLocal *Interaction::getHist(){
@@ -70,6 +80,7 @@ std::ostream& operator<<(std::ostream &os, Interaction &inte){
 std::list<Tag*>* Interaction::getTags(){
   return &(this->tags_lst);
 }
+
 struct tm Interaction::getDate(){
   return *(this->date);
 }
@@ -92,4 +103,5 @@ void Interaction::unlinkTag(std::string name){
     (*it)->unlinkInteraction(this);
     this->tags_lst.erase(it);
   }
+  this->local_hist->insertHist(this->target,this, DELETE_TAG);
 }

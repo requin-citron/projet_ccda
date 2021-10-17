@@ -20,7 +20,9 @@ class HistLocal;
 class Contact {
 private:
   //! declaration des variables privées
-  static size_t id;
+  static size_t id_c;
+  size_t id;
+  size_t interaction_id=0;
   std::string firstName;
   std::string lastName;
   std::string enterprise;
@@ -105,6 +107,12 @@ public:
   struct tm getDate();
   //! fonction qui renvoie l'historique
   HistLocal *getHist();
+  //! fonction qui renvoie l'identifiant de l'interaction
+  size_t getInteractionId(){
+    size_t ret = this->interaction_id;
+    this->interaction_id++;
+    return ret;
+  }
 
 
   //! erase Interaction

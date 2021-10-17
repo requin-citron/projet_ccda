@@ -1,12 +1,12 @@
 #include "contact.hpp"
 
-size_t Contact::id = 0;
+size_t Contact::id_c = 0;
 
 Contact::Contact(std::string firstName, std::string lastName, std::string enterprise, std::string mail, std::string phone, std::string pathPicture,TagList *lst): firstName(firstName), lastName(lastName), enterprise(enterprise), mail(mail), phone(phone), pathPicture(pathPicture), tags_lst(lst){
   this->local_hist = new HistLocal();
-  this->id ++;
+  this->id = this->id_c;
+  this->id_c ++;
 }
-
 
 Contact::~Contact(){
   delete this->local_hist;
@@ -29,34 +29,50 @@ void Contact::print_debug(){
 
 void Contact::setFirstName(std::string fn){
   this->firstName = fn;
+  this->local_hist->insertHist(this, CHANGE_FIRST_NAME);
 }
+
 void Contact::setLastName(std::string ln){
   this->lastName = ln;
   this->local_hist->insertHist(this, CHANGE_LAST_NAME);
 }
+
 void Contact::setEnterprise(std::string et){
   this->enterprise = et;
+  this->local_hist->insertHist(this, CHANGE_ENTREPRISE_NAME);
 }
+
 void Contact::setMail(std::string ml){
   this->mail = ml;
+  this->local_hist->insertHist(this, CHANGE_MAIL);
 }
+
 void Contact::setPhone(std::string ph){
   this->phone = ph;
+  this->local_hist->insertHist(this, CHANGE_PHONE);
 }
+
 void Contact::setPathPicture(std::string path){
   this->pathPicture = path;
+  this->local_hist->insertHist(this, CHANGE_PATH_PICTURE);
 }
+
 void Contact::setDate(struct tm &da){
   this->date=da;
+  this->local_hist->insertHist(this, CHANGE_DATE);
 }
+
 void Contact::addInteraction(std::string contenue){
-  Interaction *inte = new Interaction(contenue, this, NULL);
+  Interaction *inte = new Interaction(contenue, this, this->tags_lst);
   this->interaction_lst.push_back(inte);
+  this->local_hist->insertHist(this, ADD_INTERACTION);
 }
+
 void Contact::addInteraction(std::string contenue, std::string tag){
   Interaction *inte = new Interaction(contenue, this, this->tags_lst);
   inte->addTag(tag);
   this->interaction_lst.push_back(inte);
+  this->local_hist->insertHist(this, ADD_INTERACTION);
 }
 
 size_t Contact::getId(){
@@ -103,6 +119,7 @@ std::ostream& operator<<(std::ostream &os, Contact &curr){
 
 void Contact::eraseInteraction(Interaction *inte){
   delete inte;
+  this->local_hist->insertHist(this,DELETE_INTERACTION);
 }
 
 void Contact::unlinkInteraction(Interaction *inte){

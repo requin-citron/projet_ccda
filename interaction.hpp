@@ -49,6 +49,7 @@ public:
   ~Interaction();
   std::string getContenu();
   void setDate(struct tm &dt);
+  void setContenu(std::string magie);
   void addTag(std::string tag);
   //! fonction qui renvoie l'historique
   HistLocal *getHist();

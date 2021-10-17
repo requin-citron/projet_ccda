@@ -1,12 +1,26 @@
 #include "tagList.hpp"
 #include "contact.hpp"
+#include "contactCatalog.hpp"
 
 using namespace std;
+
+void showHist(Contact *conta){
+  for(auto &it: *(conta->getHist()->getLst())){
+    cout <<"Hist:"<< it.first << endl;
+  }
+}
+
+void showHist(Interaction *inte){
+  for(auto &it: *(inte->getHist()->getLst())){
+    cout <<"Hist1:"<< it.first << endl;
+  }
+}
 
 void contactShowInteraction(Contact *conta){
   int c = 0;
   for(auto &it: *conta->getInteractionLst()){
     cout << conta->getFirstName() << " Interaction n°" << c << " "<<it->getContenu() << " "<< it->getId() << endl;
+    showHist(conta);
     c++;
   }
 }
@@ -33,6 +47,7 @@ void contactInteractionTestCase(TagList *tags_lst){
   chevalo->eraseInteraction(*it);
   cout << "---------------------" << endl;
   contactShowInteraction(chevalo);
+  showHist(chevalo);
   delete chevalo;
   cout << "contactInteractionTestCase END -----------------------"<<endl;
 }
@@ -47,6 +62,7 @@ void InteractionEraseTag(){
   for(auto &it : *chevalo->getInteractionLst()){
     it->addTag("aze");
     it->addTag("kamion");
+    showHist(it);
   }
   //on regarde les tags
   for (auto &it : *chevalo->getInteractionLst()) {
@@ -70,7 +86,7 @@ void InteractionEraseTag(){
     }
     cout << endl;
   }
-
+  showHist(chevalo);
   delete chevalo;
   cout << "InteractionEraseTag END -----------------------"<<endl;
 }
@@ -95,6 +111,8 @@ void tagListTestCase(){
   contactShowInteraction(chevalo);
   contactShowInteraction(chevalo1);
 
+  showHist(chevalo);
+  showHist(chevalo1);
   delete chevalo;
   delete chevalo1;
   cout << "tagListTestCase ----------------------- END" << endl;
@@ -121,6 +139,8 @@ void tagListEraseAllTagsTestCase(){
   contactShowInteraction(chevalo);
   contactShowInteraction(chevalo1);
 
+  showHist(chevalo);
+  showHist(chevalo1);
   delete chevalo;
   delete chevalo1;
   cout << "tagListEraseAllTagsTestCase ----------------------- END" << endl;
@@ -131,13 +151,15 @@ void testHistLocal(){
   TagList t;
   Contact *chevalo = new Contact("kleman", "l3", "sans23.re", "commit.leaks@gmail.com","0605040302", "/tmp/kamtar", &t);
   chevalo->setLastName("Kamion");
-  for(auto &it: *(chevalo->getHist()->getLst())){
-    cout << it.first << endl;
-  }
+  showHist(chevalo);
   delete chevalo;
   cout << "testHistLocal ----------------------- END" << endl;
 }
 
+void testCatalog(){
+  ContactCatalog cata;
+  cata.addContact("kleman","chevalo", "aze", "aze@gmail.com", "0605040302", "/tmp/aze");
+}
 //tests cases
 int main(int argc, char const *argv[]) {
   TagList t;
@@ -146,5 +168,6 @@ int main(int argc, char const *argv[]) {
   tagListEraseAllTagsTestCase();
   InteractionEraseTag();
   testHistLocal();
+  testCatalog();
   return 0;
 }
