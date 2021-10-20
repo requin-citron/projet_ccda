@@ -1,8 +1,36 @@
+#include "date.hpp"
 #include "tagList.hpp"
 #include "contact.hpp"
 #include "contactCatalog.hpp"
+#include <unistd.h>
 
 using namespace std;
+
+
+std::pair<std::string,Date*> treat(std::string s) {
+    std::pair<std::string,Date*> r;
+    r.first = s;
+    size_t date = s.find("@date");
+    if (date!=std::string::npos && s.size()>=date+16)
+        r.second = new Date(s.substr(date+6,10));
+    else
+        r.second = NULL;
+    return r;
+}
+std::list<std::pair<std::string,Date*>> parser(std::string s) {
+    std::list<std::pair<std::string,Date*>> r;
+    std::stringstream ss(s);
+    std::string tmp;
+    while (getline(ss,tmp,'\n'))
+        if (tmp.substr(0,6)=="@todo ")
+            r.push_back(treat(tmp.substr(6)));
+    return r;
+}
+void destroy(std::list<std::pair<std::string,Date*>> lp) {
+    for (auto& i : lp)
+        if (i.second!=NULL)
+            delete i.second;
+}
 
 void showHist(Contact *conta){
   for(auto &it: *(conta->getHist()->getLst())){
@@ -160,6 +188,45 @@ void testCatalog(){
   ContactCatalog cata;
   cata.addContact("kleman","chevalo", "aze", "aze@gmail.com", "0605040302", "/tmp/aze");
 }
+
+void testDate() {
+    cout << "testDate-----------------------------------------" << endl;
+    Date *d1, *d2;
+
+    d1 = new Date();
+    d2 = new Date();
+    std::cout <<d1->day()<<"-"<<d1->mon()<<"-"<<d1->year()<<"-"<<d1->hour()<<"-"<<d1->min()<<"-"<<d1->sec()<< std::endl;
+    std::cout << *d1 <<" "<< *d2 <<" "<<
+        (*d1==*d2) <<" "<< (*d1!=*d2) <<" "<< (*d1>=*d1) <<" "<< (*d1<=*d1) << std::endl;
+    delete d1;
+    delete d2;
+
+    d1 = new Date();
+    sleep(3);
+    d2 = new Date();
+    std::cout << *d1 <<" < "<< *d2 <<" = "<< ((*d1<*d2)?"vrai":"faux") << std::endl;
+    std::cout << *d1 <<" > "<< *d2 <<" = "<< ((*d1>*d2)?"vrai":"faux") << std::endl;
+    std::cout << *d1 <<" <= "<< *d2 <<" = "<< ((*d1<=*d2)?"vrai":"faux") << std::endl;
+    std::cout << *d1 <<" >= "<< *d2 <<" = "<< ((*d1>=*d2)?"vrai":"faux") << std::endl;
+    delete d1;
+    delete d2;
+    cout << "testDate--------------------------------------END" << endl;
+}
+
+void testParser() {
+    cout << "testParser-------------------------------------------" << endl;
+    std::string s = "rdv aujourd’hui par tél., RAS.\n"
+               "@todo Rappeler @date 19/10/2010\n"
+               "@todo confirmer commande n°xyz\n";
+    std::cout << s << std::endl;
+    std::list<std::pair<std::string,Date*>> lp = parser(s);
+    for (auto& i : lp)
+        std::cout << i.first << "\n-> " << (i.second!=NULL?i.second->print():"NO DATE") << std::endl;
+    destroy(lp);
+    cout << "testParser------------------------------------------END" << endl;
+}
+
+
 //tests cases
 int main(int argc, char const *argv[]) {
   TagList t;
@@ -169,5 +236,7 @@ int main(int argc, char const *argv[]) {
   InteractionEraseTag();
   testHistLocal();
   testCatalog();
+  testDate();
+  testParser();
   return 0;
 }
