@@ -24,7 +24,6 @@ void Contact::print_debug(){
   std::cerr << "mail :" << this->mail << std::endl;
   std::cerr << "phone :" << this->phone << std::endl;
   std::cerr << "pathPicture :" << this->pathPicture << std::endl;
-  //std::cerr << "date :" << this->date << std::endl;
 }
 
 void Contact::setFirstName(std::string fn){
@@ -57,10 +56,6 @@ void Contact::setPathPicture(std::string path){
   this->local_hist->insertHist(this, CHANGE_PATH_PICTURE);
 }
 
-void Contact::setDate(struct tm &da){
-  this->date=da;
-  this->local_hist->insertHist(this, CHANGE_DATE);
-}
 
 void Contact::addInteraction(std::string contenue){
   Interaction *inte = new Interaction(contenue, this, this->tags_lst);
@@ -99,9 +94,6 @@ std::string Contact::getPhone(){
 }
 std::string Contact::getPathPicture(){
   return this->pathPicture;
-}
-struct tm Contact::getDate(){
-  return this->date;
 }
 HistLocal *Contact::getHist(){
   return this->local_hist;

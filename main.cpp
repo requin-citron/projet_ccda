@@ -34,13 +34,13 @@ void destroy(std::list<std::pair<std::string,Date*>> lp) {
 
 void showHist(Contact *conta){
   for(auto &it: *(conta->getHist()->getLst())){
-    cout <<"Hist:"<< it.first << endl;
+    cout <<"Hist:"<< it->first << endl;
   }
 }
 
 void showHist(Interaction *inte){
   for(auto &it: *(inte->getHist()->getLst())){
-    cout <<"Hist1:"<< it.first << endl;
+    cout <<"Hist1:"<< it->first << endl;
   }
 }
 
@@ -66,12 +66,14 @@ void contactInteractionTestCase(TagList *tags_lst){
 
   //on suppr la premiere interaction
   list<Interaction*>::iterator it = chevalo->getInteractionLst()->begin();
+  cout << "azeazeazezaezae" << endl;
   chevalo->eraseInteraction(*it);
+  cout << "azeazeazezaezae" << endl;
 
   //on suprr la dernière
   it = chevalo->getInteractionLst()->end();
   it--;
-
+  cout << "azeazeazezaezae" << endl;
   chevalo->eraseInteraction(*it);
   cout << "---------------------" << endl;
   contactShowInteraction(chevalo);

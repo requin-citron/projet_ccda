@@ -30,7 +30,6 @@ private:
   std::string phone;
   std::string pathPicture;
   HistLocal *local_hist = NULL;
-  struct tm date;
   std::list<Interaction*> interaction_lst;
   TagList *tags_lst;
 
@@ -51,7 +50,6 @@ public:
     \param mail Mail
     \param phone Phone
     \param pathPicture Chemain du fichier photo
-    \param date Date de creation
     \param lst list de tags
   */
   Contact (std::string firstName, std::string lastName, std::string enterprise, std::string mail, std::string phone, std::string pathPicture, TagList *lst);
@@ -76,8 +74,6 @@ public:
   void setPhone(std::string ph);
   //! fonction de mofication de pathPicture
   void setPathPicture(std::string path);
-  //! fonction de mofication de date
-  void setDate(struct tm &da);
   //! fonction pour ajouter une interaction
   // \param contenue contenue de l'interaction
   void addInteraction(std::string contenue);
@@ -103,8 +99,6 @@ public:
   std::string getPhone();
   //! fonction renvoyant pathPicture
   std::string getPathPicture();
-  //! fonction renvoyant date
-  struct tm getDate();
   //! fonction qui renvoie l'historique
   HistLocal *getHist();
   //! fonction qui renvoie l'identifiant de l'interaction

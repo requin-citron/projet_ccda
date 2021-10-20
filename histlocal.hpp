@@ -6,6 +6,7 @@
 #include "tag.hpp"
 #include "contact.hpp"
 #include "interaction.hpp"
+#include "date.hpp"
 
 #define CHANGE_LAST_NAME 1
 #define CHANGE_FIRST_NAME 2
@@ -28,13 +29,14 @@ class Interaction;
 
 class HistLocal {
 private:
-  std::list<std::pair<std::string, struct tm>> hist_lst;
+  std::list<std::pair<std::string, Date>*> hist_lst;
 
 public:
-  HistLocal ();
+  HistLocal();
+  ~HistLocal();
   void insertHist(Contact *conta, char flag);
   void insertHist(Contact *conta, Interaction *inte, char flag);
-  std::list<std::pair<std::string, struct tm>>* getLst();
+  std::list<std::pair<std::string, Date>*>* getLst();
 };
 
 

@@ -7,7 +7,7 @@
 
 class Date {
     private:
-        tm* d;
+        tm *d;
     public:
         Date();
         Date(std::string s);

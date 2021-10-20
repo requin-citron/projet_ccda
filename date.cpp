@@ -1,7 +1,7 @@
 #include "date.hpp"
 
 Date::Date() {
-    time_t tn = time(0);
+    time_t tn = time(NULL);
     d = new tm(*localtime(&tn));
 }
 
@@ -16,7 +16,7 @@ Date::Date(std::string s) : Date() {
     d->tm_year = year-1900;
 }
 
-Date::~Date() {delete d;}
+Date::~Date(){delete this->d;}
 
 int Date::day() const {return d->tm_mday;}
 int Date::mon() const {return d->tm_mon+1;}

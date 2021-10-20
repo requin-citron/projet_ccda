@@ -1,7 +1,15 @@
 #include "histlocal.hpp"
 
 
-HistLocal::HistLocal(){};
+HistLocal::HistLocal(){
+  std::cerr << "create histLocal" << std::endl;
+};
+
+HistLocal::~HistLocal(){
+  for (auto &it: this->hist_lst) {
+    delete it;
+  }
+};
 
 void HistLocal::insertHist(Contact *conta, char flag){
   std::string tmp = "Contact N "+std::to_string(conta->getId()) + " ";
@@ -24,9 +32,6 @@ void HistLocal::insertHist(Contact *conta, char flag){
     case CHANGE_PATH_PICTURE:
       tmp += "Change picture path to "+conta->getPathPicture();
       break;
-    case CHANGE_DATE:
-      tmp += "Change Date to ";//conta->getDate(); #TODO
-      break;
     case ADD_INTERACTION:
       tmp += "Add Interaction";
       break;
@@ -36,10 +41,8 @@ void HistLocal::insertHist(Contact *conta, char flag){
     default:
       tmp += "invalid flag " + std::to_string(flag);
   }
-  std::pair<std::string, struct tm> p;
-  p.first = tmp;
-  struct tm aze;
-  p.second =aze;
+  std::pair<std::string, Date> *p = new std::pair<std::string, Date>;
+  p->first = tmp;
   this->hist_lst.push_back(p);
 }
 
@@ -60,13 +63,12 @@ void HistLocal::insertHist(Contact *conta, Interaction *inte, char flag){
       Tag *t = *(--inte->getTags()->end());
       tmp += "Add tag: " + t->getName();
   }
-  std::pair<std::string, struct tm> p;
-  p.first = tmp;
-  struct tm aze;
-  p.second =aze;
+  std::pair<std::string, Date> *p = new std::pair<std::string, Date>;
+  p->first = tmp;
   this->hist_lst.push_back(p);
 }
 
-std::list<std::pair<std::string, struct tm>>* HistLocal::getLst(){
+
+std::list<std::pair<std::string, Date>*>* HistLocal::getLst(){
   return &(this->hist_lst);
 }

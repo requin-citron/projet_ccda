@@ -1,19 +1,11 @@
 #include "interaction.hpp"
 
 
-
-void Interaction::initDate(){
-  this->contenu = "";
-  time_t tn = time(NULL);
-  *(this->date) = tm(*localtime(&tn));
-}
-
 Interaction::Interaction(std::string contenu,Contact *attach_contact, TagList *tag_lst){
   this->local_hist = new HistLocal();
   if(this->tag_list == NULL){
     this->tag_list = tag_lst;
   }
-  this->initDate();
   this->target = attach_contact;
   this->contenu = contenu;
   this->id = this->target->getInteractionId();
@@ -22,7 +14,6 @@ Interaction::Interaction(std::string contenu,Contact *attach_contact, TagList *t
 
 Interaction::~Interaction(){
   delete this->local_hist;
-  delete this->date;
   this->unlinkAll();
 }
 
@@ -42,9 +33,7 @@ void Interaction::setContenu(std::string magie){
   this->local_hist->insertHist(this->target,this, CHANGE_CONTENUE);
 }
 
-void Interaction::setDate(struct tm &dt){
-  *(this->date) = dt;
-}
+
 
 void Interaction::addTag(std::string tag){
   if(this->tag_list == NULL){
@@ -70,10 +59,6 @@ std::string Interaction::getContenu(){
 
 std::ostream& operator<<(std::ostream &os, Interaction &inte){
   os << "contenu: " << inte.getContenu() << std::endl;
-  struct tm curr = inte.getDate();
-  os << "year: " << (curr.tm_year + 1900) << std::endl;
-  os << "month: " << curr.tm_mon << std::endl;
-  os << "day: " << (curr.tm_mday ) << std::endl;
   return os;
 }
 
@@ -81,9 +66,6 @@ std::list<Tag*>* Interaction::getTags(){
   return &(this->tags_lst);
 }
 
-struct tm Interaction::getDate(){
-  return *(this->date);
-}
 
 Contact* Interaction::getContact(){
   return this->target;
