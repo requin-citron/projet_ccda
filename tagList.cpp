@@ -1,7 +1,6 @@
 #include "tagList.hpp"
 
 TagList::TagList(){
-  this->size = 0;
 }
 TagList::~TagList(){
 std::list<Tag*>::iterator it = this->tags_list.begin();
