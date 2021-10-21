@@ -44,6 +44,11 @@ void showHist(Interaction *inte){
   }
 }
 
+void showTodo(std::pair<std::string,Date*>* magie){
+  cout << "todo: " << magie->first << endl;
+  cout << "date: " << magie->second->print() << endl;
+}
+
 void contactShowInteraction(Contact *conta){
   int c = 0;
   for(auto &it: *conta->getInteractionLst()){
@@ -228,6 +233,21 @@ void testParser() {
     cout << "testParser------------------------------------------END" << endl;
 }
 
+void testTodo(){
+  cout << "testTodo -----------------------------"<<endl;
+
+  TagList tags_lst;
+  Contact *chevalo = new Contact("kleman", "l3", "sans23.re", "commit.leaks@gmail.com","0605040302", "/tmp/kamtar", &tags_lst);
+  chevalo->addInteraction("@todo kamion @date 12/12/2001","pwn");
+  showHist(chevalo);
+  for(auto &it:*(chevalo->getInteractionLst())){
+    for(auto &od: *(it->getTodo())){
+        showTodo(od);
+    }
+  }
+  delete chevalo;
+  cout << "testTodo -----------------------------END"<<endl;
+}
 
 //tests cases
 int main(int argc, char const *argv[]) {
@@ -240,5 +260,6 @@ int main(int argc, char const *argv[]) {
   testCatalog();
   testDate();
   testParser();
+  testTodo();
   return 0;
 }

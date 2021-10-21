@@ -8,6 +8,7 @@ Interaction::Interaction(std::string contenu,Contact *attach_contact, TagList *t
   }
   this->target = attach_contact;
   this->contenu = contenu;
+  this->parser();
   this->id = this->target->getInteractionId();
   this->local_hist->insertHist(this->target, this, ADD_INTERACTION);
 }
@@ -15,6 +16,8 @@ Interaction::Interaction(std::string contenu,Contact *attach_contact, TagList *t
 Interaction::~Interaction(){
   delete this->local_hist;
   this->unlinkAll();
+  //destroy todo_lst;
+  this->destroy_lst_todo();
 }
 
 void Interaction::unlinkAll(){
@@ -30,6 +33,7 @@ void Interaction::unlinkAll(){
 
 void Interaction::setContenu(std::string magie){
   this->contenu = magie;
+  this->parser();
   this->local_hist->insertHist(this->target,this, CHANGE_CONTENUE);
 }
 
@@ -86,4 +90,36 @@ void Interaction::unlinkTag(std::string name){
     this->tags_lst.erase(it);
   }
   this->local_hist->insertHist(this->target,this, DELETE_TAG);
+}
+
+std::pair<std::string,Date*>* Interaction::treat(std::string s){
+  std::pair<std::string,Date*>* r = new std::pair<std::string,Date*>;
+  r->first = s;
+  size_t date = s.find("@date");
+  if (date!=std::string::npos && s.size()>=date+16)
+      r->second = new Date(s.substr(date+6,10));
+  else
+      r->second = NULL;
+  return r;
+}
+
+void Interaction::parser(){
+  this->destroy_lst_todo();
+  std::stringstream ss( this->contenu );
+  std::string tmp;
+  while (getline(ss,tmp,'\n'))
+      if (tmp.substr(0,6)=="@todo ")
+          this->todo_lst.push_back(treat(tmp.substr(6)));
+}
+
+void Interaction::destroy_lst_todo(){
+  //destroy todo_lst
+  for(auto &it: this->todo_lst){
+    delete it->second;
+    delete it;
+  }
+}
+
+std::list<std::pair<std::string,Date*>*>* Interaction::getTodo(){
+  return &(this->todo_lst);
 }
