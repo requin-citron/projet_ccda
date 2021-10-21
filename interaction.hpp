@@ -56,28 +56,52 @@ public:
     \param contenu string qui contient  l'interaction
     \param attach_contact pointeur qui renvoie sur le contact qui a instancier l'interaction
     \param tag_lst permé de passer la list de tag
-    \warning il est une list de tag pour pouvoir donner des tag a sont interaction
+    \warning il est nessesaire une list de tag pour pouvoir donner des tag a sont interaction
   */
   Interaction(std::string contenu, Contact *attach_contact, TagList* tag_lst);
   //!destructeur qui ce détache des autres objet avant de ce supprimer
   ~Interaction();
 
   //! fonction qui renvoie le contenu d'une interaction
+  /*!
+    \return contenue de l'interaction
+  */
   std::string getContenu();
   //! fonction qui renvoie l'historique
+  /*!
+    \return pointeur sur l'historique
+  */
   HistLocal *getHist();
   //! renvois un pointeur sur les tags de l'interaction
+  /*!
+    \return pointeur sur les tags de l'interaction
+  */
   std::list<Tag*>* getTags();
   //! renvois l'id de l'interaction
+  /*!
+    \return id de l'interaction
+  */
   size_t getId();
   //! renvois le contact relié a l'interaction
+  /*!
+    \return pointeur sur le contact de l'interaction
+  */
   Contact* getContact();
   //! renvois un pointeur sur la list de tuple de todo
+  /*!
+    \return pointeur sur la list de tuple des todos
+  */
   std::list<std::pair<std::string,Date*>*>* getTodo();
 
   //! fonction de modification du contenue
+  /*!
+    \param magie chaine contenant la nouvelle interaction
+  */
   void setContenu(std::string magie);
   //! fonction d'ajout de tag
+  /*!
+    \param tag nom du nouveau tag
+  */
   void addTag(std::string tag);
 
   //unlink all dependancies pointer
@@ -85,6 +109,9 @@ public:
   void unlinkAll();
   //unlink tag
   //! supprime un tag de l'interaction dans le supprimer
+  /*!
+    \param name nom du tag a unlink
+  */
   void unlinkTag(std::string name);
 };
 
