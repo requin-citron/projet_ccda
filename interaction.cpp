@@ -25,8 +25,10 @@ void Interaction::unlinkAll(){
   //this->tags_lst.erase(this->tags_lst.begin(), this->tags_lst.end());
   std::list<Tag*>::iterator it = this->tags_lst.begin();
   std::list<Tag*>::iterator end = this->tags_lst.end();
+  Tag * curr;
   while(it != end){
-    (*it++)->unlinkInteraction(this);
+    curr = *it++;
+    curr->unlinkInteraction(this);
   }
 }
 
@@ -79,14 +81,17 @@ Contact* Interaction::getContact(){
 void Interaction::unlinkTag(std::string name){
   std::list<Tag*>::iterator it = this->tags_lst.begin();
   std::list<Tag*>::iterator end = this->tags_lst.end();
+  Tag *curr;
   while(it != end){
-    if((*it)->getName() == name){
+    curr = *it;
+    if(curr->getName() == name){
       break;
     }
     it++;
   }
   if(it != end){
-    (*it)->unlinkInteraction(this);
+    curr = *it;
+    curr->unlinkInteraction(this);
     this->tags_lst.erase(it);
   }
   this->local_hist->insertHist(this->target,this, DELETE_TAG);
