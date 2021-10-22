@@ -2,9 +2,10 @@
 
 TagList::TagList(){
 }
+
 TagList::~TagList(){
-std::list<Tag*>::iterator it = this->tags_list.begin();
-std::list<Tag*>::iterator end = this->tags_list.end();
+  std::list<Tag*>::iterator it = this->tags_list.begin();
+  std::list<Tag*>::iterator end = this->tags_list.end();
   while(it != end){
     delete (*it++);
   }
@@ -21,6 +22,7 @@ Tag *TagList::getTag(std::string name, Interaction *inte){
     this->tags_list.push_back(tmp);
     return tmp;
 }
+
 std::list<Tag*>* TagList::getTagList(){
   return &(this->tags_list);
 }
@@ -39,9 +41,11 @@ void TagList::eraseTag(std::string name){
   std::list<Tag*>::iterator it = this->tags_list.begin();
   std::list<Tag*>::iterator end = this->tags_list.end();
   std::list<Tag*>::iterator back;
+  Tag *curr;
   while (it != end) {
-    if((*it)->getName() == name){
-     delete (*it);
+    curr = *it;
+    if(curr->getName() == name){
+     delete curr;
      it = this->tags_list.erase(it);
      //let me here
    }else{

@@ -32,14 +32,11 @@ void Interaction::unlinkAll(){
   }
 }
 
-
 void Interaction::setContenu(std::string magie){
   this->contenu = magie;
   this->parser();
   this->local_hist->insertHist(this->target,this, CHANGE_CONTENUE);
 }
-
-
 
 void Interaction::addTag(std::string tag){
   if(this->tag_list == NULL){

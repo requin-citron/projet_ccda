@@ -56,7 +56,6 @@ void Contact::setPathPicture(std::string path){
   this->local_hist->insertHist(this, CHANGE_PATH_PICTURE);
 }
 
-
 void Contact::addInteraction(std::string contenue){
   Interaction *inte = new Interaction(contenue, this, this->tags_lst);
   this->interaction_lst.push_back(inte);
@@ -80,21 +79,27 @@ std::list<Interaction*>* Contact::getInteractionLst(){
 std::string Contact::getFirstName(){
   return this->firstName;
 }
+
 std::string Contact::getLastName(){
   return this->lastName;
 }
+
 std::string Contact::getEnterprise(){
   return this->enterprise;
 }
+
 std::string Contact::getMail(){
   return this->mail;
 }
+
 std::string Contact::getPhone(){
   return this->phone;
 }
+
 std::string Contact::getPathPicture(){
   return this->pathPicture;
 }
+
 HistLocal *Contact::getHist(){
   return this->local_hist;
 }

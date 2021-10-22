@@ -4,6 +4,7 @@ Tag::Tag(std::string name,Interaction *interac){
   this->interaction_lst.push_back(interac);
   this->name = name;
 }
+
 Tag::~Tag(){
   std::list<Interaction*>::iterator it = this->interaction_lst.begin();
   std::list<Interaction*>::iterator end = this->interaction_lst.end();

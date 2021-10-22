@@ -30,3 +30,5 @@ clean_objet:
 		$(RM) *.o
 doc:
 	doxygen
+doc_clean:
+		$(RM) ./html -rf
