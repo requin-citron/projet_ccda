@@ -2,7 +2,6 @@
 
 
 HistLocal::HistLocal(){
-  std::cerr << "create histLocal" << std::endl;
 };
 
 HistLocal::~HistLocal(){
@@ -37,6 +36,12 @@ void HistLocal::insertHist(Contact *conta, char flag){
       break;
     case DELETE_INTERACTION:
       tmp += "Delete Interaction";
+      break;
+    case CREATE_CONTACT:
+      tmp += "Creation";
+      break;
+    case DELETE_CONTACT:
+      tmp += "Delete";
       break;
     default:
       tmp += "invalid flag " + std::to_string(flag);

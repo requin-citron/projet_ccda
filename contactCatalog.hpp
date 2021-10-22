@@ -5,6 +5,7 @@
 #include <list>
 #include "contact.hpp"
 #include "tagList.hpp"
+#include "histlocal.hpp"
 
 //! class qui englobe Contact et TagList
 /*!
@@ -16,6 +17,8 @@ private:
   std::list<Contact*> contact_lst;
   //! liste de TOUT les tags
   TagList tag_lst;
+  //! historique local
+  HistLocal *local_hist = NULL;
 
 public:
   //! constructeur
@@ -38,6 +41,16 @@ public:
     \param pointeur sur une list de contacts
   */
   std::list<Contact*>* getContactLst();
+  //! renvois un pointeur sur l'historique
+  /*!
+    \return renvois un pointeur sur l'objet de l'historique
+  */
+  HistLocal *getHist();
+  //! supprime un contact a partir de son pointeur
+  /*!
+    \param c pointeur sur contact
+  */
+  void eraseContact(Contact *c);
 };
 
 #endif

@@ -32,6 +32,12 @@ void destroy(std::list<std::pair<std::string,Date*>> lp) {
             delete i.second;
 }
 
+void showHist(ContactCatalog *cata){
+  for(auto &it: *(cata->getHist()->getLst())){
+    cout <<"Hist:"<< it->first << endl;
+  }
+}
+
 void showHist(Contact *conta){
   for(auto &it: *(conta->getHist()->getLst())){
     cout <<"Hist:"<< it->first << endl;
@@ -192,8 +198,18 @@ void testHistLocal(){
 }
 
 void testCatalog(){
+  cout << "testCatalog--------------------------------------------" << endl;
   ContactCatalog cata;
   cata.addContact("kleman","chevalo", "aze", "aze@gmail.com", "0605040302", "/tmp/aze");
+  cata.addContact("kleman1","chevalo", "aze", "aze@gmail.com", "0605040302", "/tmp/aze");
+  cata.addContact("kleman2","chevalo", "aze", "aze@gmail.com", "0605040302", "/tmp/aze");
+  auto it = cata.getContactLst()->begin();
+  auto end = cata.getContactLst()->end();
+  while(it!=end){
+    cata.eraseContact(*it++);
+  }
+  showHist(&cata);
+  cout << "testCatalog----------------------------------------------END" << endl;
 }
 
 void testDate() {

@@ -11,6 +11,8 @@
 /*!
 definition des flag utilisé aprés dans le reste du code pour spécifier le type de log
 */
+#define CREATE_CONTACT 13
+#define DELETE_CONTACT 14
 #define CHANGE_LAST_NAME 1
 #define CHANGE_FIRST_NAME 2
 #define CHANGE_ENTREPRISE_NAME 3
