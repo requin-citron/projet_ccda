@@ -73,7 +73,6 @@ void HistLocal::insertHist(Contact *conta, Interaction *inte, char flag){
   this->hist_lst.push_back(p);
 }
 
-
 std::list<std::pair<std::string, Date>*>* HistLocal::getLst(){
   return &(this->hist_lst);
 }
