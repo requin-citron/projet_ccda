@@ -38,7 +38,7 @@ public:
   void addContact(std::string firstName, std::string lastName, std::string enterprise, std::string mail, std::string phone, std::string pathPicture);
   //! renvois la list de contact
   /*!
-    \param pointeur sur une list de contacts
+    \return pointeur sur une list de contacts
   */
   std::list<Contact*>* getContactLst();
   //! renvois un pointeur sur l'historique
