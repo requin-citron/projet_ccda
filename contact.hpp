@@ -34,7 +34,7 @@ private:
 
   //! surcharge de <<
   /*!
-identique a print_debug mais affiche utilise les flux standar du cpp
+    identique a print_debug mais affiche utilise les flux standar du cpp
   */
   friend std::ostream& operator<<(std::ostream &os, Contact &curr);
 public:
