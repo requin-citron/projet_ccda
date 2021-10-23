@@ -11,8 +11,6 @@
     </li>
     <li><a href="#utilisation">Utilisation</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 
 <!-- GETTING STARTED -->
@@ -22,9 +20,19 @@ Set up du projet
 
 ### Installation
 
-1. Install requirement ```apt install git build-essential qt5-default```
-2. Cloner le repos ```git clone https://github.com/requin-citron/projet_ccda.git```
-3. make ```make```
+1. Install requirement
+  `apt install git build-essential qt5-default`
+2. Cloner le repos
+  `git clone https://github.com/requin-citron/projet_ccda.git`
+3. Initialiser les modules
+  `git submodule init`
+4. Mettre a jour les modules
+  `git submodule update`
+5. make
+  `make`
+6. Générer la doc (Optional)
+  `make doc`
+<!-- ```make``` -->
 
 <!-- USAGE EXAMPLES -->
 ## Utilisation
