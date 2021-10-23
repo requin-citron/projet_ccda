@@ -8,44 +8,44 @@
 
 class Interaction;
 class Tag;
-//!class de tout les tags
+//! class de tous les tags
 /*!
-  permet de stocker tout les tags existant dans le context
+  permet de stocker tous les tags existant dans le contexte
 */
 class TagList {
 private:
-  //! list de pointeur de tag
+  //! liste de pointeurs de tag
   std::list<Tag*> tags_list;
 
 public:
-  //!constructeur
+  //! constructeur
   TagList ();
-  //!destructeur
+  //! destructeur
   ~TagList();
-  //! recupere un pointeur sur un tag
+  //! récupère un pointeur sur un tag
   /*!
-    si le tag existe deja on renvois sont pointeur sinon on crée le nouveau tag et on renvois un pointeur sur ce nouveau tag
+    si le tag existe déjà on renvoie son pointeur sinon on crée le nouveau tag et on renvoie un pointeur sur ce nouveau tag
     \param name nom du tag
-    \param inte pointeur sur l'interaction qui veux le tag
+    \param inte pointeur sur l'interaction qui veut le tag
     \return pointeur sur Tag
   */
   Tag* getTag(std::string name, Interaction *inte);
-  //!recupere la list de tout les tags existant
+  //! récupère la liste de tous les tags existant
   /*!
-    \return pointer sur une list de pointeur de tag
+    \return pointeur sur une liste de pointeur de tag
   */
   std::list<Tag*>* getTagList();
-  //! récupére un tag dans la list
+  //! récupére un tag dans la liste
   /*!
     \param name nom du tag que l'on recherche
-    \return pointeur sur tag si il existe NULL sinon
+    \return pointeur sur tag s'il existe, NULL sinon
   */
   Tag* findTag(std::string name);
-  //! suprime un tag
+  //! supprime un tag
   /*!
-    suprime le tag ainsi que toutes ses dependances
+    supprime le tag ainsi que toutes ses dépendances
     \param name nom du tag
-    \warning supprime toutes les interactions relie a ce tag
+    \warning supprime toutes les interactions reliées à ce tag
   */
   void eraseTag(std::string name);
 };

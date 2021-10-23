@@ -26,7 +26,7 @@ Set up du projet
   `git clone https://github.com/requin-citron/projet_ccda.git`
 3. Initialiser les modules
   `git submodule init`
-4. Mettre a jour les modules
+4. Mettre à jour les modules
   `git submodule update`
 5. make
   `make`
@@ -37,12 +37,11 @@ Set up du projet
 <!-- USAGE EXAMPLES -->
 ## Utilisation
 
-Logiciel de gestion de contact avec un système de tag et de todo
-et de date.
+Logiciel de gestion de contact avec un système de tag, de todo et de date.
 
 <!-- ROADMAP -->
 ## Roadmap
 
 - [x] Création des classes
-- [-] Gestion de la base de donnée
+- [-] Gestion de la base de données
 - [-] Création d'une interface graphique

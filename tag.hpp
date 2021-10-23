@@ -4,49 +4,46 @@
 #include <string>
 #include "interaction.hpp"
 
-
-
-
 class Interaction;
 
-//! Class des tags
+//! class des tags
 /*!
-  Permet de stocker un tag ainsi que toutes les interaction relié a ce tag
+  permet de stocker un tag ainsi que toutes les interactions reliées à ce tag
 */
 class Tag {
 private:
   //! nom du tag
   std::string name;
-  //! list de pointeur d'interaction apartenant aux tag
+  //! liste de pointeur d'interaction appartenant aux tags
   std::list<Interaction*> interaction_lst;
 public:
   //! constructeur
   /*!
-    Le constructeur a besoin d'un nom et d'un pointeur sur une interaction
+    le constructeur à besoin d'un nom et d'un pointeur sur une interaction
     \param name nom du tag
     \param interac pointeur sur l'interaction qui utilise le tag
   */
   Tag (std::string name,Interaction* interac);
   //! destructeur
   ~Tag();
-  //! ajoue d'une interaction aux tag deja existant
+  //! ajout d'une interaction aux tags déjà existant
   /*!
-    \param pointeur sur l'interaction qui veux d'ajouter aux tag
+    \param pointeur sur l'interaction qui veut s'ajouter aux tags
   */
   void addInteraction(Interaction* inte);
-  //!récupére un le nom du tag
+  //! récupére le nom du tag
   /*!
-    \return  nom du tag
+    \return nom du tag
   */
   std::string getName();
-  //!revois un pointeur sur la list des interaction qui on ce tag
+  //! revoie un pointeur sur la liste des interactions qui ont ce tag
   /*!
-    \return pointeur d'une list de pointeur sur des interactions
+    \return pointeur d'une liste de pointeurs sur des interactions
   */
   std::list<Interaction*>* getInteraction();
-  //!permet de supprimer un pointeur sur une interaction
+  //! permet de supprimer un pointeur sur une interaction
   /*!
-    \param inte pointeur de l'interaction a enlever de la list d'interaction
+    \param inte pointeur de l'interaction à enlever de la liste d'interaction
   */
   void unlinkInteraction(Interaction * inte);
 };

@@ -14,12 +14,11 @@ class TagList;
 class HistLocal;
 //! class des Contact
 /*!
-  permet de stocker toutes les informations d'un
-  contact.
+  permet de stocker toutes les informations d'un contact
 */
 class Contact {
 private:
-  //! declaration des variables privées
+  //! déclaration des variables privées
   static size_t id_c;
   size_t id;
   size_t interaction_id=0;
@@ -33,33 +32,32 @@ private:
   std::list<Interaction*> interaction_lst;
   TagList *tags_lst;
 
-  //!surcharge de <<
+  //! surcharge de <<
   /*!
-  identique a print_debug mais affiche utilise les flux standar du cpp
+identique a print_debug mais affiche utilise les flux standar du cpp
   */
   friend std::ostream& operator<<(std::ostream &os, Contact &curr);
 public:
-  //!declaration des fonctions publique
+  //!déclaration des fonctions publiques
   /*!
     Constructeur
-    Un unique constructeur qui demande toute les informations
-    du contact. Dans les éléments non rensegnier sont géré en amont
-    \param firstName Prenom
+    Un unique constructeur qui demande toutes les informations du contact. Dans les éléments non renseigniés sont gérés en amont
+    \param firstName Prénom
     \param lastName Nom
     \param enterprise Entreprise
     \param mail Mail
     \param phone Phone
-    \param pathPicture Chemain du fichier photo
-    \param lst list de tags
+    \param pathPicture Chemin du fichier photo
+    \param lst liste de tags
   */
   Contact (std::string firstName, std::string lastName, std::string enterprise, std::string mail, std::string phone, std::string pathPicture, TagList *lst);
   /*!
-    Un destructeur qui free le contact ainsi que toute les interactions
+    Un destructeur qui free le contact ainsi que toutes les interactions
   */
   ~Contact();
   //! fonction de debug
   /*!
-    la fonction affiche tout les champs dans stderr
+    la fonction affiche tous les champs dans stderr
   */
   void print_debug();
   //! fonction de mofication de firstName
@@ -75,7 +73,7 @@ public:
   //! fonction de mofication de pathPicture
   void setPathPicture(std::string path);
   //! fonction pour ajouter une interaction
-  // \param contenue contenue de l'interaction
+  // \param contenue contenu de l'interaction
   void addInteraction(std::string contenue);
   /*! fonction pour ajouter une interaction avec un tag
     \param contenu contenu de l'interaction
@@ -83,7 +81,7 @@ public:
   */
   void addInteraction(std::string contenue, std::string tag);
 
-  //! fonction renvoyant la list des interactions d'un contact
+  //! fonction renvoyant la liste des intéractions d'un contact
   std::list<Interaction*>* getInteractionLst();
   //! fonction renvoyant l'identifiant du Contact
   size_t getId();
@@ -101,19 +99,17 @@ public:
   std::string getPathPicture();
   //! fonction qui renvoie l'historique
   HistLocal *getHist();
-  //! fonction qui renvoie l'identifiant de l'interaction
+  //! fonction qui renvoie l'identifiant de l'intéraction
   size_t getInteractionId(){
     size_t ret = this->interaction_id;
     this->interaction_id++;
     return ret;
   }
-
-
   //! erase Interaction
-  // \param inte pointeur sur l'interaction a supprimé
+  // \param inte pointeur sur l'intéraction à supprimer
   void eraseInteraction(Interaction *inte);
   //! unlink Interaction
-  // \param inte pointeur sur l'interaction a unlink de la list
+  // \param inte pointeur sur l'intéraction à unlink de la list
   void unlinkInteraction(Interaction *inte);
 
 };

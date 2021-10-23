@@ -9,7 +9,7 @@
 #include "date.hpp"
 
 /*!
-definition des flag utilisé aprés dans le reste du code pour spécifier le type de log
+    définition des flags utilisés aprés dans le reste du code pour spécifier le type de log
 */
 #define CREATE_CONTACT 13
 #define DELETE_CONTACT 14
@@ -31,36 +31,36 @@ definition des flag utilisé aprés dans le reste du code pour spécifier le typ
 class Contact;
 class Interaction;
 
-//! class qui gére les historique locaux des objet
+//! class qui gére les historiques locaux des objets
 /*!
-  permet d'ajouter des éléments dans l'historique que ce soit pour les contact ou pour les interaction on ce sert des id pour savoir qui a fait quoi
+  permet d'ajouter des éléments dans l'historique que ce soit pour les contacts ou pour les interactions
 */
 class HistLocal {
 private:
-  //!list de pointeur sur des pair string et date
+  //! liste de pointeur sur des paires string et date
   std::list<std::pair<std::string, Date>*> hist_lst;
 
 public:
-  //!constructeur
+  //! constructeur
   HistLocal();
-  //!destructeur
+  //! destructeur
   ~HistLocal();
   //! insert un élément dans l'historique concernant un contact
   /*!
     \param conta pointeur sur le contact
-    \param flag flag provenant des define qui permette de préciser la nature de l'entrée
+    \param flag flag provenant des defines qui permettent de préciser la nature de l'entrée
   */
   void insertHist(Contact *conta, char flag);
-  //!insert un élément dans l'historique concernant une interaction
+  //! insert un élément dans l'historique concernant une interaction
   /*!
     \param conta pointeur sur le contact
     \param inte pointeur sur l'interaction
-    \param flag flag provenant des define qui permette de préciser la nature de l'entrée
+    \param flag flag provenant des defines qui permettent de préciser la nature de l'entrée
   */
   void insertHist(Contact *conta, Interaction *inte, char flag);
-  //!revois la list de toute les entrée
+  //! renvoie la liste de toutes les entrées
   /*!
-    \return pointeur sur une list de tuple string date
+    \return pointeur sur une liste de paires string et date
   */
   std::list<std::pair<std::string, Date>*>* getLst();
 };
