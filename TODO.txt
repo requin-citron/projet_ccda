@@ -1,1 +1,2 @@
 ajouter une fonction sanitize les input utilisateur genre html_specialchar
+page 2 du sujet: "Attention a la cohérence ...  utilisez les exceptions ..."
