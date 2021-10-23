@@ -104,6 +104,12 @@ HistLocal *Contact::getHist(){
   return this->local_hist;
 }
 
+size_t Contact::getInteractionId(){
+  size_t ret = this->interaction_id;
+  this->interaction_id++;
+  return ret;
+}
+
 std::ostream& operator<<(std::ostream &os, Contact &curr){
   os << "firstName :" << curr.getFirstName() << std::endl;
   os << "lastName :" << curr.getLastName() << std::endl;

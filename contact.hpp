@@ -100,11 +100,7 @@ public:
   //! fonction qui renvoie l'historique
   HistLocal *getHist();
   //! fonction qui renvoie l'identifiant de l'intéraction
-  size_t getInteractionId(){
-    size_t ret = this->interaction_id;
-    this->interaction_id++;
-    return ret;
-  }
+  size_t getInteractionId();
   //! erase Interaction
   // \param inte pointeur sur l'intéraction à supprimer
   void eraseInteraction(Interaction *inte);
