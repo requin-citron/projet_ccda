@@ -48,14 +48,14 @@ public:
   //! insert un élément dans l'historique concernant un contact
   /*!
     \param conta pointeur sur le contact
-    \param flag flag provenant des defines qui permettent de préciser la nature de l'entrée
+    \param flag flag provenant des constantes de préprocesseur qui permettent de préciser la nature de l'entrée
   */
   void insertHist(Contact *conta, char flag);
   //! insert un élément dans l'historique concernant une interaction
   /*!
     \param conta pointeur sur le contact
     \param inte pointeur sur l'interaction
-    \param flag flag provenant des defines qui permettent de préciser la nature de l'entrée
+    \param flag flag provenant des constantes de préprocesseur qui permettent de préciser la nature de l'entrée
   */
   void insertHist(Contact *conta, Interaction *inte, char flag);
   //! renvoie la liste de toutes les entrées
