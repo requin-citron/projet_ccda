@@ -1,22 +1,22 @@
 # Compte rendu - Jalon1
 
 <h1><center> Introduction </center></h1>
-L'application suivante à été réalisé dans le cadre d'un projet de troisième année de Licence en Conception et développement avancé d'application.
+L'application suivante a été réalisée dans le cadre d'un projet de troisième année de Licence en Conception et développement avancé d'application.
 
-On présentera au cours de ce premier compte rendu la structure interne conçu en orienté objet, elle sera constitué de mutliple objets comme Contact, Date, Interaction, etc... Qui vous seront présentés ci-dessous.
+On présentera au cours de ce premier compte-rendu la structure interne conçue en orienté objet, elle sera constituée de multiples objets comme Contact, Date, Interaction, etc... Qui vous seront présentés ci-dessous.
 
-Notre binome est constitué de Viard Clément et Dupré Thibault et nous sommes heureux de vous présentez notre interprétation du sujet.
+Notre binôme est constitué de Viard Clément et Dupré Thibault et nous sommes heureux de vous présenter notre lecture du sujet.
 
 <h1><center> Sommaire </center></h1>
 * [Le sujet](#sujet)
 * [La structure](#struct)
-* [Pour aller plus loins](#loins)
+* [Pour aller plus loin](#loins)
 
 <br/>
 <a name="sujet"></a>
 # Le sujet
 
-Nous devions programmés une application de gestion de contacts possédent un système d'interactions et de tags.
+Nous devions programmer une application de gestion de contacts possedant un système d'intéractions et de tags.
 
 Pour cela nous avons commencé par créer les deux classes principales : Contact et Interaction.
 
@@ -25,72 +25,72 @@ Ensuite nous avons introduit la gestion du temps avec un objet Date.
 <br/>
 ## Contact
 
-Elle décrit le concepte d'un contact, on y trouve à l'intérieur tous les attributs nécessaires à sa gestion: le nom, le prénom, l'entreprise, le mail, le téléphone ainsi qu'une photo de profil.
+Elle décrit le concept d'un contact, on y trouve à l'intérieur tous les attributs nécessaires à sa gestion: le nom, le prénom, l'entreprise, le mail, le téléphone ainsi qu'une photo de profil.
 
-> <span style="color:green"> Message Informatif :</span> Nous nous sommes efforcés de respecter les régles de la programmation orienté objet, c'est à dire que Contact comme les autres objets respectent le principe d'encapsulation, chaques classes possédent ainsi les accesseurs et les mutateurs correspondant à leurs attributs.
+> <span style="color:green"> Message Informatif :</span> Nous nous sommes efforcés de respecter les régles de la programmation orienté objet, c'est à dire que Contact comme les autres objets respectent le principe d'encapsulation, chaque classe possède ainsi les accesseurs et les mutateurs correspondant à leurs attributs.
 
-### D'autres attributs sont aussi présent :
+### D'autres attributs sont aussi présents :
 
-**Les variables d'identifiant** : Il y en a trois, une variables qui est static qui compte les nombres d'instanciation, une variable qui permet de géré l'identifiant des interactions et l'identifiant interne à l'instance.
-Ces variables ne sont pas encore vraiment utiles mais le seront bien plus lorsqu'il sera question de sauvegardé tous ces données en dure dans une base de donnée.
+**Les variables d'identifiant** : Il y en a trois, une variable qui est statique qui compte les nombres d'instanciation, une variable qui permet de gérer l'identifiant des interactions et l'identifiant interne à l'instance.
+Ces variables ne sont pas encore vraiment utiles mais le seront bien plus lorsqu'il sera question de sauvegarder toutes ces données dans une base de donnée.
 
-**L'historique globale** : Un objet historique pour géré l'historique général, nous présenterons dans la suite un historique local à Interaction.
+**L'historique global** : Un objet historique pour gérer l'historique général, nous présenterons dans la suite un historique local à Interaction.
 
-> <span style="color:red"> Pourquoi deux historiques ?</span><br/>Nous utilisons deux couches d'historiques différentes pour géré le cas de la supression d'un contact, de cette maniere il n'y a pas besoin de traitement complexe pour supprimer les pointeurs nul et ainsi retrouvé la cohérence des données.
+> <span style="color:red"> Pourquoi deux historiques ?</span><br/>Nous utilisons deux couches d'historiques différentes pour gérer le cas de la suppression d'un contact, de cette manière, pas besoin de traitement complexe pour supprimer les pointeurs nuls et ainsi retrouver la cohérence des données.
 
-Celui-ci permet d'avoir un suivi complet des actions réalisé, car chaques mutateurs passe par un ajout dedans.
+Celui-ci permet d'avoir un suivi complet des actions réalisées, car chaque mutateur passe par un ajout dedans.
 
-**La liste de tags** : Suite à une incompréhension de notre part, nous avons m'y en place un système de tag tel qu'on peut le trouver dans les forums, c'est à dire qu'une intéraction peut être tagué. Ce système permet d'introduire une forme d'indexation pour faires des recherches approfondis.
+**La liste de tags** : Suite à une incompréhension de notre part, nous avons mis en place un système de tags que l'on retrouve implémenté par exemple dans les forums : une intéraction peut être taguée. Ce système permet d'introduire une forme d'indexation pour faires des recherches approfondies.
 
-> <span style="color:blue"> Exemple </span><br/> L'utilisateur pourrais tagué certaines interaction avec "Famille" ou "Ami" et ensuite faire des recherches dans toutes ses interactions
+> <span style="color:blue"> Exemple </span><br/> L'utilisateur pourrait taguer certaines intéractions avec "Famille" ou "Ami" et ensuite faire des recherches dans toutes ses intéractions.
 
-Après avoir compris en quoi consistait vraiment la consignes des todos nous avons décidé de garder cette gestion supplémantaire en plus car nous la trouvions plus tôt complemantaire avec les todos.
+Après avoir compris en quoi consistait vraiment la consigne des todos nous avons décidé de garder cette gestion supplémentaire en plus car nous la trouvions plutôt complémentaire avec les todos.
 
 Cette liste est globale à toute l'application et correspond à notre indexation des tags.
 
 <br/>
-## Interaction
+## Intéraction
 
-Une interaction permet par exemple de créer des rendez-vous ou faires des notes en ciblant un Contact. L'interaction de base possédait deux attributs inherant à sa gestion : le contenu et le contact, finalement beaucoup d'autres variables et mécanismes ont été introduit.
+Une interaction permet par exemple de créer des rendez-vous ou faire des notes en ciblant un Contact. L'intéraction de base possédait deux attributs inhérant à sa gestion : le contenu et le contact, finalement beaucoup d'autres variables et mécanismes ont été introduits.
 
 ### Les attributs
 
-**Les tags** : Deux attributs s'occupe de cette parti, il y a la liste des tags de l'interaction et on retrouve aussi une référence a la liste globale.
+**Les tags** : Deux attributs s'occupent de cette partie, il y a la liste des tags de l'interaction et on retrouve aussi une référence à la liste globale.
 
-**L'identifiant** : Comme pour les contactes cette variable nous sera très utiles pour la suite du projet.
+**L'identifiant** : Comme pour les contacts cette variable nous sera très utiles pour la suite du projet.
 
-**L'historique local** : Présenté precédemment dans contact, c'est la deuxième couche qui permet de gérer l'historique.
+**L'historique local** : Présenté précédemment dans contact, c'est la deuxième couche qui permet de gérer l'historique.
 
-**La liste de todo** : La liste résultante du mécanismes présenté si après.
+**La liste de todo** : La liste résultante du mécanismes présenté ci-dessous.
 
-### Les mécanises
+### Les mécanismes
 
-Le système demandé dans le sujet pour créer une indexations interne au contenu. Avec ce traitement des contenus, il est possible de rajouter "@todo" sur des lignes pour créer un lien et faire des recherches ensuite dessu. Il est implémenté avec un parseur qu'on applique directement sur le contenu lors de la création.  
+Le système demandé dans le sujet pour créer une indexation interne au contenu. Avec ce traitement des contenus, il est possible de rajouter "@todo" sur des lignes pour créer un lien et faire des recherches ensuite dessus. Il est implémenté avec un parseur qu'on applique directement sur le contenu lors de la création.  
 
 <br/>
 ## Date
 
-Le langage C introduit une gestion assez compliqué et trop élaboré des dates, nous avions donc comme missions d'encapsulé cette gestion dans un objet rendant son utilisation externe bien plus pratique.
+Le langage C introduit une gestion assez compliquée et trop élaborée des dates, nous avions alors comme mission d'encapsuler cette gestion dans un objet rendant son utilisation externe bien plus fonctionelle.
 
 ### La structure tm
 
-Date ne possède qu'un seul attribut de type pointeur sur tm, c'est le type que le C utilise pour géré le temps.
+Date ne possède qu'un seul attribut de type pointeur sur tm, c'est le type que le C utilise pour gérer le temps.
 
-Cette structure est constituée de beaucoup de variable permétant un horodatage complet. Nous avons rajouté des accesseurs convertissans les conventions de base pour les adaptées à notre problèmatique (l'année exprimée à partir de 1900 par exemple) et des fonctions d'affichage.
+Cette structure est constituée de beaucoup de variables permettant un horodatage complet. Nous avons rajouté des accesseurs convertissants les conventions de base pour les adaptées à notre problèmatique (l'année exprimée à partir de 1900 par exemple) et des fonctions d'affichage.
 
-Avec la gestion des todo l'utilisateur peut désormais introduire des dates à la mains, ce genre de date ne nécéssitent pas les heures, il était donc important de possédé une fonction affichage pour afficher juste des dates. A contrario, la gestion des historiques se devant d'être precis doit pouvoir afficher les heures. C'est pour cela que 2 fonctions `print` et `printAll` ont été écrites.
+Avec la gestion des todo l'utilisateur peut désormais introduire des dates à la mains, ce genre de date ne nécéssitent pas les heures, il était donc important de posséder une fonction affichage pour afficher juste des dates. A contrario, la gestion des historiques impérativement précise doit pouvoir afficher les heures. C'est pour cela que 2 fonctions `print` et `printAll` ont été écrites.
 
 ### la redéfinition des opérateurs
 
-Etant donné que deux dates sont comparables, et toujours dans l'optique de simplifiés la suite du projet, les opérateurs de comparaisons ont été redéfinit ainsi que celui de flux qui utilise `printAll`.
+Etant donné que deux dates sont comparables, et toujours dans l'optique de simplifier la suite du projet, les opérateurs de comparaison ont été redéfini ainsi que celui de flux qui utilise `printAll`.
 
-> <span style="color:green"> Message Informatif :</span> Contact et Interaction aussi possèdaient des redéfinition de l'opérateur de flux, ils s'avèrent que pour beaucoup d'objets cette redéfinition est très utiles, il n'est donc pas étonant de la retrouver souvant.
+> <span style="color:green"> Message Informatif :</span> Contact et Interaction aussi possédaient des redéfinitions de l'opérateur de flux, ils s'avèrent que pour beaucoup d'objets cette redéfinition est très utile, il n'est donc pas étonnant de la retrouver souvant.
 
 <br/>
 <a name="struct"></a>
 # La structure
 
-Maintenant que nous avons vu les objets principaux, parlons des objets plus complexe caché dérriere.
+Maintenant que nous avons vu les objets principaux, parlons des objets plus complexes cachés derrière.
 
 <br/>
 ## Les listes
@@ -101,7 +101,7 @@ L'objet racine contenant tous les contacts et les listes globales.
 
 ### L'historique (histlocal)
 
-Une liste constitué de couple string/Date. C'est cet objet qui est présent dans Contact et Interaction pour gérer l'historique.  
+Une liste constituée de couple string/Date. C'est cet objet qui est présent dans Contact et Interaction pour gérer l'historique.  
 
 Il possède aussi beaucoup de constantes de préprocesseur représentant chacune un type de modification différent.
 
@@ -112,25 +112,25 @@ Un liste simple pour gérer plusieurs Tag.
 <br/>
 ## Tag
 
-La fonction des tags à déjà été explicité précédemmant, sa mise en oeuvre n'est pas complexe, un tag possède un nom et est reliè à des interactions.
+La fonction des tags a déjà été explicitée précédemmant, sa mise en oeuvre n'est pas complexe, un tag possède un nom et est relié à des interactions.
 
-Sa gestion simple est un parfait exemple pour aprèhender la gestion globale du projet. Un lien complexe lie Interaction et Tag, car interaction possède plusieurs tag et tag possède plusieurs interaction. Un traitement a été fait pour casser ce lien père-fils et avoir les 2 sens de lectures. Ainsi nous pouvons parcourir tous les tags depuis les interactions et parcourir toutes les interaction depuis les tags. Ce traitement complexifie la gestion de la mémoire mais augmente grandement la rapidité des recherches avancées.
+Sa gestion simple est un parfait exemple pour appréhender la gestion globale du projet. Un lien complexe lie Interaction et Tag, car interaction possède plusieurs tag et tag possède plusieurs interactions. Un traitement a été fait pour casser ce lien père-fils et avoir les 2 sens de lecture. Ainsi nous pouvons parcourir tous les tags depuis les interactions et parcourir toutes les interactions depuis les tags. Ce traitement complexifie la gestion de la mémoire mais augmente grandement la rapidité des recherches avancées.
 
-> <span style="color:green"> Message Informatif :</span> La conception entière à été pensé comme ça, nous avons essayés le plus possible de rendre les objets autonome tous en les encrants dans une structure homogène
+> <span style="color:green"> Message Informatif :</span> La conception entière a été pensé comme ça, nous avons essayé le plus possible de rendre les objets autonomes tous en les encrants dans une structure homogène.
 
 <br/>
 <a name="loins"></a>
-# Pour aller plus loins
+# Pour aller plus loin
 
 <br/>
 ## L'héritage
 
-Nous avons eu en cours la proposition de faire une classe personne dans l'unique but de dévellopper un héritage pour contact. Il nous a semblé peu pertinant de le procédé ainsi et n'ayant aucune autre utilité de l'héritage actuelement pour ce projet, nous sommes au regrets de vous annoncé que vous n'aurais aucune démonstration de ce principe.
+Nous avons eu en cours la proposition de faire une classe personne dans l'unique but de développer un héritage pour contact. Il nous a semblé peu pertinant de procéder ainsi et n'ayant aucune autre utilité de l'héritage actuellement pour ce projet, nous ne pourrons pas vous en faire la démonstration.
 
 <br/>
 ## Les fuites de mémoire
 
-La gestion interne de la structure ne représentant pas un arbre mais plus un graphe conceptuelement, la tache ne fut pas aisé, cependant, avec un bon outil comme *Valgrind* et de longs testes d'analyse nous pouvons vous présenter un projet robuste debogguer au maximum.
+La gestion interne de la structure ne représentant pas un arbre mais plus un graphe conceptuellement, la tâche ne fut pas aisée, cependant, avec un bon outil comme *Valgrind* et de longs tests d'analyse nous pouvons vous présenter un projet robuste debuggué au maximum.
 
 <br/>
 ## Cas d'usages
