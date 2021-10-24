@@ -6,32 +6,6 @@
 
 using namespace std;
 
-
-std::pair<std::string,Date*> treat(std::string s) {
-    std::pair<std::string,Date*> r;
-    r.first = s;
-    size_t date = s.find("@date");
-    if (date!=std::string::npos && s.size()>=date+16)
-        r.second = new Date(s.substr(date+6,10));
-    else
-        r.second = NULL;
-    return r;
-}
-std::list<std::pair<std::string,Date*>> parser(std::string s) {
-    std::list<std::pair<std::string,Date*>> r;
-    std::stringstream ss(s);
-    std::string tmp;
-    while (getline(ss,tmp,'\n'))
-        if (tmp.substr(0,6)=="@todo ")
-            r.push_back(treat(tmp.substr(6)));
-    return r;
-}
-void destroy(std::list<std::pair<std::string,Date*>> lp) {
-    for (auto& i : lp)
-        if (i.second!=NULL)
-            delete i.second;
-}
-
 void showHist(ContactCatalog *cata){
   for(auto &it: *(cata->getHist()->getLst())){
     cout <<"Hist:"<< it->first << endl;
@@ -52,7 +26,7 @@ void showHist(Interaction *inte){
 
 void showTodo(std::pair<std::string,Date*>* magie){
   cout << "todo: " << magie->first << endl;
-  cout << "date: " << magie->second->print() << endl;
+  if(magie->second != NULL)cout << "date: " << magie->second->print() << endl;
 }
 
 void contactShowInteraction(Contact *conta){
@@ -236,25 +210,12 @@ void testDate() {
     cout << "testDate--------------------------------------END" << endl;
 }
 
-void testParser() {
-    cout << "testParser-------------------------------------------" << endl;
-    std::string s = "rdv aujourd’hui par tél., RAS.\n"
-               "@todo Rappeler @date 19/10/2010\n"
-               "@todo confirmer commande n°xyz\n";
-    std::cout << s << std::endl;
-    std::list<std::pair<std::string,Date*>> lp = parser(s);
-    for (auto& i : lp)
-        std::cout << i.first << "\n-> " << (i.second!=NULL?i.second->print():"NO DATE") << std::endl;
-    destroy(lp);
-    cout << "testParser------------------------------------------END" << endl;
-}
-
 void testTodo(){
   cout << "testTodo -----------------------------"<<endl;
 
   TagList tags_lst;
   Contact *chevalo = new Contact("kleman", "l3", "sans23.re", "commit.leaks@gmail.com","0605040302", "/tmp/kamtar", &tags_lst);
-  chevalo->addInteraction("@todo kamion @date 12/12/2001","pwn");
+  chevalo->addInteraction("@todo kamion @date 12/12/2001\n@todo magie","pwn");
   showHist(chevalo);
   for(auto &it:*(chevalo->getInteractionLst())){
     for(auto &od: *(it->getTodo())){
@@ -275,7 +236,6 @@ int main(int argc, char const *argv[]) {
   testHistLocal();
   testCatalog();
   testDate();
-  testParser();
   testTodo();
   return 0;
 }
