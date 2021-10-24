@@ -8,12 +8,12 @@ On présentera au cours de ce premier compte rendu la structure interne conçu e
 Notre binome est constitué de Viard Clément et Dupré Thibault et nous sommes heureux de vous présentez notre interprétation du sujet.
 
 <h1><center> Sommaire </center></h1>
-* Le sujet
-* La structure
-* Les objets
-<br/><br/>
-<br/><br/>
+* [Le sujet](#sujet)
+* [La structure](#struct)
+* [Pour aller plus loins](#loins)
 
+<br/><br/>
+<a name="sujet"></a>
 # Le sujet
 
 Nous devions programmés une application de gestion de contacts possédent un système d'interactions et de tags.
@@ -87,39 +87,55 @@ Etant donné que deux dates sont comparables, et toujours dans l'optique de simp
 > <span style="color:green"> Message Informatif :</span> Contact et Interaction aussi possèdaient des redéfinition de l'opérateur de flux, ils s'avèrent que pour beaucoup d'objets cette redéfinition est très utiles, il n'est donc pas étonant de la retrouver souvant.
 
 <br/><br/>
+<a name="struct"></a>
 # La structure
 
-coucou
+Maintenant que nous avons vu les objets principaux, parlons des objets plus complexe caché dérriere.
 
+<br/>
+## Les listes
 
+### Le catalogue de contacts
 
+L'objet racine contenant tous les contacts et les listes globales.
 
+### L'historique (histlocal)
 
-<br/><br/><br/><br/><br/><br/>
+Une liste constitué de couple string/Date. C'est cet objet qui est présent dans Contact et Interaction pour gérer l'historique.  
+
+Il possède aussi beaucoup de constantes de préprocesseur représentant chacune un type de modification différent.
+
+### La liste de Tag
+
+Un liste simple pour gérer plusieurs Tag.
+
+<br/>
+## Tag
+
+La fonction des tags à déjà été explicité précédemmant, sa mise en oeuvre n'est pas complexe, un tag possède un nom et est reliè à des interactions.
+
+Sa gestion simple est un parfait exemple pour aprèhender la gestion globale du projet. Un lien complexe lie Interaction et Tag, car interaction possède plusieurs tag et tag possède plusieurs interaction. Un traitement a été fait pour casser ce lien père-fils et avoir les 2 sens de lectures. Ainsi nous pouvons parcourir tous les tags depuis les interactions et parcourir toutes les interaction depuis les tags. Ce traitement complexifie la gestion de la mémoire mais augmente grandement la rapidité des recherches avancées.
+
+> <span style="color:green"> Message Informatif :</span> La conception entière à été pensé comme ça, nous avons essayés le plus possible de rendre les objets autonome tous en les encrants dans une structure homogène
 
 <br/><br/>
+<a name="loins"></a>
+# Pour aller plus loins
 
-date
+<br/>
+## L'héritage
 
+Nous avons eu en cours la proposition de faire une classe personne dans l'unique but de dévellopper un héritage pour contact. Il nous a semblé peu pertinant de le procédé ainsi et n'ayant aucune autre utilité de l'héritage actuelement pour ce projet, nous sommes au regrets de vous annoncé que vous n'aurais aucune démonstration de ce principe.
 
+<br/>
+## Les fuites de mémoire
 
-TODO:
-    - explication de ce qu'on a compris du projet
-    - rapide tour d'horizon des classes implémenté qui étais dans le sujet
-    - explication de pourquoi
+La gestion interne de la structure ne représentant pas un arbre mais plus un graphe conceptuelement, la tache ne fut pas aisé, cependant, avec un bon outil comme *Valgrind* et de longs testes d'analyse nous pouvons vous présenter un projet robuste debogguer au maximum.
 
-2. La structure
----------------
+<br/>
+## Cas d'usages
 
-TODO:
-    - explication des structures plus exotiques
-    - presentation de la structure global en graphe
+Pour finir, vous pourrez trouver dans le main beaucoup de cas d'usage pour tester chaque brique de notre projet.
 
-3. Les objets
--------------
-
-presentation des objet un part un
-le memorie leak
-les operateurs
-le main
-heritage
+<br/>
+<h3 align="right"> Clément Viard et Dupré Thibault </h3>
