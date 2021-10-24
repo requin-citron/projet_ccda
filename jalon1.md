@@ -12,7 +12,7 @@ Notre binome est constitué de Viard Clément et Dupré Thibault et nous sommes 
 * [La structure](#struct)
 * [Pour aller plus loins](#loins)
 
-<br/><br/>
+<br/>
 <a name="sujet"></a>
 # Le sujet
 
@@ -86,7 +86,7 @@ Etant donné que deux dates sont comparables, et toujours dans l'optique de simp
 
 > <span style="color:green"> Message Informatif :</span> Contact et Interaction aussi possèdaient des redéfinition de l'opérateur de flux, ils s'avèrent que pour beaucoup d'objets cette redéfinition est très utiles, il n'est donc pas étonant de la retrouver souvant.
 
-<br/><br/>
+<br/>
 <a name="struct"></a>
 # La structure
 
@@ -118,7 +118,7 @@ Sa gestion simple est un parfait exemple pour aprèhender la gestion globale du 
 
 > <span style="color:green"> Message Informatif :</span> La conception entière à été pensé comme ça, nous avons essayés le plus possible de rendre les objets autonome tous en les encrants dans une structure homogène
 
-<br/><br/>
+<br/>
 <a name="loins"></a>
 # Pour aller plus loins
 
