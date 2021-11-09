@@ -12,6 +12,7 @@
 #include "contact.hpp"
 #include "tagList.hpp"
 #include "histlocal.hpp"
+#include "interaction.hpp"
 
 //! Nom de la base de donnée
 #define DATABASE_NAME "../bdd"

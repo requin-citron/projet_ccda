@@ -235,6 +235,14 @@ void testDB(){
     cata.addContact("kleman","chevalo", "aze", "aze@gmail.com", "0605040302", "/tmp/aze");
     cata.addContact("kleman1","chevalo", "aze", "aze@gmail.com", "0605040302", "/tmp/aze");
     cata.addContact("kleman2","chevalo", "aze", "aze@gmail.com", "0605040302", "/tmp/aze");
+    Contact *c = *(cata.getContactLst()->begin());
+    c->addInteraction("cinema ", "relou");
+    c->addInteraction("manger", "Gigarelou");
+    c->addInteraction("s'occuper de sa copine", "relou");
+    c = *(++cata.getContactLst()->begin());
+    c->addInteraction("eza", "hh");
+    c->addInteraction("ggg", "hh");
+    c->addInteraction("aze", "relou");
     cata.saveDataBase();
     cout << "testDB --------------------------------------------END" << endl;
 }
