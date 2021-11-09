@@ -229,6 +229,16 @@ void testTodo(){
   cout << "testTodo -----------------------------END"<<endl;
 }
 
+void testDB(){
+    cout << "testDB ------------------------------------------------" << endl;
+    ContactCatalog cata;
+    cata.addContact("kleman","chevalo", "aze", "aze@gmail.com", "0605040302", "/tmp/aze");
+    cata.addContact("kleman1","chevalo", "aze", "aze@gmail.com", "0605040302", "/tmp/aze");
+    cata.addContact("kleman2","chevalo", "aze", "aze@gmail.com", "0605040302", "/tmp/aze");
+    cata.saveDataBase();
+    cout << "testDB --------------------------------------------END" << endl;
+}
+
 //tests cases
 int main(int argc, char *argv[]) {
   TagList t;
@@ -240,6 +250,7 @@ int main(int argc, char *argv[]) {
   testCatalog();
   testDate();
   testTodo();
+  testDB();
   QApplication a(argc, argv);
   MainWindow w;
   w.show();

@@ -3,9 +3,18 @@
 
 #include <string>
 #include <list>
+#include <QSqlDatabase>
+#include <QSqlDriver>
+#include <QSqlError>
+#include <QSqlQuery>
+#include <QString>
+#include <QDebug>
 #include "contact.hpp"
 #include "tagList.hpp"
 #include "histlocal.hpp"
+
+//! Nom de la base de donnée
+#define DATABASE_NAME "../bdd"
 
 //! Class qui englobe Contact et TagList
 /*!
@@ -19,6 +28,11 @@ private:
   TagList tag_lst;
   //! historique local
   HistLocal *local_hist = NULL;
+  //!wipe Database
+  /*!
+   Attention il faut que la db soit ouverte.
+   */
+  void cleanDataBase();
 
 public:
   //! constructeur
@@ -51,6 +65,8 @@ public:
     \param c pointeur sur contact
   */
   void eraseContact(Contact *c);
+  //! sauvegarde le catalogue dans la DB
+  void saveDataBase();
 };
 
 #endif
