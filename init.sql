@@ -1,11 +1,17 @@
+DROP TABLE contacts;
+DROP TABLE interactions;
+DROP TABLE tags;
+DROP TABLE history_contact;
+DROP TABLE history_interaction;
+
 CREATE TABLE IF NOT EXISTS contacts (
     id INTEGER PRIMARY KEY,
     email TEXT,
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
     enterprise TEXT,
-    phone INTEGER UNIQUE,
-    photo TEXT UNIQUE
+    phone INTEGER,
+    photo TEXT
 );
 
 CREATE TABLE IF NOT EXISTS interactions (
