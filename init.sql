@@ -3,6 +3,9 @@ DROP TABLE interactions;
 DROP TABLE tags;
 DROP TABLE history_contact;
 DROP TABLE history_interaction;
+DROP TABLE history_global;
+DROP TABLE todos;
+
 
 CREATE TABLE IF NOT EXISTS contacts (
     id INTEGER PRIMARY KEY,
@@ -24,16 +27,30 @@ CREATE TABLE IF NOT EXISTS interactions (
       ON DELETE CASCADE
 );
 
+
+
 CREATE TABLE IF NOT EXISTS tags (
-    name TEXT PRIMARY KEY,
-    id_interaction TEXT NOT NULL,
+    name TEXT,
+    id_contact INTEGER NOT NULL,
+    id_interaction INTEGER NOT NULL,
+    PRIMARY KEY (id_contact, id_interaction)
     FOREIGN KEY (id_interaction)
       REFERENCES interactions (id_interaction)
       ON DELETE CASCADE
+    FOREIGN KEY (id_contact)
+      REFERENCES contacts (id)
+      ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS history_global (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    contenue TEXT NOT NULL,
+    dt datetime default current_timestamp
 );
 
 CREATE TABLE IF NOT EXISTS history_contact (
-    id_contact INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_contact INTEGER,
     contenue TEXT NOT NULL,
     dt datetime default current_timestamp,
     FOREIGN KEY (id_contact)
@@ -42,12 +59,29 @@ CREATE TABLE IF NOT EXISTS history_contact (
 );
 
 CREATE TABLE IF NOT EXISTS history_interaction (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     id_contact INTEGER,
     id_interaction INTEGER,
     contenue TEXT NOT NULL,
     dt datetime default current_timestamp,
-    PRIMARY KEY (id_contact, id_interaction)
     FOREIGN KEY (id_contact)
       REFERENCES contacts (id)
+      ON DELETE CASCADE
+    FOREIGN KEY (id_interaction)
+      REFERENCES interactions (id_interaction)
+      ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS todos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_contact INTEGER,
+    id_interaction INTEGER,
+    contenue TEXT NOT NULL,
+    dt datetime default current_timestamp,
+    FOREIGN KEY (id_contact)
+      REFERENCES contacts (id)
+      ON DELETE CASCADE
+    FOREIGN KEY (id_interaction)
+      REFERENCES interactions (id_interaction)
       ON DELETE CASCADE
 );

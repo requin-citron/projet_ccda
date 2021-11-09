@@ -57,11 +57,22 @@ void ContactCatalog::saveDataBase(){
     }
     //clean database
     this->cleanDataBase();
-
     QSqlQuery query;
-    //mais quelle bonne idée de faire toute la premiere partie sans les types QT
-    //vraiment on aime
+    // historique global
+    for(auto &it: *this->local_hist->getLst()){
+        query.prepare("INSERT INTO history_global (contenue, dt) "
+                      "VALUES (:contenue, :dt)");
+        query.bindValue(":contenue", QString::fromStdString(it->first));
+        query.bindValue(":dt",QVariant(QVariant::String));
+        if(!query.exec()){
+            qWarning() << "Error: " << query.lastError().text();
+            exit(1);
+        }
+    }
+    //contact interaction historique locaux
     QVariant id;
+    QVariant id_inte;
+    //contact
     for(auto &it: this->contact_lst){
         id.setValue(it->getId());
         query.prepare("INSERT INTO contacts (id, email, first_name, last_name, enterprise, phone, photo) "
@@ -76,6 +87,57 @@ void ContactCatalog::saveDataBase(){
         if(!query.exec()){
             qWarning() << "Error: " << query.lastError().text();
             exit(1);
+        }
+        //gestion des historiques
+        for(auto &hist_contact: *(it->getHist()->getLst())){
+            query.prepare("INSERT INTO history_contact (id_contact, contenue, dt) "
+                          "VALUES (:id_contact, :contenue, :dt)");
+            query.bindValue(":id_contact", id);
+            query.bindValue(":contenue",QString::fromStdString(hist_contact->first));
+            query.bindValue(":dt", QVariant(QVariant::String));
+            if(!query.exec()){
+                qWarning() << "Error: " << query.lastError().text();
+                exit(1);
+            }
+        }
+        //gestion des interaction
+        for(auto &inte_local: *it->getInteractionLst()){
+            query.prepare("INSERT INTO interactions (id_contact, id_interaction, contenue) "
+                          "VALUES (:id_contact, :id_interaction, :contenue)");
+            query.bindValue(":id_contact", id);
+            id_inte.setValue(inte_local->getId());
+            query.bindValue(":id_interaction",id_inte);
+            query.bindValue(":contenue", QString::fromStdString(inte_local->getContenu()));
+            if(!query.exec()){
+                qWarning() << "Error: " << query.lastError().text();
+                exit(1);
+            }
+            //historique local a l'interaction
+            for(auto &hist_inte: *(inte_local->getHist()->getLst())){
+                query.prepare("INSERT INTO history_interaction (id_contact, id_interaction, contenue, dt) "
+                              "VALUES (:id_contact,:id_interaction, :contenue, :dt)");
+                query.bindValue(":id_contact", id);
+                id_inte.setValue(inte_local->getId());
+                query.bindValue(":id_interaction",id_inte);
+                query.bindValue(":contenue", QString::fromStdString(hist_inte->first));
+                query.bindValue(":dt", QVariant(QVariant::String));
+                if(!query.exec()){
+                    qWarning() << "Error: " << query.lastError().text();
+                    exit(1);
+                }
+            }
+            //tags
+            for(auto &tag : *inte_local->getTags()){
+                query.prepare("INSERT INTO tags (name,id_contact, id_interaction) "
+                              "VALUES (:name, :id_contact, :id_interaction)");
+                query.bindValue(":name",QString::fromStdString(tag->getName()));
+                query.bindValue(":id_contact",id);
+                query.bindValue(":id_interaction",id_inte);
+                if(!query.exec()){
+                    qWarning() << "Error: " << query.lastError().text();
+                    exit(1);
+                }
+            }
         }
     }
 
