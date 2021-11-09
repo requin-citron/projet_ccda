@@ -6,4 +6,4 @@
 /html
 /vgcore*
 /*.o
-/build-ccda-Desktop-Debug
+/build/*
