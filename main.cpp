@@ -2,7 +2,10 @@
 #include "tagList.hpp"
 #include "contact.hpp"
 #include "contactCatalog.hpp"
+#include "mainwindow.h"
+
 #include <unistd.h>
+#include <QApplication>
 
 using namespace std;
 
@@ -227,7 +230,7 @@ void testTodo(){
 }
 
 //tests cases
-int main(int argc, char const *argv[]) {
+int main(int argc, char *argv[]) {
   TagList t;
   contactInteractionTestCase(&t);
   tagListTestCase();
@@ -237,5 +240,9 @@ int main(int argc, char const *argv[]) {
   testCatalog();
   testDate();
   testTodo();
-  return 0;
+  QApplication a(argc, argv);
+  MainWindow w;
+  w.show();
+  return a.exec();
+  //return 0;
 }

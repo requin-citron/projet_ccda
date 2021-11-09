@@ -4,6 +4,7 @@
 #include <iostream>
 #include <iomanip>
 #include <algorithm>
+#include <sstream>
 
 //! Class qui s'occupe de la gestion des dates
 /*!

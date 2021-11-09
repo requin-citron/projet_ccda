@@ -9,11 +9,25 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    contact.cpp \
+    contactCatalog.cpp \
+    date.cpp \
+    histlocal.cpp \
+    interaction.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    tag.cpp \
+    tagList.cpp
 
 HEADERS += \
-    mainwindow.h
+    contact.hpp \
+    contactCatalog.hpp \
+    date.hpp \
+    histlocal.hpp \
+    interaction.hpp \
+    mainwindow.h \
+    tag.hpp \
+    tagList.hpp
 
 FORMS += \
     mainwindow.ui
