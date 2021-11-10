@@ -8,6 +8,11 @@ Contact::Contact(std::string firstName, std::string lastName, std::string enterp
   this->id_c ++;
 }
 
+Contact::Contact(size_t id,std::string firstName, std::string lastName, std::string enterprise, std::string mail, std::string phone, std::string pathPicture,TagList *lst): id(id), firstName(firstName), lastName(lastName), enterprise(enterprise), mail(mail), phone(phone), pathPicture(pathPicture), tags_lst(lst){
+  this->local_hist = new HistLocal();
+    this->id_c = id+1;
+}
+
 Contact::~Contact(){
   delete this->local_hist;
   std::list<Interaction*>::iterator it = this->interaction_lst.begin();
@@ -62,11 +67,21 @@ void Contact::addInteraction(std::string contenue){
   this->local_hist->insertHist(this, ADD_INTERACTION);
 }
 
+void Contact::setInteractionId(size_t id){
+    this->interaction_id = id;
+}
+
 void Contact::addInteraction(std::string contenue, std::string tag){
   Interaction *inte = new Interaction(contenue, this, this->tags_lst);
   inte->addTag(tag);
   this->interaction_lst.push_back(inte);
   this->local_hist->insertHist(this, ADD_INTERACTION);
+}
+
+
+void Contact::addInteraction(size_t id, std::string contenue){
+  Interaction *inte = new Interaction(id, contenue, this, this->tags_lst);
+  this->interaction_lst.push_back(inte);
 }
 
 size_t Contact::getId(){
@@ -76,6 +91,7 @@ size_t Contact::getId(){
 std::list<Interaction*>* Contact::getInteractionLst(){
   return &(this->interaction_lst);
 }
+
 std::string Contact::getFirstName(){
   return this->firstName;
 }

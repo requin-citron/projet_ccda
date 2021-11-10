@@ -10,6 +10,8 @@
 #include <QString>
 #include <QDebug>
 #include "contact.hpp"
+#include "interaction.hpp"
+#include "tag.hpp"
 #include "tagList.hpp"
 #include "histlocal.hpp"
 #include "interaction.hpp"
@@ -68,6 +70,8 @@ public:
   void eraseContact(Contact *c);
   //! sauvegarde le catalogue dans la DB
   void saveDataBase();
+  //! importation de la base de donnée
+  void loadDataBase();
 };
 
 #endif

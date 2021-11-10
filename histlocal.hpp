@@ -58,6 +58,12 @@ public:
     \param flag flag provenant des constantes de préprocesseur qui permettent de préciser la nature de l'entrée
   */
   void insertHist(Contact *conta, Interaction *inte, char flag);
+  //! insert un élément dans l'historique en passant directement par la db
+  /*!
+    \param contenue chaine de l'historique
+    \param date chaine contenant la date
+   */
+  void insertHist(std::string contenue, std::string date);
   //! renvoie la liste de toutes les entrées
   /*!
     \return pointeur sur une liste de paires string et date
