@@ -57,6 +57,15 @@ public:
     \warning il est nécessaire d'avoir une liste de tag pour pouvoir donner des tags à son interaction
   */
   Interaction(std::string contenu, Contact *attach_contact, TagList* tag_lst);
+  //! constructeur de la class
+  /*!
+    \param id utilise quand on faire une importation par la db
+    \param contenu string qui contient l'interaction
+    \param attach_contact pointeur qui renvoie sur le contact qui a instancier l'interaction
+    \param tag_lst permet de passer la liste de tags
+    \warning il est nécessaire d'avoir une liste de tag pour pouvoir donner des tags à son interaction
+  */
+  Interaction(size_t id, std::string contenu, Contact *attach_contact, TagList* tag_lst);
   //! destructeur qui se détache des autres objets avant de se supprimer
   ~Interaction();
 
@@ -101,6 +110,11 @@ public:
     \param tag nom du nouveau tag
   */
   void addTag(std::string tag);
+  //! fonction d'ajout de tag non logee
+  /*!
+    \param tag nom du nouveau tag
+  */
+  void addTagUnLog(std::string tag);
 
   //! unlink all dependancies pointer
   //! supprime tous les pointeurs des autres objets pointant sur this

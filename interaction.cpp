@@ -13,6 +13,18 @@ Interaction::Interaction(std::string contenu,Contact *attach_contact, TagList *t
   this->local_hist->insertHist(this->target, this, ADD_INTERACTION);
 }
 
+Interaction::Interaction(size_t id, std::string contenu,Contact *attach_contact, TagList *tag_lst){
+  this->local_hist = new HistLocal();
+  if(this->tag_list == NULL){
+    this->tag_list = tag_lst;
+  }
+  this->target = attach_contact;
+  this->contenu = contenu;
+  this->parser();
+  this->id = id;
+  this->target->setInteractionId(id+1);
+}
+
 Interaction::~Interaction(){
   delete this->local_hist;
   this->unlinkAll();
@@ -46,6 +58,15 @@ void Interaction::addTag(std::string tag){
   Tag *tmp = this->tag_list->getTag(tag, this);
   this->tags_lst.push_back(tmp);
   this->local_hist->insertHist(this->target,this, ADD_TAG);
+}
+
+void Interaction::addTagUnLog(std::string tag){
+  if(this->tag_list == NULL){
+    std::cerr << "you need ton link tag list to use addTag" << std::endl;
+    exit(2);
+  }
+  Tag *tmp = this->tag_list->getTag(tag, this);
+  this->tags_lst.push_back(tmp);
 }
 
 HistLocal *Interaction::getHist(){
@@ -96,7 +117,16 @@ void Interaction::unlinkTag(std::string name){
 
 std::pair<std::string,Date*>* Interaction::treat(std::string s){
   std::pair<std::string,Date*>* r = new std::pair<std::string,Date*>;
-  r->first = s;
+  ///////////////////////////////////////
+  std::string magie = "";
+  for(size_t t=0; t<s.length(); t++){
+    if(s[t] == '\0' || s[t] == '\r' || s[t] == '@' || s[t] == '\n'){
+        break;
+    }
+    magie+=s[t];
+  }
+  /////////////////////////////////////////
+  r->first = magie;
   size_t date = s.find("@date");
   if (date!=std::string::npos && s.size()>=date+16)
       r->second = new Date(s.substr(date+6,10));

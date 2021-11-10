@@ -52,6 +52,19 @@ public:
   */
   Contact (std::string firstName, std::string lastName, std::string enterprise, std::string mail, std::string phone, std::string pathPicture, TagList *lst);
   /*!
+    Constructeur
+    Un unique constructeur qui demande toutes les informations du contact. Dans les éléments non renseigniés sont gérés en amont
+    \param id identifiant de la DB
+    \param firstName Prénom
+    \param lastName Nom
+    \param enterprise Entreprise
+    \param mail Mail
+    \param phone Phone
+    \param pathPicture Chemin du fichier photo
+    \param lst liste de tags
+  */
+  Contact (size_t id, std::string firstName, std::string lastName, std::string enterprise, std::string mail, std::string phone, std::string pathPicture, TagList *lst);
+  /*!
     Un destructeur qui free le contact ainsi que toutes les interactions
   */
   ~Contact();
@@ -72,6 +85,8 @@ public:
   void setPhone(std::string ph);
   //! fonction de mofication de pathPicture
   void setPathPicture(std::string path);
+  //! fonction pour set le compteur d'interaction
+  void setInteractionId(size_t id);
   //! fonction pour ajouter une interaction
   // \param contenue contenu de l'interaction
   void addInteraction(std::string contenue);
@@ -80,6 +95,11 @@ public:
     \param tag de l'interaction
   */
   void addInteraction(std::string contenue, std::string tag);
+  /*! fonction pour ajouter une interaction Pour la bdd
+    \param id identifiant de l'interaction
+    \param contenu contenu de l'interaction
+  */
+  void addInteraction(size_t id, std::string contenue);
 
   //! fonction renvoyant la liste des intéractions d'un contact
   std::list<Interaction*>* getInteractionLst();

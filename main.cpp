@@ -11,7 +11,7 @@ using namespace std;
 
 void showHist(ContactCatalog *cata){
   for(auto &it: *(cata->getHist()->getLst())){
-    cout <<"Hist:"<< it->first << endl;
+    cout <<"Hist:"<< it->first <<" "<< it->second.printAll()<< endl;
   }
 }
 
@@ -30,6 +30,24 @@ void showHist(Interaction *inte){
 void showTodo(std::pair<std::string,Date*>* magie){
   cout << "todo: " << magie->first << endl;
   if(magie->second != NULL)cout << "date: " << magie->second->print() << endl;
+}
+
+void showAll(std::list<Contact*>* magie){
+    for(auto &it: *magie){
+        cout << "Contact " << it->getId()<<" " << it->getFirstName() <<" "<< it->getLastName() <<" "<< it->getMail() << endl;
+        cout << "contact hist ==========" << endl;
+        showHist(it);
+        cout << "contact hist ==========end" << endl;
+        for(auto &it1 : *it->getInteractionLst()){
+            cout << it->getFirstName() <<"|"<< it1->getContenu() <<endl;
+            cout << "interaction hist ===========" << endl;
+            showHist(it1);
+            cout << "interaction hist ===========end" << endl;
+            for(auto &it2: *it1->getTags()){
+                cout << "ID " << it1->getId() << " TAGS: " << it2->getName() << endl;
+            }
+        }
+    }
 }
 
 void contactShowInteraction(Contact *conta){
@@ -229,22 +247,34 @@ void testTodo(){
   cout << "testTodo -----------------------------END"<<endl;
 }
 
-void testDB(){
-    cout << "testDB ------------------------------------------------" << endl;
+void testDBSave(){
+    cout << "testDBSave ------------------------------------------------" << endl;
     ContactCatalog cata;
     cata.addContact("kleman","chevalo", "aze", "aze@gmail.com", "0605040302", "/tmp/aze");
     cata.addContact("kleman1","chevalo", "aze", "aze@gmail.com", "0605040302", "/tmp/aze");
     cata.addContact("kleman2","chevalo", "aze", "aze@gmail.com", "0605040302", "/tmp/aze");
     Contact *c = *(cata.getContactLst()->begin());
     c->addInteraction("cinema ", "relou");
-    c->addInteraction("manger", "Gigarelou");
-    c->addInteraction("s'occuper de sa copine", "relou");
+    c->addInteraction("manger\n@todo kamion et un autre @date 12/12/2001\n@todo magie", "Gigarelou");
+    c->addInteraction("@todo test @date 12/00/2002\n@todo kamion123", "relou");
     c = *(++cata.getContactLst()->begin());
     c->addInteraction("eza", "hh");
     c->addInteraction("ggg", "hh");
     c->addInteraction("aze", "relou");
     cata.saveDataBase();
-    cout << "testDB --------------------------------------------END" << endl;
+    cout << "testDBSave --------------------------------------------END" << endl;
+}
+
+void testDBImport(){
+    cout << "testDBImport ------------------------------------------------" << endl;
+    ContactCatalog cata;
+    cata.loadDataBase();
+
+    cout << "global hist ============" << endl;
+    showHist(&cata);
+    cout << "global hist ============end" << endl;
+    showAll(cata.getContactLst());
+    cout << "testDBImport --------------------------------------------END" << endl;
 }
 
 //tests cases
@@ -258,10 +288,11 @@ int main(int argc, char *argv[]) {
   testCatalog();
   testDate();
   testTodo();
-  testDB();
+  testDBSave();
+  testDBImport();
   QApplication a(argc, argv);
   MainWindow w;
   w.show();
-  return a.exec();
-  //return 0;
+  //return a.exec();
+  return 0;
 }

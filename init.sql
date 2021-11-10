@@ -4,7 +4,6 @@ DROP TABLE tags;
 DROP TABLE history_contact;
 DROP TABLE history_interaction;
 DROP TABLE history_global;
-DROP TABLE todos;
 
 
 CREATE TABLE IF NOT EXISTS contacts (
@@ -13,7 +12,7 @@ CREATE TABLE IF NOT EXISTS contacts (
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
     enterprise TEXT,
-    phone INTEGER,
+    phone TEXT,
     photo TEXT
 );
 
@@ -45,14 +44,14 @@ CREATE TABLE IF NOT EXISTS tags (
 CREATE TABLE IF NOT EXISTS history_global (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     contenue TEXT NOT NULL,
-    dt datetime default current_timestamp
+    dt TEXT
 );
 
 CREATE TABLE IF NOT EXISTS history_contact (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     id_contact INTEGER,
     contenue TEXT NOT NULL,
-    dt datetime default current_timestamp,
+    dt TEXT,
     FOREIGN KEY (id_contact)
       REFERENCES contacts (id)
       ON DELETE CASCADE
@@ -63,21 +62,7 @@ CREATE TABLE IF NOT EXISTS history_interaction (
     id_contact INTEGER,
     id_interaction INTEGER,
     contenue TEXT NOT NULL,
-    dt datetime default current_timestamp,
-    FOREIGN KEY (id_contact)
-      REFERENCES contacts (id)
-      ON DELETE CASCADE
-    FOREIGN KEY (id_interaction)
-      REFERENCES interactions (id_interaction)
-      ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS todos (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    id_contact INTEGER,
-    id_interaction INTEGER,
-    contenue TEXT NOT NULL,
-    dt datetime default current_timestamp,
+    dt TEXT,
     FOREIGN KEY (id_contact)
       REFERENCES contacts (id)
       ON DELETE CASCADE
