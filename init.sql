@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS interactions (
 
 
 CREATE TABLE IF NOT EXISTS tags (
-    name TEXT,
+    name TEXT NOT NULL,
     id_contact INTEGER NOT NULL,
     id_interaction INTEGER NOT NULL,
     PRIMARY KEY (id_contact, id_interaction)
