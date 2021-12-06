@@ -15,9 +15,9 @@ SOURCES += \
     histlocal.cpp \
     interaction.cpp \
     main.cpp \
-    mainwindow.cpp \
     tag.cpp \
-    tagList.cpp
+    tagList.cpp \
+    window.cpp
 
 HEADERS += \
     contact.hpp \
@@ -25,12 +25,9 @@ HEADERS += \
     date.hpp \
     histlocal.hpp \
     interaction.hpp \
-    mainwindow.h \
     tag.hpp \
-    tagList.hpp
-
-FORMS += \
-    mainwindow.ui
+    tagList.hpp \
+    window.hpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
