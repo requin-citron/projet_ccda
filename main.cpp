@@ -2,7 +2,7 @@
 #include "tagList.hpp"
 #include "contact.hpp"
 #include "contactCatalog.hpp"
-#include "mainwindow.h"
+#include "window.hpp"
 
 #include <unistd.h>
 #include <QApplication>
@@ -290,9 +290,10 @@ int main(int argc, char *argv[]) {
   testTodo();
   testDBSave();
   testDBImport();
+
   QApplication a(argc, argv);
-  MainWindow w;
+  Window w;
   w.show();
-  //return a.exec();
+
   return 0;
 }
