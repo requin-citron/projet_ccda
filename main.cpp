@@ -30,7 +30,7 @@ void runTestsCase();
 //tests cases
 int main(int argc, char *argv[]) {
 
-  //runTestsCase();
+  runTestsCase();
 
   QApplication a(argc, argv);
   Window w;
@@ -60,7 +60,7 @@ void showHist(Interaction *inte){
 
 void showTodo(std::pair<std::string,Date*>* magie){
   cout << "todo: " << magie->first << endl;
-  if(magie->second != NULL)cout << "date: " << magie->second->print() << endl;
+  if(magie->second != nullptr)cout << "date: " << magie->second->print() << endl;
 }
 
 void showAll(std::list<Contact*>* magie){
