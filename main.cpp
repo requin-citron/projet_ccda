@@ -9,6 +9,37 @@
 
 using namespace std;
 
+void showHist(ContactCatalog *cata);
+void showHist(Contact *conta);
+void showHist(Interaction *inte);
+void showTodo(std::pair<std::string,Date*>* magie);
+void showAll(std::list<Contact*>* magie);
+void contactShowInteraction(Contact *conta);
+void contactInteractionTestCase(TagList *tags_lst);
+void InteractionEraseTag();
+void tagListTestCase();
+void tagListEraseAllTagsTestCase();
+void testHistLocal();
+void testCatalog();
+void testDate();
+void testTodo();
+void testDBSave();
+void testDBImport();
+void runTestsCase();
+
+//tests cases
+int main(int argc, char *argv[]) {
+
+  //runTestsCase();
+
+  QApplication a(argc, argv);
+  Window w;
+  w.show();
+  a.exec();
+
+  return 0;
+}
+
 void showHist(ContactCatalog *cata){
   for(auto &it: *(cata->getHist()->getLst())){
     cout <<"Hist:"<< it->first <<" "<< it->second.printAll()<< endl;
@@ -277,24 +308,16 @@ void testDBImport(){
     cout << "testDBImport --------------------------------------------END" << endl;
 }
 
-//tests cases
-int main(int argc, char *argv[]) {
-  TagList t;
-  contactInteractionTestCase(&t);
-  tagListTestCase();
-  tagListEraseAllTagsTestCase();
-  InteractionEraseTag();
-  testHistLocal();
-  testCatalog();
-  testDate();
-  testTodo();
-  testDBSave();
-  testDBImport();
-
-  QApplication a(argc, argv);
-  Window w;
-  w.show();
-  a.exec();
-  
-  return 0;
+void runTestsCase() {
+    TagList t;
+    contactInteractionTestCase(&t);
+    tagListTestCase();
+    tagListEraseAllTagsTestCase();
+    InteractionEraseTag();
+    testHistLocal();
+    testCatalog();
+    testDate();
+    testTodo();
+    testDBSave();
+    testDBImport();
 }
