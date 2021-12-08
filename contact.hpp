@@ -28,7 +28,7 @@ private:
   std::string mail;
   std::string phone;
   std::string pathPicture;
-  HistLocal *local_hist = NULL;
+  HistLocal *local_hist = nullptr;
   std::list<Interaction*> interaction_lst;
   TagList *tags_lst;
 
