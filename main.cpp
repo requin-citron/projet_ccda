@@ -30,7 +30,7 @@ void runTestsCase();
 //tests cases
 int main(int argc, char *argv[]) {
 
-  //runTestsCase();
+  runTestsCase();
 
   QApplication a(argc, argv);
   Window w;

@@ -1,31 +1,39 @@
 #include "window.hpp"
-
-Window::Window() : QWidget() {
+//addContact->setSizePolicy(QSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding));
+Window::Window() : QMainWindow() {
     setWindowTitle("Gestionnaire de contact");
     setMinimumSize(800,800);
 
+    QWidget *w = new QWidget();
     stackedLay = new QStackedLayout;
-        //stackedLayout->addWidget(firstPageWidget);
-        //stackedLayout->addWidget(secondPageWidget);
-        //stackedLayout->addWidget(thirdPageWidget);
-
     stackedLay->addWidget(mainwin());
     stackedLay->addWidget(contactwin());
-    setLayout(stackedLay);
+    w->setLayout(stackedLay);
+    setCentralWidget(w);
 }
 
 QWidget* Window::mainwin() {
     QWidget *w = new QWidget();
     QListWidget *qlw = new QListWidget();
-    for (int t=0; t<50; t++)
-        qlw->addItem("Item "+QString::number(t));
+    qlw->setStyleSheet("QListWidget {border : 2px solid black;background : lightgreen; font-size: 50px;}"
+                       "QListWidget QScrollBar {background : lightblue;}"
+                       "QListView::item:selected {border : 2px solid black;background : green;}");
+    for (int t=0; t<50; t++) {
+        QListWidgetItem *tmp = new QListWidgetItem("item "+QString::number(t));
+        tmp->setTextAlignment(Qt::AlignHCenter);
+        //tmp->setSizeHint(QSize(0,200));
+        linkContact[tmp] = "merde "+QString::number(t);
+        qlw->addItem(tmp);
+    }
     QPushButton *addContact = new QPushButton("Ajouter un Contact",this);
-    //addContact->setSizePolicy(QSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding));
     QVBoxLayout *lay = new QVBoxLayout;
     lay->addWidget(qlw);
     lay->addWidget(addContact);
     w->setLayout(lay);
-    QObject::connect(addContact, SIGNAL(clicked()), this, SLOT(switchStack()));
+
+    QObject::connect(qlw, SIGNAL(itemDoubleClicked(QListWidgetItem*)),this, SLOT(printContact(QListWidgetItem*)));
+    QObject::connect(addContact, SIGNAL(clicked()),this, SLOT(stackSwitch()));
+
     return w;
 }
 
@@ -43,7 +51,7 @@ QWidget* Window::contactwin() {
     for (int t=0; t<50; t++)
         list_interaction->addItem("Interaction "+QString::number(t));
     QPushButton *save = new QPushButton("Enregistrer");
-    QObject::connect(save, SIGNAL(clicked()), this, SLOT(switchStack()));
+    QObject::connect(save, SIGNAL(clicked()), this, SLOT(stackSwitch()));
 
     QFormLayout *l1 = new QFormLayout;
     l1->addRow("Prénom", firstName);
@@ -68,7 +76,12 @@ QWidget* Window::contactwin() {
     return w;
 }
 
-void Window::switchStack() {
+void Window::printContact(QListWidgetItem* c) {
+    stackSwitch();
+    std::cout << linkContact[c].toStdString() << std::endl;
+}
+
+void Window::stackSwitch() {
     if (stackedLay->currentIndex()==1)
         stackedLay->setCurrentIndex(0);
     else
