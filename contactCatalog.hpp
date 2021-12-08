@@ -30,7 +30,7 @@ private:
   //! liste de TOUS les tags
   TagList tag_lst;
   //! historique local
-  HistLocal *local_hist = NULL;
+  HistLocal *local_hist = nullptr;
   //!wipe Database
   /*!
    Attention il faut que la db soit ouverte.

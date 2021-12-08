@@ -4,34 +4,35 @@ Window::Window() : QMainWindow() {
     setWindowTitle("Gestionnaire de contact");
     setMinimumSize(800,800);
 
+    cata.loadDataBase();
+
     QWidget *w = new QWidget();
-    stackedLay = new QStackedLayout;
-    stackedLay->addWidget(mainwin());
-    stackedLay->addWidget(contactwin());
+        stackedLay = new QStackedLayout;
+            stackedLay->addWidget(mainwin());
+            stackedLay->addWidget(contactwin());
     w->setLayout(stackedLay);
     setCentralWidget(w);
 }
 
 QWidget* Window::mainwin() {
     QWidget *w = new QWidget();
-    QListWidget *qlw = new QListWidget();
-    qlw->setStyleSheet("QListWidget {border : 2px solid black;background : lightgreen; font-size: 50px;}"
-                       "QListWidget QScrollBar {background : lightblue;}"
-                       "QListView::item:selected {border : 2px solid black;background : green;}");
-    for (int t=0; t<50; t++) {
-        QListWidgetItem *tmp = new QListWidgetItem("item "+QString::number(t));
-        tmp->setTextAlignment(Qt::AlignHCenter);
-        //tmp->setSizeHint(QSize(0,200));
-        linkContact[tmp] = "merde "+QString::number(t);
-        qlw->addItem(tmp);
-    }
-    QPushButton *addContact = new QPushButton("Ajouter un Contact",this);
-    QVBoxLayout *lay = new QVBoxLayout;
-    lay->addWidget(qlw);
-    lay->addWidget(addContact);
+        widgetListContact = new QListWidget();
+            widgetListContact->setStyleSheet("QListWidget {border : 2px solid black;background : lightgreen; font-size: 50px;}"
+                               "QListWidget QScrollBar {background : lightblue;}"
+                               "QListView::item:selected {border : 2px solid black;background : green;}");
+            for (Contact* c: *cata.getContactLst()) {
+                QListWidgetItem *tmp = new QListWidgetItem(QString::fromStdString(c->getFirstName()+" "+c->getLastName()));
+                tmp->setTextAlignment(Qt::AlignHCenter);
+                linkContact[tmp] = c;
+                widgetListContact->addItem(tmp);
+            }
+        QPushButton *addContact = new QPushButton("Ajouter un Contact",this);
+        QVBoxLayout *lay = new QVBoxLayout;
+            lay->addWidget(widgetListContact);
+            lay->addWidget(addContact);
     w->setLayout(lay);
 
-    QObject::connect(qlw, SIGNAL(itemDoubleClicked(QListWidgetItem*)),this, SLOT(printContact(QListWidgetItem*)));
+    QObject::connect(widgetListContact, SIGNAL(itemDoubleClicked(QListWidgetItem*)),this, SLOT(printContact(QListWidgetItem*)));
     QObject::connect(addContact, SIGNAL(clicked()),this, SLOT(stackSwitch()));
 
     return w;
@@ -39,46 +40,60 @@ QWidget* Window::mainwin() {
 
 QWidget* Window::contactwin() {
     QWidget *w = new QWidget();
-
-    QLabel *photo = new QLabel("pathPicture");
-    photo->setPixmap(QPixmap("../file/picture.png"));
-    QLineEdit *firstName = new QLineEdit("Dupont");
-    QLineEdit *lastName = new QLineEdit("Jean");
-    QLineEdit *entreprise = new QLineEdit("Orange");
-    QLineEdit *mail = new QLineEdit("jeanDupont@example.com");
-    QLineEdit *phone = new QLineEdit("06...");
-    QListWidget *list_interaction = new QListWidget();
-    for (int t=0; t<50; t++)
-        list_interaction->addItem("Interaction "+QString::number(t));
-    QPushButton *save = new QPushButton("Enregistrer");
-    QObject::connect(save, SIGNAL(clicked()), this, SLOT(stackSwitch()));
-
-    QFormLayout *l1 = new QFormLayout;
-    l1->addRow("Prénom", firstName);
-    l1->addRow("Nom", lastName);
-    l1->addRow("Entreprise", entreprise);
-    l1->addRow("Mail", mail);
-    l1->addRow("Téléphone", phone);
-    QVBoxLayout *l2 = new QVBoxLayout;
-    l2->addWidget(photo);
-    l2->addLayout(l1);
-    QVBoxLayout *l3 = new QVBoxLayout;
-    l3->addWidget(new QLabel("Interactions :"));
-    l3->addWidget(list_interaction);
-    QHBoxLayout *l4 = new QHBoxLayout;
-    l4->addLayout(l2);
-    l4->addLayout(l3);
-    QVBoxLayout *l5 = new QVBoxLayout;
-    l5->addLayout(l4);
-    l5->addWidget(save);
+        QPushButton *save = new QPushButton("Enregistrer");
+        QFormLayout *l1 = new QFormLayout;
+        l1->addRow("Prénom", widgetFirstName);
+        l1->addRow("Nom", widgetLastName);
+        l1->addRow("Entreprise", widgetEntreprise);
+        l1->addRow("Mail", widgetMail);
+        l1->addRow("Téléphone", widgetPhone);
+        QVBoxLayout *l2 = new QVBoxLayout;
+        l2->addWidget(widgetPhoto);
+        l2->addLayout(l1);
+        QVBoxLayout *l3 = new QVBoxLayout;
+        l3->addWidget(new QLabel("Interactions :"));
+        l3->addWidget(widgetListInteraction);
+        QHBoxLayout *l4 = new QHBoxLayout;
+        l4->addLayout(l2);
+        l4->addLayout(l3);
+        QVBoxLayout *l5 = new QVBoxLayout;
+        l5->addLayout(l4);
+        l5->addWidget(save);
     w->setLayout(l5);
+
+    QObject::connect(save, SIGNAL(clicked()), this, SLOT(stackSwitch()));
 
     return w;
 }
 
+void Window::printContact(QString photo = "../file/picture.png",
+                          QString first = "Dupont", QString last = "Jean", QString ent = "ExampleEnterprise",
+                          QString mail = "jeanDupont@example.com", QString phone = "06...",
+                          std::list<Interaction*>* li = nullptr) {
+    widgetPhoto->setPixmap(QPixmap(photo));
+    widgetFirstName->setText(first);
+    widgetLastName->setText(last);
+    widgetEntreprise->setText(ent);
+    widgetMail->setText(mail);
+    widgetPhone->setText(phone);
+    widgetListInteraction->clear();
+    if (li!=nullptr)
+        for (Interaction* i: *li)
+            widgetListInteraction->addItem(QString::fromStdString(i->getContenu()));
+}
+
+void Window::printContact(Contact* c) {
+    printContact(QString::fromStdString(c->getPathPicture()),
+                 QString::fromStdString(c->getFirstName()),
+                 QString::fromStdString(c->getLastName()),
+                 QString::fromStdString(c->getEnterprise()),
+                 QString::fromStdString(c->getMail()),
+                 QString::fromStdString(c->getPhone()));
+}
+
 void Window::printContact(QListWidgetItem* c) {
-    stackSwitch();
-    std::cout << linkContact[c].toStdString() << std::endl;
+    printContact(linkContact[c]);
+    stackedLay->setCurrentIndex(1);
 }
 
 void Window::stackSwitch() {
