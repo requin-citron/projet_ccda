@@ -6,10 +6,31 @@ Window::Window() : QMainWindow() {
 
     cata.loadDataBase();
 
+    QMenu *importer = menuBar()->addMenu("Importer");
+        QAction *bdd = new QAction("BDD");
+            importer->addAction(bdd);
+        QAction *picture = new QAction("Photos de profils");
+            importer->addAction(picture);
+    QMenu *exporter = menuBar()->addMenu("Exporter");
+        QAction *json = new QAction("Json");
+            exporter->addAction(json);
+            json->setShortcut(QKeySequence("Ctrl+s"));
+    QMenu *langue = menuBar()->addMenu("Langue");
+        QAction *fr = new QAction("Français");
+            langue->addAction(fr);
+            fr->setCheckable(true);
+            fr->setChecked(true);
+        QAction *en = new QAction("Anglais");
+            langue->addAction(en);
+            en->setCheckable(true);
     QWidget *w = new QWidget();
         stackedLay = new QStackedLayout;
             stackedLay->addWidget(mainwin());
             stackedLay->addWidget(contactwin());
+    QToolBar *toolBarRech = addToolBar("Recherche");
+    QLineEdit *rech = new QLineEdit("rech...");
+    toolBarRech->addWidget(rech);
+    toolBarRech->addSeparator();
     w->setLayout(stackedLay);
     setCentralWidget(w);
 }
@@ -27,9 +48,13 @@ QWidget* Window::mainwin() {
                 widgetListContact->addItem(tmp);
             }
         QPushButton *addContact = new QPushButton("Ajouter un Contact",this);
+        QPushButton *histori = new QPushButton("Historique");
+        QGridLayout *gri = new QGridLayout;
+        gri->addWidget(addContact,0,0,1,3);
+        gri->addWidget(histori,0,3);
         QVBoxLayout *lay = new QVBoxLayout;
             lay->addWidget(widgetListContact);
-            lay->addWidget(addContact);
+            lay->addLayout(gri);
     w->setLayout(lay);
 
     QObject::connect(widgetListContact, SIGNAL(itemDoubleClicked(QListWidgetItem*)),this, SLOT(printContact(QListWidgetItem*)));
