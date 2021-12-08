@@ -11,10 +11,11 @@ ContactCatalog::~ContactCatalog(){
   }
 }
 
-void ContactCatalog::addContact(std::string firstName, std::string lastName, std::string enterprise, std::string mail, std::string phone, std::string pathPicture){
+Contact* ContactCatalog::addContact(std::string firstName, std::string lastName, std::string enterprise, std::string mail, std::string phone, std::string pathPicture){
   Contact *c = new Contact(firstName, lastName, enterprise, mail, phone, pathPicture, &(this->tag_lst));
   this->local_hist->insertHist(c,CREATE_CONTACT);
   this->contact_lst.push_back(c);
+  return c;
 }
 
 std::list<Contact*>* ContactCatalog::getContactLst(){
@@ -60,7 +61,7 @@ void ContactCatalog::initDbConnexion(){
 void ContactCatalog::eraseDbConnexion(){
     const QString name = this->db.connectionName();
     this->db.close();
-    QSqlDatabase::removeDatabase(name);
+    //QSqlDatabase::removeDatabase(name);
 }
 
 void ContactCatalog::saveDataBase(){
@@ -167,9 +168,9 @@ void ContactCatalog::loadDataBase(){
     QVariant magie;
     QVariant magie1;
     while (query.next()) {
-        tmp = new Contact((size_t)query.value(0).toInt(), query.value(2).toString().toStdString(),\
-                    query.value(3).toString().toStdString(), query.value(3).toString().toStdString(),\
-                    query.value(1).toString().toStdString(), query.value(5).toString().toStdString(),\
+        tmp = new Contact((size_t)query.value(0).toInt(), query.value(2).toString().toStdString(),
+                    query.value(3).toString().toStdString(), query.value(3).toString().toStdString(),
+                    query.value(1).toString().toStdString(), query.value(5).toString().toStdString(),
                     query.value(6).toString().toStdString(),&this->tag_lst);
         // les injection sql pas pour nous
         magie.setValue(tmp->getId());
