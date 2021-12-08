@@ -66,8 +66,9 @@ public:
     \param mail email
     \param phone numéro de téléphone
     \param pathPicture URI de la photo
+    \return le contact
   */
-  void addContact(std::string firstName, std::string lastName, std::string enterprise, std::string mail, std::string phone, std::string pathPicture);
+  Contact* addContact(std::string firstName, std::string lastName, std::string enterprise, std::string mail, std::string phone, std::string pathPicture);
   //! renvoie la list de contact
   /*!
     \return pointeur sur une list de contacts

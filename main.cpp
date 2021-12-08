@@ -34,11 +34,13 @@ int main(int argc, char *argv[]) {
   //runTestsCase();
 
   QApplication a(argc, argv);
+
   Window w;
   w.show();
-  a.exec();
 
-  return 0;
+  //cata.saveDataBase();
+
+  return a.exec();
 }
 
 void showHist(ContactCatalog *cata){

@@ -14,6 +14,9 @@ public:
 public slots:
     void stackSwitch();
     void printContact(QListWidgetItem* c);
+    void createContact();
+    void saveContact();
+    void choosePhoto();
 private:
     QWidget* mainwin();
     QWidget* contactwin();
@@ -22,12 +25,14 @@ private:
                               QString mail = "jeanDupont@example.com", QString phone = "06...",
                               std::list<Interaction*>* li = nullptr);
     void printContact(Contact* c);
+    Contact *currentContact = nullptr;
+    QListWidgetItem *currentWidgetItem = nullptr;
     QStackedLayout *stackedLay;
     ContactCatalog cata;
     QListWidget *widgetListContact = new QListWidget();
     std::map<QListWidgetItem*,Contact*> linkContact;
 
-    QLabel *widgetPhoto = new QLabel("pathPicture");
+    QPushButton *widgetPhoto = new QPushButton();
     QLineEdit *widgetFirstName = new QLineEdit();
     QLineEdit *widgetLastName = new QLineEdit();
     QLineEdit *widgetEntreprise = new QLineEdit();

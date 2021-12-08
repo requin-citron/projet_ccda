@@ -33,7 +33,7 @@ QWidget* Window::mainwin() {
     w->setLayout(lay);
 
     QObject::connect(widgetListContact, SIGNAL(itemDoubleClicked(QListWidgetItem*)),this, SLOT(printContact(QListWidgetItem*)));
-    QObject::connect(addContact, SIGNAL(clicked()),this, SLOT(stackSwitch()));
+    QObject::connect(addContact, SIGNAL(clicked()),this, SLOT(createContact()));
 
     return w;
 }
@@ -62,13 +62,36 @@ QWidget* Window::contactwin() {
         l5->addWidget(save);
     w->setLayout(l5);
 
-    QObject::connect(save, SIGNAL(clicked()), this, SLOT(stackSwitch()));
+    QObject::connect(save, SIGNAL(clicked()), this, SLOT(saveContact()));
+    QObject::connect(widgetPhoto, SIGNAL(clicked()), this, SLOT(choosePhoto()));
 
     return w;
 }
 
+void Window::choosePhoto() {
+    QString fichier = QFileDialog::getOpenFileName(this, "Choisie l'image", QString(), "Images (*.png *.jpg *.jpeg)");
+    QPixmap pixmap(fichier);
+    if (pixmap.isNull()) {
+        widgetPhoto->setText("Choisir une photo");
+        widgetPhoto->setIcon(QIcon());
+    } else {
+        currentContact->setPathPicture(fichier.toStdString());
+        widgetPhoto->setText("");
+        widgetPhoto->setIcon(QIcon(pixmap));
+        widgetPhoto->setIconSize(pixmap.rect().size());
+    }
+}
+
 void Window::printContact(QString photo, QString first, QString last, QString ent, QString mail, QString phone, std::list<Interaction*>* li) {
-    widgetPhoto->setPixmap(QPixmap(photo));
+    QPixmap pixmap(photo);
+    if (pixmap.isNull()) {
+        widgetPhoto->setText("Choisir une photo");
+        widgetPhoto->setIcon(QIcon());
+    } else {
+        widgetPhoto->setText("");
+        widgetPhoto->setIcon(QIcon(pixmap));
+        widgetPhoto->setIconSize(pixmap.rect().size());
+    }
     widgetFirstName->setText(first);
     widgetLastName->setText(last);
     widgetEntreprise->setText(ent);
@@ -77,7 +100,7 @@ void Window::printContact(QString photo, QString first, QString last, QString en
     widgetListInteraction->clear();
     if (li!=nullptr)
         for (Interaction* i: *li)
-            widgetListInteraction->addItem(QString::fromStdString(i->getContenu()));
+            widgetListInteraction->addItem(QString::fromStdString("\tInter ("+std::to_string(i->getId())+")\n"+i->getContenu()));
 }
 
 void Window::printContact(Contact* c) {
@@ -90,11 +113,42 @@ void Window::printContact(Contact* c) {
 }
 
 void Window::printContact(QListWidgetItem* c) {
+    currentWidgetItem = c;
+    currentContact = linkContact[c];
     printContact(linkContact[c]);
     stackedLay->setCurrentIndex(1);
 }
 
+void Window::createContact() {
+    currentContact = cata.addContact("Dupont","Jean","ExampleEnterprise","jeanDupont@example.com","06...","../file/picture.png");
+    currentWidgetItem = nullptr;
+    printContact(currentContact);
+    stackedLay->setCurrentIndex(1);
+}
+
+void Window::saveContact() {
+    stackedLay->setCurrentIndex(0);
+    currentContact->setFirstName(widgetFirstName->text().toStdString());
+    currentContact->setLastName(widgetLastName->text().toStdString());
+    currentContact->setEnterprise(widgetEntreprise->text().toStdString());
+    currentContact->setMail(widgetMail->text().toStdString());
+    currentContact->setPhone(widgetPhone->text().toStdString());
+    if (currentWidgetItem==nullptr) {
+        QListWidgetItem *tmp = new QListWidgetItem(QString::fromStdString(currentContact->getFirstName()+" "+currentContact->getLastName()));
+        tmp->setTextAlignment(Qt::AlignHCenter);
+        linkContact[tmp] = currentContact;
+        widgetListContact->addItem(tmp);
+    }
+    else {
+        currentWidgetItem->setText(QString::fromStdString(currentContact->getFirstName()+" "+currentContact->getLastName()));
+    }
+    currentContact = nullptr;
+    currentWidgetItem=nullptr;
+}
+
 void Window::stackSwitch() {
+    currentContact = cata.addContact("../file/picture.png","Dupont","Jean","ExampleEnterprise","jeanDupont@example.com","06...");
+    printContact(currentContact);
     if (stackedLay->currentIndex()==1)
         stackedLay->setCurrentIndex(0);
     else
