@@ -25,6 +25,7 @@ void testDate();
 void testTodo();
 void testDBSave();
 void testDBImport();
+void testJsonSave();
 void runTestsCase();
 
 //tests cases
@@ -308,6 +309,15 @@ void testDBImport(){
     cout << "testDBImport --------------------------------------------END" << endl;
 }
 
+void testJsonSave(){
+    cout << "testJsonSave ------------------------------------------------" << endl;
+    ContactCatalog cata;
+    cata.loadDataBase();
+    cata.saveJson();
+    cout << "testJsonSave --------------------------------------------END" << endl;
+}
+
+
 void runTestsCase() {
     TagList t;
     contactInteractionTestCase(&t);
@@ -320,4 +330,5 @@ void runTestsCase() {
     testTodo();
     testDBSave();
     testDBImport();
+    testJsonSave();
 }

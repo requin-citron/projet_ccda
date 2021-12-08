@@ -43,18 +43,28 @@ void ContactCatalog::cleanDataBase(){
     }
 }
 
-void ContactCatalog::saveDataBase(){
+void ContactCatalog::initDbConnexion(){
     const QString DRIVER("QSQLITE");
     if(!QSqlDatabase::isDriverAvailable(DRIVER)){
         qWarning() << "Error: SQL DRIVER unavailable";
         exit(1);
     }
-    QSqlDatabase db =  QSqlDatabase::addDatabase(DRIVER);
-    db.setDatabaseName(DATABASE_NAME);
-    if(!db.open()){
-        qWarning() << "Error: " << db.lastError();
+    this->db =  QSqlDatabase::addDatabase(DRIVER);
+    this->db.setDatabaseName(DATABASE_NAME);
+    if(!this->db.open()){
+        qWarning() << "Error: " << this->db.lastError();
         exit(1);
     }
+}
+
+void ContactCatalog::eraseDbConnexion(){
+    const QString name = this->db.connectionName();
+    this->db.close();
+    QSqlDatabase::removeDatabase(name);
+}
+
+void ContactCatalog::saveDataBase(){
+    this->initDbConnexion();
     //clean database
     this->cleanDataBase();
     QSqlQuery query;
@@ -139,22 +149,11 @@ void ContactCatalog::saveDataBase(){
             }
         }
     }
-
-    db.close();
+    this->eraseDbConnexion();
 }
 
 void ContactCatalog::loadDataBase(){
-    const QString DRIVER("QSQLITE");
-    if(!QSqlDatabase::isDriverAvailable(DRIVER)){
-        qWarning() << "Error: SQL DRIVER unavailable";
-        exit(1);
-    }
-    QSqlDatabase db =  QSqlDatabase::addDatabase(DRIVER);
-    db.setDatabaseName(DATABASE_NAME);
-    if(!db.open()){
-        qWarning() << "Error: " << db.lastError();
-        exit(1);
-    }
+    this->initDbConnexion();
     //importation des contacts
     QSqlQuery query;
     QSqlQuery query1;
@@ -168,19 +167,11 @@ void ContactCatalog::loadDataBase(){
     QVariant magie;
     QVariant magie1;
     while (query.next()) {
-        tmp = new Contact((size_t)query.value(0).toInt(), query.value(1).toString().toStdString(),\
-                    query.value(2).toString().toStdString(), query.value(3).toString().toStdString(),\
-                    query.value(4).toString().toStdString(), query.value(5).toString().toStdString(),\
+        tmp = new Contact((size_t)query.value(0).toInt(), query.value(2).toString().toStdString(),\
+                    query.value(3).toString().toStdString(), query.value(3).toString().toStdString(),\
+                    query.value(1).toString().toStdString(), query.value(5).toString().toStdString(),\
                     query.value(6).toString().toStdString(),&this->tag_lst);
         // les injection sql pas pour nous
-        // gestion global hist
-        if(!query1.exec("SELECT contenue, dt from history_global;")){
-            qWarning() << "Error: SQL DRIVER unavailable";
-            exit(1);
-        }
-        while(query1.next()){
-            this->local_hist->insertHist(query1.value(0).toString().toStdString(), query1.value(1).toString().toStdString());
-        }
         magie.setValue(tmp->getId());
         // gestion historique
         query1.prepare("SELECT contenue, dt FROM history_contact WHERE id_contact=:chevalo;");
@@ -232,6 +223,108 @@ void ContactCatalog::loadDataBase(){
          }
          this->contact_lst.push_back(tmp);
     }
+    // gestion global hist
+    if(!query1.exec("SELECT contenue, dt from history_global;")){
+        qWarning() << "Error: SQL DRIVER unavailable";
+        exit(1);
+    }
+    while(query1.next()){
+        this->local_hist->insertHist(query1.value(0).toString().toStdString(), query1.value(1).toString().toStdString());
+    }
+    this->eraseDbConnexion();
+}
 
-    db.close();
+void ContactCatalog::saveJson(){
+    QJsonObject jsonObj;
+    // global array
+    QJsonArray *jsonArray = new QJsonArray();
+    //interaction and hist array
+    QJsonArray *jsonArrayInteraction = NULL;
+    // todo and tags array
+    QJsonArray *jsonArrayTags = NULL;
+    QByteArray byteArray;
+    QJsonObject *tmp_contact = NULL;
+    //aussi pour historique
+    QJsonObject *tmp_interaction = NULL;
+    QJsonObject *tmp_todo = NULL;
+    for(auto &it:this->contact_lst){
+        tmp_contact = new QJsonObject();
+        jsonArrayInteraction = new QJsonArray();
+        (*tmp_contact)["prenom"] = QString::fromStdString(it->getFirstName());
+        (*tmp_contact)["nom"] = QString::fromStdString(it->getLastName());
+        (*tmp_contact)["entreprise"] = QString::fromStdString(it->getEnterprise());
+        (*tmp_contact)["mail"] = QString::fromStdString(it->getMail());
+        (*tmp_contact)["phone"] = QString::fromStdString(it->getPhone());
+        (*tmp_contact)["pathPicture"] = QString::fromStdString(it->getPathPicture());
+        for(auto &ot: *it->getInteractionLst()){
+            tmp_interaction = new QJsonObject();
+            (*tmp_interaction)["contenue"] = QString::fromStdString(ot->getContenu());
+            //tag loop
+            jsonArrayTags = new QJsonArray();
+            for(auto &lt: *ot->getTags()){
+                jsonArrayTags->append(QString::fromStdString(lt->getName()));
+            }
+            (*tmp_interaction)["tags"] = *jsonArrayTags;
+            delete  jsonArrayTags;
+            //todo loop
+            jsonArrayTags = new QJsonArray();
+            for(auto &lt: *ot->getTodo()){
+                tmp_todo = new QJsonObject();
+                (*tmp_todo)["contenue"] = QString::fromStdString(lt->first);
+                if(lt->second!=NULL){
+                    (*tmp_todo)["date"] = QString::fromStdString(lt->second->printAll());
+                }else{
+                    (*tmp_todo)["date"];
+                }
+                jsonArrayTags->append(*tmp_todo);
+                delete tmp_todo;
+            }
+            (*tmp_interaction)["todo"] = *jsonArrayTags;
+            delete  jsonArrayTags;
+            //hist loop
+            jsonArrayTags = new QJsonArray();
+            for(auto &lt: *ot->getHist()->getLst()){
+                tmp_todo = new QJsonObject();
+                (*tmp_todo)["contenue"] = QString::fromStdString(lt->first);
+                (*tmp_todo)["date"] = QString::fromStdString(lt->second.printAll());
+                jsonArrayTags->append(*tmp_todo);
+                delete tmp_todo;
+            }
+            (*tmp_interaction)["historique"] = *jsonArrayTags;
+            delete  jsonArrayTags;
+            //fin hist
+            (*jsonArrayInteraction).append(*tmp_interaction);
+            delete tmp_interaction;
+        }
+        (*tmp_contact)["interactions"] = *jsonArrayInteraction;
+        // historique
+        delete jsonArrayInteraction;
+        jsonArrayInteraction = new QJsonArray();
+        for(auto &ot: *it->getHist()->getLst()){
+            tmp_interaction = new QJsonObject();
+            (*tmp_interaction)["contenue"] = QString::fromStdString(ot->first);
+            (*tmp_interaction)["date"] = QString::fromStdString(ot->second.printAll());
+            jsonArrayInteraction->append(*tmp_interaction);
+            delete tmp_interaction;
+        }
+        (*tmp_contact)["historique"] = *jsonArrayInteraction;
+        jsonArray->append(*tmp_contact);
+        delete tmp_contact;
+        delete jsonArrayInteraction;
+    }
+    jsonObj["contacts"] = *jsonArray;
+    delete jsonArray;
+    jsonArray = new QJsonArray();
+    //global hist
+    for(auto &it: *this->getHist()->getLst()){
+       tmp_contact = new QJsonObject();
+       (*tmp_contact)["contenue"] = QString::fromStdString(it->first);
+       (*tmp_contact)["date"] = QString::fromStdString(it->second.printAll());
+       jsonArray->append(*tmp_contact);
+       delete tmp_contact;
+    }
+    jsonObj["historique"]=*jsonArray;
+    delete jsonArray;
+    byteArray = QJsonDocument(jsonObj).toJson();
+    std::cout << byteArray.toStdString() << std::endl;
 }
