@@ -31,6 +31,8 @@ Window::Window() : QMainWindow() {
     QLineEdit *rech = new QLineEdit("rech...");
     toolBarRech->addWidget(rech);
     toolBarRech->addSeparator();
+    toolBarRech->addWidget(new QPushButton("Historique"));
+    toolBarRech->addSeparator();
     w->setLayout(stackedLay);
     setCentralWidget(w);
 }
