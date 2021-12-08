@@ -5,17 +5,18 @@
 #include "contactwindow.h"
 #include <iostream>
 
-class Window : public QWidget
+class Window : public QMainWindow
 {
     Q_OBJECT
 public:
     Window();
 public slots:
-    void switchStack();
+    void stackSwitch();
+    void printContact(QListWidgetItem* c);
 private:
     QWidget* mainwin();
     QWidget* contactwin();
-
+    std::map<QListWidgetItem*,QString> linkContact;
     QStackedLayout *stackedLay;
 };
 
