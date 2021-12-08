@@ -17,7 +17,10 @@ public slots:
 private:
     QWidget* mainwin();
     QWidget* contactwin();
-    void printContact(QString photo, QString first, QString last, QString ent, QString mail, QString phone, std::list<Interaction*>* li);
+    void printContact(QString photo = "../file/picture.png",
+                              QString first = "Dupont", QString last = "Jean", QString ent = "ExampleEnterprise",
+                              QString mail = "jeanDupont@example.com", QString phone = "06...",
+                              std::list<Interaction*>* li = nullptr);
     void printContact(Contact* c);
     QStackedLayout *stackedLay;
     ContactCatalog cata;
