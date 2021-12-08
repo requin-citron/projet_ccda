@@ -9,6 +9,14 @@
 #include <QSqlQuery>
 #include <QString>
 #include <QDebug>
+//json specific
+#include <QJsonParseError>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QJsonParseError>
+#include <QJsonValue>
+
 #include "contact.hpp"
 #include "interaction.hpp"
 #include "tag.hpp"
@@ -30,7 +38,14 @@ private:
   //! liste de TOUS les tags
   TagList tag_lst;
   //! historique local
-  HistLocal *local_hist = nullptr;
+  HistLocal *local_hist = NULL;
+  //! connexion a la bdd
+  QSqlDatabase db;
+  //! crée une connexion a la base de donnee
+  void initDbConnexion();
+  //! supprime la connexion a la base de donnee
+  void eraseDbConnexion();
+
   //!wipe Database
   /*!
    Attention il faut que la db soit ouverte.
@@ -72,6 +87,9 @@ public:
   void saveDataBase();
   //! importation de la base de donnée
   void loadDataBase();
+  //! sauvegarde en json
+    void saveJson();
+
 };
 
 #endif
