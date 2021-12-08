@@ -40,6 +40,7 @@ QWidget* Window::mainwin() {
 
 QWidget* Window::contactwin() {
     QWidget *w = new QWidget();
+        printContact();
         QPushButton *save = new QPushButton("Enregistrer");
         QFormLayout *l1 = new QFormLayout;
         l1->addRow("Prénom", widgetFirstName);
@@ -66,10 +67,7 @@ QWidget* Window::contactwin() {
     return w;
 }
 
-void Window::printContact(QString photo = "../file/picture.png",
-                          QString first = "Dupont", QString last = "Jean", QString ent = "ExampleEnterprise",
-                          QString mail = "jeanDupont@example.com", QString phone = "06...",
-                          std::list<Interaction*>* li = nullptr) {
+void Window::printContact(QString photo, QString first, QString last, QString ent, QString mail, QString phone, std::list<Interaction*>* li) {
     widgetPhoto->setPixmap(QPixmap(photo));
     widgetFirstName->setText(first);
     widgetLastName->setText(last);
@@ -88,7 +86,7 @@ void Window::printContact(Contact* c) {
                  QString::fromStdString(c->getLastName()),
                  QString::fromStdString(c->getEnterprise()),
                  QString::fromStdString(c->getMail()),
-                 QString::fromStdString(c->getPhone()));
+                 QString::fromStdString(c->getPhone()),c->getInteractionLst());
 }
 
 void Window::printContact(QListWidgetItem* c) {
