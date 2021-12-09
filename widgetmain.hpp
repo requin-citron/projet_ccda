@@ -15,7 +15,7 @@ public:
 private:
     ContactCatalog *cata;
     QListWidget *widgetListContact = new QListWidget();
-    std::vector<QListWidgetItem*> listItem;
+    std::vector<QListWidgetItem*> listItem; // INUTIL JE CROISSSSS widgetListContact.item(0)
     size_t getIndexContact(Contact* c);
     size_t getIndexItem(QListWidgetItem* i);
     Contact* getContact(size_t t);

@@ -34,14 +34,15 @@ Window::Window() : QMainWindow() {
     wm = new WidgetMain(&cata);
     wc = new WidgetContact();
     wh = new WidgetHist();
+    wi = new WidgetInter();
     layStacked = new QStackedLayout;
     layStacked->addWidget(wm);
     layStacked->addWidget(wc);
     layStacked->addWidget(wh);
+    layStacked->addWidget(wi);
     QWidget *container = new QWidget();
     container->setLayout(layStacked);
     setCentralWidget(container);
-
     QObject::connect(actionQuitter, SIGNAL(triggered()), qApp, SLOT(quit()));
     QObject::connect(actionPicture, SIGNAL(triggered()), wc, SLOT(changePathPicture()));
     QObject::connect(actionJson, SIGNAL(triggered()), this, SLOT(saveJson()));
@@ -51,6 +52,7 @@ Window::Window() : QMainWindow() {
     QObject::connect(wm, SIGNAL(printContact(Contact*)), this, SLOT(editContact(Contact*)));
     QObject::connect(wc, SIGNAL(refreshContact(Contact*)), this, SLOT(changeFocusMain(Contact*)));
     QObject::connect(wc, SIGNAL(removeContact(Contact*)), this, SLOT(removeContact(Contact*)));
+    QObject::connect(wc, SIGNAL(printInter(Interaction*)), this, SLOT(editInter(Interaction*)));
     QObject::connect(wh, SIGNAL(quitterHist()), this, SLOT(quitterHist()));
 }
 
@@ -88,6 +90,11 @@ std::string Window::initPathBdd() {
 void Window::editContact(Contact* c) {
     wc->configContact(c);
     layStacked->setCurrentWidget(wc);
+}
+
+void Window::editInter(Interaction* i) {
+    wi->configInter(i);
+    layStacked->setCurrentWidget(wi);
 }
 
 void Window::changeFocusMain(Contact* c) {
