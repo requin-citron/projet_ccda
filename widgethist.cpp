@@ -14,7 +14,7 @@ WidgetHist::WidgetHist() : QWidget() {
 void WidgetHist::configHist(HistLocal* h) {
     widgetListHist->clear();
     for (auto cur: *h->getLst())
-        widgetListHist->addItem(QString::fromStdString(cur->second.printAll()+"> "+cur->first));
+        widgetListHist->addItem(QString::fromStdString(cur->second.print()+"> "+cur->first));
 }
 
 void WidgetHist::quitter() {
