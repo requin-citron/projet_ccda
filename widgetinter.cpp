@@ -1,6 +1,5 @@
 #include "widgetinter.hpp"
 
-WidgetInter::WidgetInter()
-{
+WidgetInter::WidgetInter() : QWidget() {
 
 }
