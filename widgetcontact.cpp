@@ -30,7 +30,8 @@ WidgetContact::WidgetContact() : QWidget() {
     QObject::connect(widgetLastName, SIGNAL(editingFinished()), this, SLOT(changeContact()));
     QObject::connect(widgetEntreprise, SIGNAL(editingFinished()), this, SLOT(changeContact()));
     QObject::connect(widgetMail, SIGNAL(editingFinished()), this, SLOT(changeContact()));
-    QObject::connect(widgetPhone, SIGNAL(clicked()), this, SLOT(choosePhoto()));
+    QObject::connect(widgetPhone, SIGNAL(editingFinished()), this, SLOT(changeContact()));
+    QObject::connect(widgetPhoto, SIGNAL(clicked()), this, SLOT(choosePhoto()));
     QObject::connect(widgetSave, SIGNAL(clicked()), this, SLOT(quitter()));
     QObject::connect(widgetDel, SIGNAL(clicked()), this, SLOT(deleteContact()));
 }
@@ -81,7 +82,7 @@ void WidgetContact::changeContact() {
 
 void WidgetContact::deleteContact() {emit removeContact(currentContact);}
 
-void WidgetContact::choosePhoto() { // trop backup...
+void WidgetContact::choosePhoto() {
     QString fichier = QFileDialog::getOpenFileName(this, "Choisie l'image", QString::fromStdString(url), "Images (*.png *.jpg *.jpeg)");
     QPixmap pixmap(fichier);
     if (pixmap.isNull()) {
@@ -91,6 +92,7 @@ void WidgetContact::choosePhoto() { // trop backup...
         int ind = fichier.lastIndexOf('/')+1;
         QString urlTmp = fichier.left(ind);
         QString nameFile = fichier.right(fichier.size()-ind);
+        std::cout << urlTmp.toStdString() << " " << url << std::endl;
         if (urlTmp.toStdString()==url)
             currentContact->setPathPicture(nameFile.toStdString());
         else {
@@ -105,5 +107,4 @@ void WidgetContact::choosePhoto() { // trop backup...
 
 void WidgetContact::changePathPicture() {
     url = QFileDialog::getExistingDirectory(this, "Renseignez la position du fichier d'image", QString::fromStdString(url)).toStdString()+"/";
-    std::cout << url << std::endl;
 }
