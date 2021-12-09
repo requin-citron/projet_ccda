@@ -29,6 +29,7 @@ private slots:
     void changePathPicture();
     void changeContact();
     void printInter(QListWidgetItem* i);
+    void createInter();
 signals:
     void refreshContact(Contact *c);
     void removeContact(Contact *c);

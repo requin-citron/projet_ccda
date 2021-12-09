@@ -95,7 +95,7 @@ public:
     \param contenu contenu de l'interaction
     \param tag de l'interaction
   */
-  void addInteraction(std::string contenue, std::string tag);
+  Interaction* addInteraction(std::string contenue, std::string tag);
   /*! fonction pour ajouter une interaction Pour la bdd
     \param id identifiant de l'interaction
     \param contenu contenu de l'interaction
