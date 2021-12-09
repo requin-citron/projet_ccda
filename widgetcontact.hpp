@@ -10,6 +10,7 @@ class WidgetContact : public QWidget
 public:
     WidgetContact();
     void configContact(Contact* c);
+    Contact* getContact();
 private:
     std::string url = "../file/";
     Contact* currentContact = nullptr;

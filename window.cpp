@@ -88,10 +88,19 @@ void Window::removeContact(Contact* c) {
 
 void Window::printHist() {
     widgetHist->setEnabled(false);
-    wh->configHist(cata.getHist());
+    if (layStacked->currentWidget()==wm) {
+        wh->configHist(cata.getHist());
+        currentWidgetTmp = wm;
+    }
+    else {
+        wh->configHist(wc->getContact()->getHist());
+        currentWidgetTmp = wc;
+    }
     layStacked->setCurrentWidget(wh);
 }
 
 void Window::quitterHist() {
-    layStacked->setCurrentWidget(wm);
+    widgetHist->setEnabled(true);
+    layStacked->setCurrentWidget(currentWidgetTmp);
+    currentWidgetTmp = nullptr;
 }
