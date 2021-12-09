@@ -25,16 +25,9 @@ size_t WidgetMain::getIndexContact(Contact *c) {
     return t;
 }
 
-size_t WidgetMain::getIndexItem(QListWidgetItem* i) {
-    for (size_t t=0; t<listItem.size(); t++)
-        if (listItem[t]==i)
-            return t;
-    return 0;
-}
-
-Contact* WidgetMain::getContact(size_t t) {
+Contact* WidgetMain::getContact(int index) {
     for (Contact *tmp: *cata->getContactLst())
-        if (t--==0)
+        if (index--==0)
             return tmp;
     return nullptr;
 }
@@ -42,14 +35,11 @@ Contact* WidgetMain::getContact(size_t t) {
 void WidgetMain::newContact(Contact* c) {
     QListWidgetItem *tmp = new QListWidgetItem(QString::fromStdString(c->getFirstName()+" "+c->getLastName()+" ("+std::to_string(c->getId())+")"));
     tmp->setTextAlignment(Qt::AlignHCenter);
-    listItem.push_back(tmp);
     widgetListContact->addItem(tmp);
 }
 
 void WidgetMain::removeContact(Contact *c) {
-    size_t ind = getIndexContact(c);
-    widgetListContact->takeItem(static_cast<int>(ind));
-    listItem.erase(listItem.begin()+static_cast<int>(ind));
+    widgetListContact->takeItem(static_cast<int>(getIndexContact(c)));
     cata->eraseContact(c);
 }
 
@@ -60,11 +50,11 @@ void WidgetMain::createContact() {
 }
 
 void WidgetMain::refreshListWidget(Contact* c) {
-    listItem[getIndexContact(c)]->setText(QString::fromStdString(c->getFirstName()+" "+c->getLastName()+" ("+std::to_string(c->getId())+")"));
+    widgetListContact->item(static_cast<int>(getIndexContact(c)))->setText(QString::fromStdString(c->getFirstName()+" "+c->getLastName()+" ("+std::to_string(c->getId())+")"));
 }
 
 void WidgetMain::printContact(QListWidgetItem* i) {
-    Contact *c = getContact(getIndexItem(i));
+    Contact *c = getContact(widgetListContact->row(i));
     if (c!=nullptr)
         emit printContact(c);
 }
