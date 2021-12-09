@@ -7,9 +7,11 @@ WidgetContact::WidgetContact() : QWidget() {
     l1->addRow("Entreprise", widgetEntreprise);
     l1->addRow("Mail", widgetMail);
     l1->addRow("Téléphone", widgetPhone);
+    QPushButton *widgetNewInter = new QPushButton("Ajouter une interaction");
     QVBoxLayout *l2 = new QVBoxLayout;
     l2->addWidget(widgetPhoto);
     l2->addLayout(l1);
+    l2->addWidget(widgetNewInter);
     QVBoxLayout *l3 = new QVBoxLayout;
     l3->addWidget(new QLabel("Interactions :"));
     l3->addWidget(widgetListInteraction);
