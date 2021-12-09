@@ -11,10 +11,12 @@ class WidgetMain : public QWidget
 public:
     WidgetMain(ContactCatalog *cata);
     void refreshListWidget(Contact* c);
+    void removeContact(Contact* c);
 private:
     ContactCatalog *cata;
     QListWidget *widgetListContact = new QListWidget();
     std::vector<QListWidgetItem*> listItem;
+    size_t getIndexContact(Contact* c);
     void newContact(Contact* c);
 private slots:
     void createContact();
