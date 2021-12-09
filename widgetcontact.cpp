@@ -49,10 +49,11 @@ void WidgetContact::configContact(Contact* c) {
     widgetPhone->setText(QString::fromStdString(c->getPhone()));
     widgetListInteraction->clear();
     for (Interaction* i: *c->getInteractionLst()) {
-        QString tmp = QString::fromStdString("\tInter ("+std::to_string(i->getId())+")\n"+i->getContenu());
+        QString tmp = QString::fromStdString(i->getContenu());
         tmp.replace(tmp.indexOf("\n"),1,'-');
         if (tmp.size()>=20)
             tmp = tmp.left(20);
+        tmp = QString::fromStdString("\tInter ("+std::to_string(i->getId())+")\n")+tmp;
         widgetListInteraction->addItem(tmp);
     }
 }
