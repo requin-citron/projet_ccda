@@ -44,6 +44,7 @@ Window::Window() : QMainWindow() {
     QObject::connect(actionQuitter, SIGNAL(triggered()), qApp, SLOT(quit()));
     QObject::connect(wm, SIGNAL(wantNewContact(Contact*)), this, SLOT(editContact(Contact*)));
     QObject::connect(wc, SIGNAL(refreshContact(Contact*)), this, SLOT(changeFocusMain(Contact*)));
+    QObject::connect(wc, SIGNAL(removeContact(Contact*)), this, SLOT(removeContact(Contact*)));
 }
 
 Window::~Window() {
@@ -57,6 +58,11 @@ void Window::editContact(Contact* c) {
 
 void Window::changeFocusMain(Contact* c) {
     wm->refreshListWidget(c);
+    layStacked->setCurrentWidget(wm);
+}
+
+void Window::removeContact(Contact* c) {
+    wm->removeContact(c);
     layStacked->setCurrentWidget(wm);
 }
 

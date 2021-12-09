@@ -66,5 +66,5 @@ void WidgetContact::saveContact() {
 }
 
 void WidgetContact::deleteContact() {
-
+    emit removeContact(currentContact);
 }

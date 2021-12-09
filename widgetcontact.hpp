@@ -25,6 +25,7 @@ private slots:
     void deleteContact();
 signals:
     void refreshContact(Contact *c);
+    void removeContact(Contact *c);
 };
 
 #endif // WIDGETCONTACT_HPP
