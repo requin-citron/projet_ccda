@@ -9,8 +9,10 @@ class WidgetInter : public QWidget
     Q_OBJECT
 public:
     WidgetInter();
+    Interaction* getInter();
     void configInter(Interaction* i);
 private:
+    Interaction* currentInter = nullptr;
     QLabel *widgetNameContact = new QLabel("Dominique Marteau");
     QTextEdit *widgetContenu = new QTextEdit();
     QListWidget *widgetListTodo = new QListWidget();

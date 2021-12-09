@@ -113,6 +113,10 @@ void Window::printHist() {
         wh->configHist(cata.getHist());
         currentWidgetTmp = wm;
     }
+    else if (layStacked->currentWidget()==wi) {
+        wh->configHist(wi->getInter()->getHist());
+        currentWidgetTmp = wi;
+    }
     else {
         wh->configHist(wc->getContact()->getHist());
         currentWidgetTmp = wc;
