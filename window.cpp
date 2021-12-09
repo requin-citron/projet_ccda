@@ -41,6 +41,7 @@ Window::Window() : QMainWindow() {
 
     QObject::connect(actionQuitter, SIGNAL(triggered()), qApp, SLOT(quit()));
     QObject::connect(actionPicture, SIGNAL(triggered()), wc, SLOT(changePathPicture()));
+    QObject::connect(actionJson, SIGNAL(triggered()), this, SLOT(saveJson()));
     QObject::connect(wm, SIGNAL(printContact(Contact*)), this, SLOT(editContact(Contact*)));
     QObject::connect(wc, SIGNAL(refreshContact(Contact*)), this, SLOT(changeFocusMain(Contact*)));
     QObject::connect(wc, SIGNAL(removeContact(Contact*)), this, SLOT(removeContact(Contact*)));
@@ -48,6 +49,17 @@ Window::Window() : QMainWindow() {
 
 Window::~Window() {
     ;
+}
+
+void Window::saveJson() {
+    std::string text = cata.saveJson();
+    QString fileName = QFileDialog::getSaveFileName(this, "Sauvegarder en Json");
+    QFile file(fileName);
+    if (file.open(QIODevice::ReadWrite)) {
+        QTextStream stream(&file);
+        stream << QString::fromStdString(text) << endl;
+    }
+    std::cout << fileName.toStdString() << std::endl;
 }
 
 std::string Window::initPathBdd() {
