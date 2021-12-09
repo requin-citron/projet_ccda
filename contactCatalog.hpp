@@ -86,7 +86,7 @@ public:
   //! importation de la base de donnée
   void loadDataBase(std::string path);
   //! sauvegarde en json
-    void saveJson();
+  std::string saveJson();
 
 };
 

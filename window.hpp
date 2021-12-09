@@ -24,6 +24,7 @@ private slots:
     void editContact(Contact* c);
     void changeFocusMain(Contact* c);
     void removeContact(Contact* c);
+    void saveJson();
     /*public slots:
         void stackSwitch();
         void printContact(QListWidgetItem* c);

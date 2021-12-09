@@ -235,7 +235,7 @@ void ContactCatalog::loadDataBase(std::string path){
     this->eraseDbConnexion();
 }
 
-void ContactCatalog::saveJson(){
+std::string ContactCatalog::saveJson(){
     QJsonObject jsonObj;
     // global array
     QJsonArray *jsonArray = new QJsonArray();
@@ -327,5 +327,5 @@ void ContactCatalog::saveJson(){
     jsonObj["historique"]=*jsonArray;
     delete jsonArray;
     byteArray = QJsonDocument(jsonObj).toJson();
-    std::cout << byteArray.toStdString() << std::endl;
+    return byteArray.toStdString();
 }
