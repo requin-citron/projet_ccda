@@ -42,7 +42,7 @@ Window::Window() : QMainWindow() {
     setCentralWidget(container);
 
     QObject::connect(actionQuitter, SIGNAL(triggered()), qApp, SLOT(quit()));
-    QObject::connect(wm, SIGNAL(wantNewContact(Contact*)), this, SLOT(editContact(Contact*)));
+    QObject::connect(wm, SIGNAL(printContact(Contact*)), this, SLOT(editContact(Contact*)));
     QObject::connect(wc, SIGNAL(refreshContact(Contact*)), this, SLOT(changeFocusMain(Contact*)));
     QObject::connect(wc, SIGNAL(removeContact(Contact*)), this, SLOT(removeContact(Contact*)));
 }
