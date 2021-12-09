@@ -44,14 +44,14 @@ void ContactCatalog::cleanDataBase(){
     }
 }
 
-void ContactCatalog::initDbConnexion(){
+void ContactCatalog::initDbConnexion(std::string path){
     const QString DRIVER("QSQLITE");
     if(!QSqlDatabase::isDriverAvailable(DRIVER)){
         qWarning() << "Error: SQL DRIVER unavailable";
         exit(1);
     }
     this->db =  QSqlDatabase::addDatabase(DRIVER);
-    this->db.setDatabaseName(DATABASE_NAME);
+    this->db.setDatabaseName(QString::fromStdString(path));
     if(!this->db.open()){
         qWarning() << "Error: " << this->db.lastError();
         exit(1);
@@ -64,8 +64,8 @@ void ContactCatalog::eraseDbConnexion(){
     //QSqlDatabase::removeDatabase(name);
 }
 
-void ContactCatalog::saveDataBase(){
-    this->initDbConnexion();
+void ContactCatalog::saveDataBase(std::string path){
+    this->initDbConnexion(path);
     //clean database
     this->cleanDataBase();
     QSqlQuery query;
@@ -153,8 +153,8 @@ void ContactCatalog::saveDataBase(){
     this->eraseDbConnexion();
 }
 
-void ContactCatalog::loadDataBase(){
-    this->initDbConnexion();
+void ContactCatalog::loadDataBase(std::string path){
+    this->initDbConnexion(path);
     //importation des contacts
     QSqlQuery query;
     QSqlQuery query1;

@@ -295,14 +295,14 @@ void testDBSave(){
     c->addInteraction("eza", "hh");
     c->addInteraction("ggg", "hh");
     c->addInteraction("aze", "relou");
-    cata.saveDataBase();
+    cata.saveDataBase("../bdd");
     cout << "testDBSave --------------------------------------------END" << endl;
 }
 
 void testDBImport(){
     cout << "testDBImport ------------------------------------------------" << endl;
     ContactCatalog cata;
-    cata.loadDataBase();
+    cata.loadDataBase("../bdd");
 
     cout << "global hist ============" << endl;
     showHist(&cata);
@@ -314,7 +314,7 @@ void testDBImport(){
 void testJsonSave(){
     cout << "testJsonSave ------------------------------------------------" << endl;
     ContactCatalog cata;
-    cata.loadDataBase();
+    cata.loadDataBase("../bdd");
     cata.saveJson();
     cout << "testJsonSave --------------------------------------------END" << endl;
 }

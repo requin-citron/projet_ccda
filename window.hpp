@@ -20,6 +20,7 @@ private:
     ContactCatalog cata;
     QStackedLayout *layStacked;
 private slots:
+    std::string initPathBdd();
     void editContact(Contact* c);
     void changeFocusMain(Contact* c);
     void removeContact(Contact* c);

@@ -24,9 +24,6 @@
 #include "histlocal.hpp"
 #include "interaction.hpp"
 
-//! Nom de la base de donnée
-#define DATABASE_NAME "../bdd"
-
 //! Class qui englobe Contact et TagList
 /*!
   permet de stocker les contacts et la list de tags pour simplifier le passage de celle-ci dans tous les objets
@@ -42,7 +39,7 @@ private:
   //! connexion a la bdd
   QSqlDatabase db;
   //! crée une connexion a la base de donnee
-  void initDbConnexion();
+  void initDbConnexion(std::string path);
   //! supprime la connexion a la base de donnee
   void eraseDbConnexion();
 
@@ -85,9 +82,9 @@ public:
   */
   void eraseContact(Contact *c);
   //! sauvegarde le catalogue dans la DB
-  void saveDataBase();
+  void saveDataBase(std::string path);
   //! importation de la base de donnée
-  void loadDataBase();
+  void loadDataBase(std::string path);
   //! sauvegarde en json
     void saveJson();
 
