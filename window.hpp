@@ -14,19 +14,23 @@ class Window : public QMainWindow
 public:
     Window();
     ~Window();
-/*public slots:
-    void stackSwitch();
-    void printContact(QListWidgetItem* c);
-    void createContact();
-    void saveContact();
-    void choosePhoto();*/
 private:
-    //QWidget* mainwin();
-    //QWidget* contactwin();
     WidgetMain *wm;
     WidgetContact *wc;
     ContactCatalog cata;
     QStackedLayout *layStacked;
+private slots:
+    void editContact(Contact* c);
+    void changeFocusMain(Contact* c);
+
+    /*public slots:
+        void stackSwitch();
+        void printContact(QListWidgetItem* c);
+        void createContact();
+        void saveContact();
+        void choosePhoto();*/
+    //QWidget* mainwin();
+    //QWidget* contactwin();
     /*void printContact(QString photo = "../file/picture.png",
                               QString first = "Dupont", QString last = "Jean", QString ent = "ExampleEnterprise",
                               QString mail = "jeanDupont@example.com", QString phone = "06...",

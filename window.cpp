@@ -40,10 +40,24 @@ Window::Window() : QMainWindow() {
     QWidget *container = new QWidget();
     container->setLayout(layStacked);
     setCentralWidget(container);
+
+    QObject::connect(actionQuitter, SIGNAL(triggered()), qApp, SLOT(quit()));
+    QObject::connect(wm, SIGNAL(wantNewContact(Contact*)), this, SLOT(editContact(Contact*)));
+    QObject::connect(wc, SIGNAL(refreshContact(Contact*)), this, SLOT(changeFocusMain(Contact*)));
 }
 
 Window::~Window() {
     ;
+}
+
+void Window::editContact(Contact* c) {
+    wc->configContact(c);
+    layStacked->setCurrentWidget(wc);
+}
+
+void Window::changeFocusMain(Contact* c) {
+    wm->refreshListWidget(c);
+    layStacked->setCurrentWidget(wm);
 }
 
 /*QWidget* Window::mainwin() {
