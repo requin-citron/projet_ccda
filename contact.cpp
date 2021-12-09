@@ -136,6 +136,11 @@ std::ostream& operator<<(std::ostream &os, Contact &curr){
   return os;
 }
 
+bool operator==(Contact const& a, Contact const& b) {
+    if (a.id==b.id) return true;
+    else return false;
+}
+
 void Contact::eraseInteraction(Interaction *inte){
   delete inte;
   this->local_hist->insertHist(this,DELETE_INTERACTION);

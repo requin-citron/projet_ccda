@@ -37,6 +37,7 @@ private:
     identique a print_debug mais affiche utilise les flux standar du cpp
   */
   friend std::ostream& operator<<(std::ostream &os, Contact &curr);
+  friend bool operator==(Contact const& a, Contact const& b);
 public:
   //!déclaration des fonctions publiques
   /*!
