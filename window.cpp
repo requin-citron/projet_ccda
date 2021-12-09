@@ -48,6 +48,7 @@ Window::Window() : QMainWindow() {
     QObject::connect(wm, SIGNAL(printContact(Contact*)), this, SLOT(editContact(Contact*)));
     QObject::connect(wc, SIGNAL(refreshContact(Contact*)), this, SLOT(changeFocusMain(Contact*)));
     QObject::connect(wc, SIGNAL(removeContact(Contact*)), this, SLOT(removeContact(Contact*)));
+    QObject::connect(wh, SIGNAL(quitterHist()), this, SLOT(quitterHist()));
 }
 
 Window::~Window() {
@@ -89,4 +90,8 @@ void Window::printHist() {
     widgetHist->setEnabled(false);
     wh->configHist(cata.getHist());
     layStacked->setCurrentWidget(wh);
+}
+
+void Window::quitterHist() {
+    layStacked->setCurrentWidget(wm);
 }

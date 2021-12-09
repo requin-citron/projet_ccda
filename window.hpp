@@ -29,6 +29,7 @@ private slots:
     void removeContact(Contact* c);
     void saveJson();
     void printHist();
+    void quitterHist();
 };
 
 #endif // WINDOW_HPP
