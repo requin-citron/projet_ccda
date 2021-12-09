@@ -13,6 +13,7 @@ WidgetMain::WidgetMain(ContactCatalog *cata) : QWidget(), cata(cata) {
     setLayout(l1);
 
     QObject::connect(widgetAddContact, SIGNAL(clicked()),this, SLOT(createContact()));
+    QObject::connect(widgetListContact, SIGNAL(itemDoubleClicked(QListWidgetItem*)),this, SLOT(printContact(QListWidgetItem*)));
 }
 
 size_t WidgetMain::getIndexContact(Contact *c) {
@@ -22,6 +23,20 @@ size_t WidgetMain::getIndexContact(Contact *c) {
             break;
         else t++;
     return t;
+}
+
+size_t WidgetMain::getIndexItem(QListWidgetItem* i) {
+    for (size_t t=0; t<listItem.size(); t++)
+        if (listItem[t]==i)
+            return t;
+    return 0;
+}
+
+Contact* WidgetMain::getContact(size_t t) {
+    for (Contact *tmp: *cata->getContactLst())
+        if (t--==0)
+            return tmp;
+    return nullptr;
 }
 
 void WidgetMain::newContact(Contact* c) {
@@ -41,9 +56,15 @@ void WidgetMain::removeContact(Contact *c) {
 void WidgetMain::createContact() {
     Contact* c = cata->addContact("Jean","Dupont","superEntreprise","jeanDupont@example.com","06...","picture.png");
     newContact(c);
-    emit wantNewContact(c);
+    emit printContact(c);
 }
 
 void WidgetMain::refreshListWidget(Contact* c) {
     listItem[getIndexContact(c)]->setText(QString::fromStdString(c->getFirstName()+" "+c->getLastName()+" ("+std::to_string(c->getId())+")"));
+}
+
+void WidgetMain::printContact(QListWidgetItem* i) {
+    Contact *c = getContact(getIndexItem(i));
+    if (c!=nullptr)
+        emit printContact(c);
 }
