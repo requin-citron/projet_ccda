@@ -16,6 +16,7 @@ public:
     Window();
     ~Window();
 private:
+    QWidget *currentWidgetTmp = nullptr;
     WidgetMain *wm;
     WidgetContact *wc;
     WidgetHist *wh;

@@ -31,6 +31,8 @@ WidgetContact::WidgetContact() : QWidget() {
     QObject::connect(widgetDel, SIGNAL(clicked()), this, SLOT(deleteContact()));
 }
 
+Contact* WidgetContact::getContact() {return currentContact;}
+
 void WidgetContact::configContact(Contact* c) {
     currentContact = c;
     QPixmap pixmap(QString::fromStdString(url+c->getPathPicture()));
@@ -59,11 +61,16 @@ void WidgetContact::configContact(Contact* c) {
 }
 
 void WidgetContact::saveContact() {
-    currentContact->setFirstName(widgetFirstName->text().toStdString());
-    currentContact->setLastName(widgetLastName->text().toStdString());
-    currentContact->setEnterprise(widgetEntreprise->text().toStdString());
-    currentContact->setMail(widgetMail->text().toStdString());
-    currentContact->setPhone(widgetPhone->text().toStdString());
+    if (widgetFirstName->text().toStdString()!=currentContact->getFirstName())
+        currentContact->setFirstName(widgetFirstName->text().toStdString());
+    if (widgetLastName->text().toStdString()!=currentContact->getLastName())
+        currentContact->setLastName(widgetLastName->text().toStdString());
+    if (widgetEntreprise->text().toStdString()!=currentContact->getEnterprise())
+        currentContact->setEnterprise(widgetEntreprise->text().toStdString());
+    if (widgetMail->text().toStdString()!=currentContact->getMail())
+        currentContact->setMail(widgetMail->text().toStdString());
+    if (widgetPhone->text().toStdString()!=currentContact->getPhone())
+        currentContact->setPhone(widgetPhone->text().toStdString());
     emit refreshContact(currentContact);
 }
 
@@ -71,7 +78,7 @@ void WidgetContact::deleteContact() {
     emit removeContact(currentContact);
 }
 
-void WidgetContact::choosePhoto() {
+void WidgetContact::choosePhoto() { // trop backup...
     QString fichier = QFileDialog::getOpenFileName(this, "Choisie l'image", QString::fromStdString(url), "Images (*.png *.jpg *.jpeg)");
     QPixmap pixmap(fichier);
     if (pixmap.isNull()) {
