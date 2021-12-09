@@ -120,5 +120,7 @@ Interaction* WidgetContact::getInteraction(int index) {
 }
 
 void WidgetContact::printInter(QListWidgetItem* i) {
-    emit printInter(getInteraction(widgetListInteraction->row(i)));
+    Interaction* tmp = getInteraction(widgetListInteraction->row(i));
+    if (tmp!=nullptr)
+        emit printInter(tmp);
 }
