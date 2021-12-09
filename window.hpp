@@ -22,6 +22,7 @@ private:
     WidgetHist *wh;
     ContactCatalog cata;
     QStackedLayout *layStacked;
+    QAction** actionLangues = new QAction*[2];
     QPushButton *widgetHist;
 private slots:
     std::string initPathBdd();
@@ -29,6 +30,7 @@ private slots:
     void changeFocusMain(Contact* c);
     void removeContact(Contact* c);
     void saveJson();
+    void changeLangue();
     void printHist();
     void quitterHist();
 };

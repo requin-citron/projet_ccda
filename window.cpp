@@ -12,13 +12,14 @@ Window::Window() : QMainWindow() {
         menuExporter->addAction(actionJson);
         actionJson->setShortcut(QKeySequence("Ctrl+s"));
     QMenu *menuLangue = menuBar()->addMenu("Langue");
-        QAction *actionFr = new QAction("Français");
-        menuLangue->addAction(actionFr);
-        actionFr->setCheckable(true);
-        actionFr->setChecked(true);
-        QAction *actionEn = new QAction("Anglais");
-        menuLangue->addAction(actionEn);
-        actionEn->setCheckable(true);
+        actionLangues[0] = new QAction("Français");
+        menuLangue->addAction(actionLangues[0]);
+        actionLangues[0]->setCheckable(true);
+        actionLangues[0]->setChecked(true);
+        actionLangues[0]->setEnabled(false);
+        actionLangues[1] = new QAction("Anglais");
+        menuLangue->addAction(actionLangues[1]);
+        actionLangues[1]->setCheckable(true);
     QMenu *menuAutre = menuBar()->addMenu("Autres");
         QAction *actionQuitter = new QAction("Quitter");
         menuAutre->addAction(actionQuitter);
@@ -44,6 +45,8 @@ Window::Window() : QMainWindow() {
     QObject::connect(actionQuitter, SIGNAL(triggered()), qApp, SLOT(quit()));
     QObject::connect(actionPicture, SIGNAL(triggered()), wc, SLOT(changePathPicture()));
     QObject::connect(actionJson, SIGNAL(triggered()), this, SLOT(saveJson()));
+    QObject::connect(actionLangues[0], SIGNAL(triggered()), this, SLOT(changeLangue()));
+    QObject::connect(actionLangues[1], SIGNAL(triggered()), this, SLOT(changeLangue()));
     QObject::connect(widgetHist, SIGNAL(clicked()), this, SLOT(printHist()));
     QObject::connect(wm, SIGNAL(printContact(Contact*)), this, SLOT(editContact(Contact*)));
     QObject::connect(wc, SIGNAL(refreshContact(Contact*)), this, SLOT(changeFocusMain(Contact*)));
@@ -52,7 +55,7 @@ Window::Window() : QMainWindow() {
 }
 
 Window::~Window() {
-    ;
+    delete[] actionLangues;
 }
 
 void Window::saveJson() {
@@ -62,6 +65,18 @@ void Window::saveJson() {
     if (file.open(QIODevice::ReadWrite)) {
         QTextStream stream(&file);
         stream << QString::fromStdString(text+"\n");
+    }
+}
+
+void Window::changeLangue() {
+    if (actionLangues[0]->isEnabled()) {
+        actionLangues[0]->setEnabled(false);
+        actionLangues[1]->setEnabled(true);
+        actionLangues[1]->setChecked(false);
+    } else {
+        actionLangues[0]->setEnabled(true);
+        actionLangues[1]->setEnabled(false);
+        actionLangues[0]->setChecked(false);
     }
 }
 
