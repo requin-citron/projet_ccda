@@ -34,6 +34,7 @@ WidgetContact::WidgetContact() : QWidget() {
     QObject::connect(widgetMail, SIGNAL(editingFinished()), this, SLOT(changeContact()));
     QObject::connect(widgetPhone, SIGNAL(editingFinished()), this, SLOT(changeContact()));
     QObject::connect(widgetPhoto, SIGNAL(clicked()), this, SLOT(choosePhoto()));
+    QObject::connect(widgetListInteraction, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(printInter(QListWidgetItem*)));
     QObject::connect(widgetSave, SIGNAL(clicked()), this, SLOT(quitter()));
     QObject::connect(widgetDel, SIGNAL(clicked()), this, SLOT(deleteContact()));
 }
@@ -109,4 +110,15 @@ void WidgetContact::choosePhoto() {
 
 void WidgetContact::changePathPicture() {
     url = QFileDialog::getExistingDirectory(this, "Renseignez la position du fichier d'image", QString::fromStdString(url)).toStdString()+"/";
+}
+
+Interaction* WidgetContact::getInteraction(int index) {
+    for (Interaction *tmp: *currentContact->getInteractionLst())
+        if (index--==0)
+            return tmp;
+    return nullptr;
+}
+
+void WidgetContact::printInter(QListWidgetItem* i) {
+    emit printInter(getInteraction(widgetListInteraction->row(i)));
 }

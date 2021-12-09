@@ -21,15 +21,18 @@ private:
     QLineEdit *widgetMail = new QLineEdit();
     QLineEdit *widgetPhone = new QLineEdit();
     QListWidget *widgetListInteraction = new QListWidget();
+    Interaction* getInteraction(int index);
 private slots:
     void quitter();
     void deleteContact();
     void choosePhoto();
     void changePathPicture();
     void changeContact();
+    void printInter(QListWidgetItem* i);
 signals:
     void refreshContact(Contact *c);
     void removeContact(Contact *c);
+    void printInter(Interaction *i);
 };
 
 #endif // WIDGETCONTACT_HPP

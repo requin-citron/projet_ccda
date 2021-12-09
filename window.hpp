@@ -8,6 +8,7 @@
 #include "widgetmain.hpp"
 #include "widgetcontact.hpp"
 #include "widgethist.hpp"
+#include "widgetinter.hpp"
 
 class Window : public QMainWindow
 {
@@ -20,6 +21,7 @@ private:
     WidgetMain *wm;
     WidgetContact *wc;
     WidgetHist *wh;
+    WidgetInter *wi;
     ContactCatalog cata;
     QStackedLayout *layStacked;
     QAction** actionLangues = new QAction*[2];
@@ -27,6 +29,7 @@ private:
 private slots:
     std::string initPathBdd();
     void editContact(Contact* c);
+    void editInter(Interaction* i);
     void changeFocusMain(Contact* c);
     void removeContact(Contact* c);
     void saveJson();
