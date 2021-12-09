@@ -28,6 +28,7 @@ WidgetInter::WidgetInter() : QWidget() {
 }
 
 void WidgetInter::configInter(Interaction *i) {
+    currentInter = i;
     widgetNameContact->setText(QString::fromStdString(i->getContact()->getFirstName()+" "+i->getContact()->getLastName()+" ("+std::to_string(i->getContact()->getId())+")"));
     widgetContenu->setText(QString::fromStdString(i->getContenu()));
     widgetListTodo->clear();
@@ -41,3 +42,5 @@ void WidgetInter::configInter(Interaction *i) {
         tmp+=QString::fromStdString(t->getName())+", ";
     widgetTags->setText(tmp.left(tmp.size()-2));
 }
+
+Interaction* WidgetInter::getInter() {return currentInter;}
