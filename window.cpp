@@ -27,14 +27,16 @@ Window::Window() : QMainWindow() {
         QLineEdit *widgetRech = new QLineEdit("rech...");
         toolBarRech->addWidget(widgetRech);
         toolBarRech->addSeparator();
-        QPushButton *widgetHist = new QPushButton("Historique");
+        widgetHist = new QPushButton("Historique");
         toolBarRech->addWidget(widgetHist);
         toolBarRech->addSeparator();
     wm = new WidgetMain(&cata);
     wc = new WidgetContact();
+    wh = new WidgetHist();
     layStacked = new QStackedLayout;
     layStacked->addWidget(wm);
     layStacked->addWidget(wc);
+    layStacked->addWidget(wh);
     QWidget *container = new QWidget();
     container->setLayout(layStacked);
     setCentralWidget(container);
@@ -42,6 +44,7 @@ Window::Window() : QMainWindow() {
     QObject::connect(actionQuitter, SIGNAL(triggered()), qApp, SLOT(quit()));
     QObject::connect(actionPicture, SIGNAL(triggered()), wc, SLOT(changePathPicture()));
     QObject::connect(actionJson, SIGNAL(triggered()), this, SLOT(saveJson()));
+    QObject::connect(widgetHist, SIGNAL(clicked()), this, SLOT(printHist()));
     QObject::connect(wm, SIGNAL(printContact(Contact*)), this, SLOT(editContact(Contact*)));
     QObject::connect(wc, SIGNAL(refreshContact(Contact*)), this, SLOT(changeFocusMain(Contact*)));
     QObject::connect(wc, SIGNAL(removeContact(Contact*)), this, SLOT(removeContact(Contact*)));
@@ -80,4 +83,10 @@ void Window::changeFocusMain(Contact* c) {
 void Window::removeContact(Contact* c) {
     wm->removeContact(c);
     layStacked->setCurrentWidget(wm);
+}
+
+void Window::printHist() {
+    widgetHist->setEnabled(false);
+    wh->configHist(cata.getHist());
+    layStacked->setCurrentWidget(wh);
 }

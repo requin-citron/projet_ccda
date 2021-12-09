@@ -7,6 +7,7 @@
 #include "contact.hpp"
 #include "widgetmain.hpp"
 #include "widgetcontact.hpp"
+#include "widgethist.hpp"
 
 class Window : public QMainWindow
 {
@@ -17,41 +18,17 @@ public:
 private:
     WidgetMain *wm;
     WidgetContact *wc;
+    WidgetHist *wh;
     ContactCatalog cata;
     QStackedLayout *layStacked;
+    QPushButton *widgetHist;
 private slots:
     std::string initPathBdd();
     void editContact(Contact* c);
     void changeFocusMain(Contact* c);
     void removeContact(Contact* c);
     void saveJson();
-    /*public slots:
-        void stackSwitch();
-        void printContact(QListWidgetItem* c);
-        void createContact();
-        void saveContact();
-        void choosePhoto();*/
-    //QWidget* mainwin();
-    //QWidget* contactwin();
-    /*void printContact(QString photo = "../file/picture.png",
-                              QString first = "Dupont", QString last = "Jean", QString ent = "ExampleEnterprise",
-                              QString mail = "jeanDupont@example.com", QString phone = "06...",
-                              std::list<Interaction*>* li = nullptr);
-    void printContact(Contact* c);*/
-    /*Contact *currentContact = nullptr;
-    QListWidgetItem *currentWidgetItem = nullptr;*/
-
-    /*ContactCatalog cata;
-    QListWidget *widgetListContact = new QListWidget();
-    std::map<QListWidgetItem*,Contact*> linkContact;
-
-    QPushButton *widgetPhoto = new QPushButton();
-    QLineEdit *widgetFirstName = new QLineEdit();
-    QLineEdit *widgetLastName = new QLineEdit();
-    QLineEdit *widgetEntreprise = new QLineEdit();
-    QLineEdit *widgetMail = new QLineEdit();
-    QLineEdit *widgetPhone = new QLineEdit();
-    QListWidget *widgetListInteraction = new QListWidget();*/
+    void printHist();
 };
 
 #endif // WINDOW_HPP

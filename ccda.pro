@@ -19,7 +19,9 @@ SOURCES += \
     tagList.cpp \
     window.cpp \
     widgetcontact.cpp \
-    widgetmain.cpp
+    widgetmain.cpp \
+    widgethist.cpp \
+    widgetinter.cpp
 
 HEADERS += \
     contact.hpp \
@@ -31,7 +33,9 @@ HEADERS += \
     tagList.hpp \
     window.hpp \
     widgetcontact.hpp \
-    widgetmain.hpp
+    widgetmain.hpp \
+    widgethist.hpp \
+    widgetinter.hpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
