@@ -61,9 +61,8 @@ void Window::saveJson() {
     QFile file(fileName);
     if (file.open(QIODevice::ReadWrite)) {
         QTextStream stream(&file);
-        stream << QString::fromStdString(text) << endl;
+        stream << QString::fromStdString(text+"\n");
     }
-    std::cout << fileName.toStdString() << std::endl;
 }
 
 std::string Window::initPathBdd() {
