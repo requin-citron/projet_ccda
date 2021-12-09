@@ -146,11 +146,11 @@ void Interaction::parser(){
 
 void Interaction::destroy_lst_todo(){
   //destroy todo_lst
-  todo_lst.clear();
-  /*for(auto &it: this->todo_lst){
+  //todo_lst.clear();
+  for(auto &it: this->todo_lst){
     delete it->second;
     delete it;
-  }*/
+  }
 }
 
 std::list<std::pair<std::string,Date*>*>* Interaction::getTodo(){
