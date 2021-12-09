@@ -17,6 +17,9 @@ private:
     QTextEdit *widgetContenu = new QTextEdit();
     QListWidget *widgetListTodo = new QListWidget();
     QLineEdit *widgetTags = new QLineEdit("merde, truc, bidule");
+    void refreshTodo();
+private slots:
+    void editText();
 };
 
 #endif // WIDGETINTER_HPP

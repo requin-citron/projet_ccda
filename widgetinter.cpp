@@ -25,22 +25,34 @@ WidgetInter::WidgetInter() : QWidget() {
     l6->addLayout(l4);
     l6->addLayout(l5);
     setLayout(l6);
+
+    QObject::connect(widgetContenu, SIGNAL(textChanged()), this, SLOT(editText()));
 }
 
 void WidgetInter::configInter(Interaction *i) {
     currentInter = i;
     widgetNameContact->setText(QString::fromStdString(i->getContact()->getFirstName()+" "+i->getContact()->getLastName()+" ("+std::to_string(i->getContact()->getId())+")"));
     widgetContenu->setText(QString::fromStdString(i->getContenu()));
-    widgetListTodo->clear();
-    for (auto t: *i->getTodo())
-        if (t->second!=nullptr)
-            widgetListTodo->addItem(QString::fromStdString(t->second->printAll()+">\n"+t->first));
-        else
-            widgetListTodo->addItem(QString::fromStdString("->\n"+t->first));
+    refreshTodo();
     QString tmp = "";
     for (Tag* t: *i->getTags())
         tmp+=QString::fromStdString(t->getName())+", ";
     widgetTags->setText(tmp.left(tmp.size()-2));
 }
 
+void WidgetInter::refreshTodo() {
+    widgetListTodo->clear();
+    for (auto t: *currentInter->getTodo())
+        if (t->second!=nullptr)
+            widgetListTodo->addItem(QString::fromStdString(t->second->printAll()+">\n"+t->first));
+        else
+            widgetListTodo->addItem(QString::fromStdString("->\n"+t->first));
+}
+
 Interaction* WidgetInter::getInter() {return currentInter;}
+
+void WidgetInter::editText() {
+    currentInter->setContenu(widgetContenu->toPlainText().toStdString());
+    refreshTodo();
+}
+

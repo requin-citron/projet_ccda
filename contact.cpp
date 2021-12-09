@@ -71,11 +71,12 @@ void Contact::setInteractionId(size_t id){
     this->interaction_id = id;
 }
 
-void Contact::addInteraction(std::string contenue, std::string tag){
+Interaction* Contact::addInteraction(std::string contenue, std::string tag){
   Interaction *inte = new Interaction(contenue, this, this->tags_lst);
   inte->addTag(tag);
   this->interaction_lst.push_back(inte);
   this->local_hist->insertHist(this, ADD_INTERACTION);
+  return inte;
 }
 
 

@@ -35,6 +35,7 @@ WidgetContact::WidgetContact() : QWidget() {
     QObject::connect(widgetPhone, SIGNAL(editingFinished()), this, SLOT(changeContact()));
     QObject::connect(widgetPhoto, SIGNAL(clicked()), this, SLOT(choosePhoto()));
     QObject::connect(widgetListInteraction, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(printInter(QListWidgetItem*)));
+    QObject::connect(widgetNewInter, SIGNAL(clicked()),this, SLOT(createInter()));
     QObject::connect(widgetSave, SIGNAL(clicked()), this, SLOT(quitter()));
     QObject::connect(widgetDel, SIGNAL(clicked()), this, SLOT(deleteContact()));
 }
@@ -123,4 +124,8 @@ void WidgetContact::printInter(QListWidgetItem* i) {
     Interaction* tmp = getInteraction(widgetListInteraction->row(i));
     if (tmp!=nullptr)
         emit printInter(tmp);
+}
+
+void WidgetContact::createInter() {
+    emit printInter(currentContact->addInteraction("interaction...","tag..."));
 }
