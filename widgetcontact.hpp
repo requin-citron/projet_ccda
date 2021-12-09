@@ -12,7 +12,7 @@ public:
     void configContact(Contact* c);
     Contact* getContact();
 private:
-    std::string url = "../file/";
+    std::string url = "/home/thibaultdupre1999/CetC++/Qt/CDAA/projet_ccda/file/";
     Contact* currentContact = nullptr;
     QPushButton *widgetPhoto = new QPushButton();
     QLineEdit *widgetFirstName = new QLineEdit();

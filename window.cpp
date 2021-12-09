@@ -66,7 +66,7 @@ void Window::saveJson() {
 }
 
 std::string Window::initPathBdd() {
-   QString url = QFileDialog::getOpenFileName(this, "Renseignez la position de la BDD", "../");
+   QString url = "../bdd";//QFileDialog::getOpenFileName(this, "Renseignez la position de la BDD");
    return url.toStdString();
 }
 
