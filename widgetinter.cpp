@@ -36,8 +36,8 @@ void WidgetInter::configInter(Interaction *i) {
     refreshTodo();
     QString tmp = "";
     for (Tag* t: *i->getTags())
-        tmp+=QString::fromStdString(t->getName())+", ";
-    widgetTags->setText(tmp.left(tmp.size()-2));
+        tmp+=QString::fromStdString(t->getName())+" ";
+    widgetTags->setText(tmp.left(tmp.size()-1));
 }
 
 void WidgetInter::refreshTodo() {
