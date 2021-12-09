@@ -14,6 +14,11 @@ Date::Date(std::string s) : Date() {
     d->tm_mday = day;
     d->tm_mon = mon;
     d->tm_year = year-1900;
+    if(s.length()==19){
+        d->tm_hour = std::stoi(s.substr(11));
+        d->tm_min = std::stoi(s.substr(14));
+        d->tm_sec = std::stoi(s.substr(17));
+    }
 }
 
 Date::~Date(){delete this->d;}

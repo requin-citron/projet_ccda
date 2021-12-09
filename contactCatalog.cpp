@@ -74,7 +74,7 @@ void ContactCatalog::saveDataBase(std::string path){
         query.prepare("INSERT INTO history_global (contenue, dt) "
                       "VALUES (:contenue, :dt)");
         query.bindValue(":contenue", QString::fromStdString(it->first));
-        query.bindValue(":dt",QString::fromStdString(it->second.print()));
+        query.bindValue(":dt",QString::fromStdString(it->second.printAll()));
         if(!query.exec()){
             qWarning() << "Error: " << query.lastError().text();
             exit(1);
@@ -105,7 +105,7 @@ void ContactCatalog::saveDataBase(std::string path){
                           "VALUES (:id_contact, :contenue, :dt)");
             query.bindValue(":id_contact", id);
             query.bindValue(":contenue",QString::fromStdString(hist_contact->first));
-            query.bindValue(":dt", QString::fromStdString(hist_contact->second.print()));
+            query.bindValue(":dt", QString::fromStdString(hist_contact->second.printAll()));
             if(!query.exec()){
                 qWarning() << "Error: " << query.lastError().text();
                 exit(1);
@@ -130,7 +130,7 @@ void ContactCatalog::saveDataBase(std::string path){
                 query.bindValue(":id_contact", id);
                 query.bindValue(":id_interaction",id_inte);
                 query.bindValue(":contenue", QString::fromStdString(hist_inte->first));
-                query.bindValue(":dt", QString::fromStdString(hist_inte->second.print()));
+                query.bindValue(":dt", QString::fromStdString(hist_inte->second.printAll()));
                 if(!query.exec()){
                     qWarning() << "Error: " << query.lastError().text();
                     exit(1);
