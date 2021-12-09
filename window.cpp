@@ -1,43 +1,52 @@
 #include "window.hpp"
-//addContact->setSizePolicy(QSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding));
+
 Window::Window() : QMainWindow() {
     setWindowTitle("Gestionnaire de contact");
     setMinimumSize(800,800);
-
-    cata.loadDataBase();
-
-    QMenu *importer = menuBar()->addMenu("Importer");
-        QAction *bdd = new QAction("BDD");
-            importer->addAction(bdd);
-        QAction *picture = new QAction("Photos de profils");
-            importer->addAction(picture);
-    QMenu *exporter = menuBar()->addMenu("Exporter");
-        QAction *json = new QAction("Json");
-            exporter->addAction(json);
-            json->setShortcut(QKeySequence("Ctrl+s"));
-    QMenu *langue = menuBar()->addMenu("Langue");
-        QAction *fr = new QAction("Français");
-            langue->addAction(fr);
-            fr->setCheckable(true);
-            fr->setChecked(true);
-        QAction *en = new QAction("Anglais");
-            langue->addAction(en);
-            en->setCheckable(true);
-    QWidget *w = new QWidget();
-        stackedLay = new QStackedLayout;
-            stackedLay->addWidget(mainwin());
-            stackedLay->addWidget(contactwin());
+    QMenu *menuImporter = menuBar()->addMenu("Importer");
+        QAction *actionBdd = new QAction("BDD");
+        menuImporter->addAction(actionBdd);
+        QAction *actionPicture = new QAction("Photos de profils");
+        menuImporter->addAction(actionPicture);
+    QMenu *menuExporter = menuBar()->addMenu("Exporter");
+        QAction *actionJson = new QAction("Json");
+        menuExporter->addAction(actionJson);
+        actionJson->setShortcut(QKeySequence("Ctrl+s"));
+    QMenu *menuLangue = menuBar()->addMenu("Langue");
+        QAction *actionFr = new QAction("Français");
+        menuLangue->addAction(actionFr);
+        actionFr->setCheckable(true);
+        actionFr->setChecked(true);
+        QAction *actionEn = new QAction("Anglais");
+        menuLangue->addAction(actionEn);
+        actionEn->setCheckable(true);
+    QMenu *menuAutre = menuBar()->addMenu("Autres");
+        QAction *actionQuitter = new QAction("Quitter");
+        menuAutre->addAction(actionQuitter);
+        actionQuitter->setShortcut(QKeySequence("Ctrl+q"));
     QToolBar *toolBarRech = addToolBar("Recherche");
-    QLineEdit *rech = new QLineEdit("rech...");
-    toolBarRech->addWidget(rech);
-    toolBarRech->addSeparator();
-    toolBarRech->addWidget(new QPushButton("Historique"));
-    toolBarRech->addSeparator();
-    w->setLayout(stackedLay);
-    setCentralWidget(w);
+        QLineEdit *widgetRech = new QLineEdit("rech...");
+        toolBarRech->addWidget(widgetRech);
+        toolBarRech->addSeparator();
+        QPushButton *widgetHist = new QPushButton("Historique");
+        toolBarRech->addWidget(widgetHist);
+        toolBarRech->addSeparator();
+    cata.loadDataBase();
+    wm = new WidgetMain(&cata);
+    wc = new WidgetContact();
+    layStacked = new QStackedLayout;
+    layStacked->addWidget(wm);
+    layStacked->addWidget(wc);
+    QWidget *container = new QWidget();
+    container->setLayout(layStacked);
+    setCentralWidget(container);
 }
 
-QWidget* Window::mainwin() {
+Window::~Window() {
+    ;
+}
+
+/*QWidget* Window::mainwin() {
     QWidget *w = new QWidget();
         widgetListContact = new QListWidget();
             widgetListContact->setStyleSheet("QListWidget {border : 2px solid black;background : lightgreen; font-size: 50px;}"
@@ -63,9 +72,9 @@ QWidget* Window::mainwin() {
     QObject::connect(addContact, SIGNAL(clicked()),this, SLOT(createContact()));
 
     return w;
-}
+}*/
 
-QWidget* Window::contactwin() {
+/*QWidget* Window::contactwin() {
     QWidget *w = new QWidget();
         printContact();
         QPushButton *save = new QPushButton("Enregistrer");
@@ -93,8 +102,9 @@ QWidget* Window::contactwin() {
     QObject::connect(widgetPhoto, SIGNAL(clicked()), this, SLOT(choosePhoto()));
 
     return w;
-}
+}*/
 
+/*
 void Window::choosePhoto() {
     QString fichier = QFileDialog::getOpenFileName(this, "Choisie l'image", QString(), "Images (*.png *.jpg *.jpeg)");
     QPixmap pixmap(fichier);
@@ -181,3 +191,4 @@ void Window::stackSwitch() {
     else
         stackedLay->setCurrentIndex(1);
 }
+*/
