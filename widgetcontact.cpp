@@ -26,8 +26,12 @@ WidgetContact::WidgetContact() : QWidget() {
     l6->addLayout(l5);
     setLayout(l6);
 
-    QObject::connect(widgetPhoto, SIGNAL(clicked()), this, SLOT(choosePhoto()));
-    QObject::connect(widgetSave, SIGNAL(clicked()), this, SLOT(saveContact()));
+    QObject::connect(widgetFirstName, SIGNAL(editingFinished()), this, SLOT(changeContact()));
+    QObject::connect(widgetLastName, SIGNAL(editingFinished()), this, SLOT(changeContact()));
+    QObject::connect(widgetEntreprise, SIGNAL(editingFinished()), this, SLOT(changeContact()));
+    QObject::connect(widgetMail, SIGNAL(editingFinished()), this, SLOT(changeContact()));
+    QObject::connect(widgetPhone, SIGNAL(clicked()), this, SLOT(choosePhoto()));
+    QObject::connect(widgetSave, SIGNAL(clicked()), this, SLOT(quitter()));
     QObject::connect(widgetDel, SIGNAL(clicked()), this, SLOT(deleteContact()));
 }
 
@@ -53,14 +57,16 @@ void WidgetContact::configContact(Contact* c) {
     for (Interaction* i: *c->getInteractionLst()) {
         QString tmp = QString::fromStdString(i->getContenu());
         tmp.replace(tmp.indexOf("\n"),1,'-');
-        if (tmp.size()>=20)
-            tmp = tmp.left(20);
+        if (tmp.size()>=30)
+            tmp = tmp.left(30)+"...";
         tmp = QString::fromStdString("\tInter ("+std::to_string(i->getId())+")\n")+tmp;
         widgetListInteraction->addItem(tmp);
     }
 }
 
-void WidgetContact::saveContact() {
+void WidgetContact::quitter() {emit refreshContact(currentContact);}
+
+void WidgetContact::changeContact() {
     if (widgetFirstName->text().toStdString()!=currentContact->getFirstName())
         currentContact->setFirstName(widgetFirstName->text().toStdString());
     if (widgetLastName->text().toStdString()!=currentContact->getLastName())
@@ -71,12 +77,9 @@ void WidgetContact::saveContact() {
         currentContact->setMail(widgetMail->text().toStdString());
     if (widgetPhone->text().toStdString()!=currentContact->getPhone())
         currentContact->setPhone(widgetPhone->text().toStdString());
-    emit refreshContact(currentContact);
 }
 
-void WidgetContact::deleteContact() {
-    emit removeContact(currentContact);
-}
+void WidgetContact::deleteContact() {emit removeContact(currentContact);}
 
 void WidgetContact::choosePhoto() { // trop backup...
     QString fichier = QFileDialog::getOpenFileName(this, "Choisie l'image", QString::fromStdString(url), "Images (*.png *.jpg *.jpeg)");

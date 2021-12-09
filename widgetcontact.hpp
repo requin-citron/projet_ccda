@@ -22,10 +22,11 @@ private:
     QLineEdit *widgetPhone = new QLineEdit();
     QListWidget *widgetListInteraction = new QListWidget();
 private slots:
-    void saveContact();
+    void quitter();
     void deleteContact();
     void choosePhoto();
     void changePathPicture();
+    void changeContact();
 signals:
     void refreshContact(Contact *c);
     void removeContact(Contact *c);
