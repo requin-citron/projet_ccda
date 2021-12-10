@@ -1,7 +1,6 @@
 #include "window.hpp"
 
 Window::Window() : QMainWindow() {
-    trans.load("../ccda_en");
     cata.loadDataBase(initPathBdd());
 
     setMinimumSize(800,800);
@@ -35,6 +34,7 @@ Window::Window() : QMainWindow() {
 
     QObject::connect(actionQuitter, SIGNAL(triggered()), qApp, SLOT(quit()));
     QObject::connect(actionPicture, SIGNAL(triggered()), wc, SLOT(changePathPicture()));
+    QObject::connect(actionChangePathTrad, SIGNAL(triggered()), this, SLOT(changePathTranslate()));
     QObject::connect(actionJson, SIGNAL(triggered()), this, SLOT(saveJson()));
     QObject::connect(actionLangues[0], SIGNAL(triggered()), this, SLOT(changeLangue()));
     QObject::connect(actionLangues[1], SIGNAL(triggered()), this, SLOT(changeLangue()));
@@ -55,6 +55,8 @@ void Window::paintInterface() {
     QMenu *menuImporter = menuBar()->addMenu(tr("Intégrer"));
         actionPicture->setText(tr("Dossier - photo de profil"));
         menuImporter->addAction(actionPicture);
+        actionChangePathTrad->setText(tr("Fichier - module de traduction"));
+        menuImporter->addAction(actionChangePathTrad);
     QMenu *menuExporter = menuBar()->addMenu(tr("Exporter"));
         actionJson->setText("Json");
         menuExporter->addAction(actionJson);
@@ -94,16 +96,17 @@ void Window::rechAvance(QString s) {
 }
 
 void Window::changeLangue() {
+    if (trans==nullptr) changePathTranslate();
     if (actionLangues[0]->isEnabled()) {
         actionLangues[0]->setEnabled(false);
         actionLangues[1]->setEnabled(true);
         actionLangues[1]->setChecked(false);
-        app->removeTranslator(&trans);
+        app->removeTranslator(trans);
     } else {
         actionLangues[0]->setEnabled(true);
         actionLangues[1]->setEnabled(false);
         actionLangues[0]->setChecked(false);
-        app->installTranslator(&trans);
+        app->installTranslator(trans);
     }  
     paintInterface();
     wm->paintInterface();
@@ -115,6 +118,11 @@ void Window::changeLangue() {
 std::string Window::initPathBdd() {
    QString url = QFileDialog::getOpenFileName(this, tr("Renseignez la position de la BDD"));
    return url.toStdString();
+}
+
+void Window::changePathTranslate() {
+    trans = new QTranslator();
+    trans->load(QFileDialog::getOpenFileName(this, tr("Renseignez la position du fichier de traduction")));
 }
 
 void Window::editContact(Contact* c) {

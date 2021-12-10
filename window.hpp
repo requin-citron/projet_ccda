@@ -19,9 +19,10 @@ public:
     void giveApp(QApplication *a);
 private:
     QApplication *app;
-    QTranslator trans;
+    QTranslator *trans = nullptr;
     QWidget *currentWidgetTmp = nullptr;
     QAction *actionQuitter = new QAction();
+    QAction *actionChangePathTrad = new QAction();
     QAction *actionPicture = new QAction();
     QAction *actionJson = new QAction();
     WidgetMain *wm;
@@ -36,6 +37,7 @@ private:
     void paintInterface();
 private slots:
     std::string initPathBdd();
+    void changePathTranslate();
     void rechAvance(QString s);
     void editContact(Contact* c);
     void editInter(Interaction* i);
