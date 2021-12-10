@@ -6,7 +6,7 @@ WidgetMain::WidgetMain(ContactCatalog *cata) : QWidget(), cata(cata) {
                                      "QListView::item:selected {border : 2px solid black;background : green;}");
     for (Contact* c: *cata->getContactLst())
         newContact(c);
-    QPushButton *widgetAddContact = new QPushButton("Ajouter un Contact",this);
+    QPushButton *widgetAddContact = new QPushButton(tr("Ajouter un Contact"),this);
     QVBoxLayout *l1 = new QVBoxLayout;
     l1->addWidget(widgetListContact);
     l1->addWidget(widgetAddContact);

@@ -2,32 +2,32 @@
 
 Window::Window() : QMainWindow() {
     cata.loadDataBase(initPathBdd());
-    setWindowTitle("Gestionnaire de contact");
+    setWindowTitle(tr("Gestionnaire de contact"));
     setMinimumSize(800,800);
-    QMenu *menuImporter = menuBar()->addMenu("Intégrer");
-        QAction *actionPicture = new QAction("Dossier - photo de profil");
+    QMenu *menuImporter = menuBar()->addMenu(tr("Intégrer"));
+        QAction *actionPicture = new QAction(tr("Dossier - photo de profil"));
         menuImporter->addAction(actionPicture);
-    QMenu *menuExporter = menuBar()->addMenu("Exporter");
+    QMenu *menuExporter = menuBar()->addMenu(tr("Exporter"));
         QAction *actionJson = new QAction("Json");
         menuExporter->addAction(actionJson);
         actionJson->setShortcut(QKeySequence("Ctrl+s"));
-    QMenu *menuLangue = menuBar()->addMenu("Langue");
-        actionLangues[0] = new QAction("Français");
+    QMenu *menuLangue = menuBar()->addMenu(tr("Langue"));
+        actionLangues[0] = new QAction(tr("Français"));
         menuLangue->addAction(actionLangues[0]);
         actionLangues[0]->setCheckable(true);
         actionLangues[0]->setChecked(true);
         actionLangues[0]->setEnabled(false);
-        actionLangues[1] = new QAction("Anglais");
+        actionLangues[1] = new QAction(tr("Anglais"));
         menuLangue->addAction(actionLangues[1]);
         actionLangues[1]->setCheckable(true);
-    QMenu *menuAutre = menuBar()->addMenu("Autre");
-        QAction *actionQuitter = new QAction("Quitter");
+    QMenu *menuAutre = menuBar()->addMenu(tr("Autre"));
+        QAction *actionQuitter = new QAction(tr("Quitter"));
         menuAutre->addAction(actionQuitter);
         actionQuitter->setShortcut(QKeySequence("Ctrl+q"));
-    QToolBar *toolBarRech = addToolBar("Recherche");
+    QToolBar *toolBarRech = addToolBar(tr("Recherche"));
         toolBarRech->addWidget(widgetRech);
         toolBarRech->addSeparator();
-        widgetHist = new QPushButton("Historique");
+        widgetHist = new QPushButton(tr("Historique"));
         toolBarRech->addWidget(widgetHist);
         toolBarRech->addSeparator();
     wm = new WidgetMain(&cata);
@@ -68,7 +68,7 @@ Window::~Window() {
 
 void Window::saveJson() {
     std::string text = cata.saveJson();
-    QString fileName = QFileDialog::getSaveFileName(this, "Sauvegarder en Json");
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Sauvegarder en Json"));
     QFile file(fileName);
     if (file.open(QIODevice::ReadWrite)) {
         QTextStream stream(&file);
@@ -94,7 +94,7 @@ void Window::changeLangue() {
 }
 
 std::string Window::initPathBdd() {
-   QString url = "../bdd";//QFileDialog::getOpenFileName(this, "Renseignez la position de la BDD");
+   QString url = QFileDialog::getOpenFileName(this, tr("Renseignez la position de la BDD"));
    return url.toStdString();
 }
 
