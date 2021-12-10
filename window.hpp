@@ -37,6 +37,7 @@ private slots:
     void changeLangue();
     void printHist();
     void quitterHist();
+    void deleteInteraction();
 };
 
 #endif // WINDOW_HPP

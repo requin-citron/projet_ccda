@@ -28,6 +28,7 @@ WidgetInter::WidgetInter() : QWidget() {
 
     QObject::connect(widgetContenu, SIGNAL(textChanged()), this, SLOT(editText()));
     QObject::connect(widgetSave, SIGNAL(clicked()), this, SLOT(saveText()));
+    QObject::connect(widgetDel, SIGNAL(clicked()), this, SLOT(delInter()));
 }
 
 void WidgetInter::configInter(Interaction *i) {
@@ -62,3 +63,6 @@ void WidgetInter::saveText(){
     emit refreshInteraction();
 }
 
+void WidgetInter::delInter() {
+    emit deleteInteraction();
+}
