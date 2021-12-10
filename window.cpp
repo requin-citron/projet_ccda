@@ -1,35 +1,20 @@
 #include "window.hpp"
 
 Window::Window() : QMainWindow() {
+    trans.load("../ccda_en");
     cata.loadDataBase(initPathBdd());
-    setWindowTitle(tr("Gestionnaire de contact"));
+
     setMinimumSize(800,800);
-    QMenu *menuImporter = menuBar()->addMenu(tr("Intégrer"));
-        QAction *actionPicture = new QAction(tr("Dossier - photo de profil"));
-        menuImporter->addAction(actionPicture);
-    QMenu *menuExporter = menuBar()->addMenu(tr("Exporter"));
-        QAction *actionJson = new QAction("Json");
-        menuExporter->addAction(actionJson);
-        actionJson->setShortcut(QKeySequence("Ctrl+s"));
-    QMenu *menuLangue = menuBar()->addMenu(tr("Langue"));
-        actionLangues[0] = new QAction(tr("Français"));
-        menuLangue->addAction(actionLangues[0]);
-        actionLangues[0]->setCheckable(true);
-        actionLangues[0]->setChecked(true);
-        actionLangues[0]->setEnabled(false);
-        actionLangues[1] = new QAction(tr("Anglais"));
-        menuLangue->addAction(actionLangues[1]);
-        actionLangues[1]->setCheckable(true);
-    QMenu *menuAutre = menuBar()->addMenu(tr("Autre"));
-        QAction *actionQuitter = new QAction(tr("Quitter"));
-        menuAutre->addAction(actionQuitter);
-        actionQuitter->setShortcut(QKeySequence("Ctrl+q"));
-    QToolBar *toolBarRech = addToolBar(tr("Recherche"));
-        toolBarRech->addWidget(widgetRech);
-        toolBarRech->addSeparator();
-        widgetHist = new QPushButton(tr("Historique"));
-        toolBarRech->addWidget(widgetHist);
-        toolBarRech->addSeparator();
+    actionLangues[0] = new QAction();
+    actionLangues[1] = new QAction();
+    actionLangues[0]->setCheckable(true);
+    actionLangues[0]->setChecked(true);
+    actionLangues[0]->setEnabled(false);
+    actionLangues[1]->setCheckable(true);
+    actionJson->setShortcut(QKeySequence("Ctrl+s"));
+    actionQuitter->setShortcut(QKeySequence("Ctrl+q"));
+    paintInterface();
+
     wm = new WidgetMain(&cata);
     wc = new WidgetContact();
     wh = new WidgetHist();
@@ -59,12 +44,39 @@ Window::Window() : QMainWindow() {
     QObject::connect(wi, SIGNAL(deleteInteraction()), this, SLOT(deleteInteraction()));
 }
 
+void Window::paintInterface() {
+    setWindowTitle(tr("Gestionnaire de contact"));
+    menuBar()->clear();
+    QMenu *menuImporter = menuBar()->addMenu(tr("Intégrer"));
+        actionPicture->setText(tr("Dossier - photo de profil"));
+        menuImporter->addAction(actionPicture);
+    QMenu *menuExporter = menuBar()->addMenu(tr("Exporter"));
+        actionJson->setText("Json");
+        menuExporter->addAction(actionJson);
+    QMenu *menuLangue = menuBar()->addMenu(tr("Langue"));
+        actionLangues[0]->setText(tr("Français"));
+        menuLangue->addAction(actionLangues[0]);
+        actionLangues[1]->setText(tr("Anglais"));
+        menuLangue->addAction(actionLangues[1]);
+    QMenu *menuAutre = menuBar()->addMenu(tr("Autre"));
+        actionQuitter->setText(tr("Quitter"));
+        menuAutre->addAction(actionQuitter);
+    toolBarRech->clear();
+    toolBarRech->addWidget(widgetRech);
+    toolBarRech->addSeparator();
+    widgetHist->setText(tr("Historique"));
+    toolBarRech->addWidget(widgetHist);
+    toolBarRech->addSeparator();
+}
+
 Window::~Window() {
     delete actionLangues[0];
     delete actionLangues[1];
     delete[] actionLangues;
     //cata.saveDataBase();
 }
+
+void Window::giveApp(QApplication *a) {app=a;}
 
 void Window::saveJson() {
     std::string text = cata.saveJson();
@@ -86,11 +98,14 @@ void Window::changeLangue() {
         actionLangues[0]->setEnabled(false);
         actionLangues[1]->setEnabled(true);
         actionLangues[1]->setChecked(false);
+        app->removeTranslator(&trans);
     } else {
         actionLangues[0]->setEnabled(true);
         actionLangues[1]->setEnabled(false);
         actionLangues[0]->setChecked(false);
-    }
+        app->installTranslator(&trans);
+    }  
+    paintInterface();
 }
 
 std::string Window::initPathBdd() {
