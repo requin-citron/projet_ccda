@@ -17,6 +17,7 @@ public:
     Window(QApplication *a);
     ~Window();
     std::string url = "";
+    void saveDataBase();
 private:
     QApplication *app;
     QTranslator *trans = nullptr;

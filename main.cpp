@@ -6,5 +6,7 @@ int main(int argc, char *argv[]) {
   QApplication a(argc, argv);
   Window w(&a);
   w.show();
-  return a.exec();
+  int ret = a.exec();
+  w.saveDataBase();
+  return ret;
 }

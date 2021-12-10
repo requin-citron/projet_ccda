@@ -11,6 +11,10 @@ QMainWindow {
 QCalendar {
 	background-color: #393a45;
 }
+QToolBar {
+	border-style: none;
+	background-color: #393a45;
+}
 QTextEdit {
 	border-width: 1px;
 	border-style: solid;
@@ -109,13 +113,23 @@ QPushButton:disabled{
 	padding: 2px;
 	background-color: rgb(142,142,142);
 }
+
 QLineEdit {
 	border-width: 1px;
 	border-style: solid;
 	border-color: #4fa08b;
-	background-color: #222b2e;
-	color: #d3dae3;
+	background-color: #ab0f0f;
+	color: #000000;
 }
+
+QLineEdit::selected {
+	border-width: 1px;
+	border-style: solid;
+	border-color: #4fa08b;
+	background-color: #db1414;
+	color: #000000;
+}
+
 QLabel {
 	color: #d3dae3;
 }
