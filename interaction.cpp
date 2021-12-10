@@ -161,3 +161,47 @@ void Interaction::destroy_lst_todo(){
 std::list<std::pair<std::string,Date*>*>* Interaction::getTodo(){
   return &(this->todo_lst);
 }
+
+void Interaction::mergeTag(std::list<std::string> *lst){
+    bool flag;
+    auto it = this->tags_lst.begin();
+    auto end = this->tags_lst.end();
+    std::list<std::string>::iterator it1;
+    std::list<std::string>::iterator end1;
+
+    while(it != end){
+        flag=false;
+        it1=lst->begin();
+        end1=lst->end();
+        while(it1!=end1){
+            if((*it)->getName() == *it1){
+                std::cout << "MAGIE" <<(*it)->getName() << std::endl;
+                flag=true;
+            }
+            it1++;
+        }
+        std::cout << "TAG "<<(*it)->getName()<<"flag "<<flag << std::endl ;
+        if(flag == false){
+            std::cout << "unlink " << (*it)->getName() << std::endl;
+            this->unlinkTag((*it++)->getName());
+        }
+        it++;
+    }
+
+    it1=lst->begin();
+    end1=lst->end();
+    while(it1 != end1){
+        it = this->tags_lst.begin();
+        end = this->tags_lst.end();
+        flag = true;
+        while(it!=end){
+            if((*it)->getName() == *it1) flag=false;
+            it++;
+        }
+        if(flag == true){
+            this->addTag(*it1);
+        }
+        it1++;
+    }
+
+}
