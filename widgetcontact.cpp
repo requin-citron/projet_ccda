@@ -40,6 +40,10 @@ WidgetContact::WidgetContact() : QWidget() {
     QObject::connect(widgetDel, SIGNAL(clicked()), this, SLOT(deleteContact()));
 }
 
+void WidgetContact::paintInterface() {
+
+}
+
 Contact* WidgetContact::getContact() {return currentContact;}
 
 void WidgetContact::configContact(Contact* c) {

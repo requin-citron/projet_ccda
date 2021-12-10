@@ -32,6 +32,10 @@ WidgetInter::WidgetInter() : QWidget() {
     QObject::connect(widgetDel, SIGNAL(clicked()), this, SLOT(delInter()));
 }
 
+void WidgetInter::paintInterface() {
+
+}
+
 void WidgetInter::configInter(Interaction *i) {
     currentInter = i;
     textChange = false;

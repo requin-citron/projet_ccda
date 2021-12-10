@@ -9,6 +9,7 @@ class WidgetHist : public QWidget
     Q_OBJECT
 public:
     WidgetHist();
+    void paintInterface();
     void configHist(HistLocal* h);
 private:
     QListWidget *widgetListHist = new QListWidget();

@@ -9,6 +9,7 @@ class WidgetInter : public QWidget
     Q_OBJECT
 public:
     WidgetInter();
+    void paintInterface();
     Interaction* getInter();
     void configInter(Interaction* i);
 private:
