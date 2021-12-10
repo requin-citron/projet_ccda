@@ -30,6 +30,7 @@
 */
 class ContactCatalog {
 private:
+  std::string pathBdd;
   //! liste de contacts
   std::list<Contact*> contact_lst;
   //! liste de TOUS les tags
@@ -82,7 +83,7 @@ public:
   */
   void eraseContact(Contact *c);
   //! sauvegarde le catalogue dans la DB
-  void saveDataBase(std::string path);
+  void saveDataBase();
   //! importation de la base de donnée
   void loadDataBase(std::string path);
   //! sauvegarde en json

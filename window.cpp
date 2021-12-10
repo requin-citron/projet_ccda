@@ -25,7 +25,7 @@ Window::Window() : QMainWindow() {
         menuAutre->addAction(actionQuitter);
         actionQuitter->setShortcut(QKeySequence("Ctrl+q"));
     QToolBar *toolBarRech = addToolBar("Recherche");
-        QLineEdit *widgetRech = new QLineEdit("rech...");
+        QLineEdit *widgetRech = new QLineEdit("");
         toolBarRech->addWidget(widgetRech);
         toolBarRech->addSeparator();
         widgetHist = new QPushButton("Historique");
@@ -60,6 +60,7 @@ Window::Window() : QMainWindow() {
 
 Window::~Window() {
     delete[] actionLangues;
+    //cata.saveDataBase();
 }
 
 void Window::saveJson() {

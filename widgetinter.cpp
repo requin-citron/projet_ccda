@@ -27,6 +27,7 @@ WidgetInter::WidgetInter() : QWidget() {
     setLayout(l6);
 
     QObject::connect(widgetContenu, SIGNAL(textChanged()), this, SLOT(editText()));
+    QObject::connect(widgetTags, SIGNAL(editingFinished()), this, SLOT(editTag()));
     QObject::connect(widgetSave, SIGNAL(clicked()), this, SLOT(saveText()));
     QObject::connect(widgetDel, SIGNAL(clicked()), this, SLOT(delInter()));
 }
@@ -56,6 +57,10 @@ Interaction* WidgetInter::getInter() {return currentInter;}
 void WidgetInter::editText() {
     currentInter->setContenu(widgetContenu->toPlainText().toStdString(),false);
     refreshTodo();
+}
+
+void WidgetInter::editTag() {
+    //currentInter->getTags()
 }
 
 void WidgetInter::saveText(){
