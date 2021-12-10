@@ -75,7 +75,7 @@ Window::~Window() {
     delete actionLangues[0];
     delete actionLangues[1];
     delete[] actionLangues;
-    //cata.saveDataBase();
+    cata.saveDataBase();
 }
 
 void Window::saveJson() {
@@ -167,8 +167,3 @@ void Window::quitterHist() {
     rechAvance(widgetRech->text());
     currentWidgetTmp = nullptr;
 }
-
-void Window::saveDataBase(){
-    this->cata.saveDataBase();
-}
-
