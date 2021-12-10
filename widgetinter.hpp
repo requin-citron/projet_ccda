@@ -13,6 +13,7 @@ public:
     void configInter(Interaction* i);
 private:
     Interaction* currentInter = nullptr;
+    bool textChange = false;
     QLabel *widgetNameContact = new QLabel();
     QTextEdit *widgetContenu = new QTextEdit();
     QListWidget *widgetListTodo = new QListWidget();
@@ -22,6 +23,7 @@ private slots:
     void editText();
     void saveText();
     void delInter();
+    void editTag();
 signals:
     void refreshInteraction();
     void deleteInteraction();

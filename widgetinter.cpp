@@ -27,13 +27,14 @@ WidgetInter::WidgetInter() : QWidget() {
     setLayout(l6);
 
     QObject::connect(widgetContenu, SIGNAL(textChanged()), this, SLOT(editText()));
-    //QObject::connect(widgetTags, SIGNAL(editingFinished()), this, SLOT(editTag()));
+    QObject::connect(widgetTags, SIGNAL(editingFinished()), this, SLOT(editTag()));
     QObject::connect(widgetSave, SIGNAL(clicked()), this, SLOT(saveText()));
     QObject::connect(widgetDel, SIGNAL(clicked()), this, SLOT(delInter()));
 }
 
 void WidgetInter::configInter(Interaction *i) {
     currentInter = i;
+    textChange = false;
     widgetNameContact->setText(QString::fromStdString(i->getContact()->getFirstName()+" "+i->getContact()->getLastName()+" ("+std::to_string(i->getContact()->getId())+")"));
     widgetContenu->setText(QString::fromStdString(i->getContenu()));
     refreshTodo();
@@ -55,19 +56,26 @@ void WidgetInter::refreshTodo() {
 Interaction* WidgetInter::getInter() {return currentInter;}
 
 void WidgetInter::editText() {
-    currentInter->setContenu(widgetContenu->toPlainText().toStdString(),false);
-    refreshTodo();
+    if (currentInter->getContenu()!=widgetContenu->toPlainText().toStdString()) {
+        textChange = true;
+        currentInter->setContenu(widgetContenu->toPlainText().toStdString(),false);
+        refreshTodo();
+    }
 }
 
-void WidgetInter::saveText(){
-    currentInter->setContenu(this->widgetContenu->toPlainText().toStdString());
+void WidgetInter::editTag() {
     std::stringstream ss (this->widgetTags->text().toStdString());
     std::string tmp;
     std::list<std::string> lst;
-    while(getline(ss, tmp, ' ')){
-        if(tmp != "" && tmp != " ")lst.push_back(tmp);
-    }
+    while(getline(ss, tmp, ' '))
+        if(tmp != "" && tmp != " ")
+            lst.push_back(tmp);
     this->currentInter->mergeTag(&lst);
+}
+
+void WidgetInter::saveText(){
+    if (textChange)
+        currentInter->setContenu(this->widgetContenu->toPlainText().toStdString());
     emit refreshInteraction();
 }
 
