@@ -111,7 +111,7 @@ void WidgetContact::choosePhoto() {
         int ind = fichier.lastIndexOf('/')+1;
         QString urlTmp = fichier.left(ind);
         QString nameFile = fichier.right(fichier.size()-ind);
-        if (urlTmp.toStdString()==url)
+        if (urlTmp.toStdString()==(url+"/"))
             currentContact->setPathPicture(nameFile.toStdString());
         else {
             QFile::copy(fichier, QString::fromStdString(url+"backup_")+nameFile);
