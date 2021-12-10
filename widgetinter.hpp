@@ -21,8 +21,10 @@ private:
 private slots:
     void editText();
     void saveText();
+    void delInter();
 signals:
     void refreshInteraction();
+    void deleteInteraction();
 };
 
 #endif // WIDGETINTER_HPP

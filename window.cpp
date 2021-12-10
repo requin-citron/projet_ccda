@@ -55,6 +55,7 @@ Window::Window() : QMainWindow() {
     QObject::connect(wc, SIGNAL(printInter(Interaction*)), this, SLOT(editInter(Interaction*)));
     QObject::connect(wh, SIGNAL(quitterHist()), this, SLOT(quitterHist()));
     QObject::connect(wi, SIGNAL(refreshInteraction()), this, SLOT(changeFocusInteraction()));
+    QObject::connect(wi, SIGNAL(deleteInteraction()), this, SLOT(deleteInteraction()));
 }
 
 Window::~Window() {
@@ -101,6 +102,11 @@ void Window::editInter(Interaction* i) {
 void Window::changeFocusMain(Contact* c) {
     wm->refreshListWidget(c);
     layStacked->setCurrentWidget(wm);
+}
+
+void Window::deleteInteraction() {
+    wc->getContact()->eraseInteraction(wi->getInter());
+    changeFocusInteraction();
 }
 
 void Window::changeFocusInteraction() {
