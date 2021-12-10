@@ -9,6 +9,7 @@ class WidgetContact : public QWidget
     Q_OBJECT
 public:
     WidgetContact();
+    void paintInterface();
     void configContact(Contact* c);
     Contact* getContact();
     void refreshInteraction();

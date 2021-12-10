@@ -10,6 +10,10 @@ WidgetHist::WidgetHist() : QWidget() {
     QObject::connect(widgetQuitter, SIGNAL(clicked()), this, SLOT(quitter()));
 }
 
+void WidgetHist::paintInterface() {
+
+}
+
 void WidgetHist::configHist(HistLocal* h) {
     widgetListHist->clear();
     for (auto cur: *h->getLst())

@@ -106,6 +106,10 @@ void Window::changeLangue() {
         app->installTranslator(&trans);
     }  
     paintInterface();
+    wm->paintInterface();
+    wc->paintInterface();
+    wi->paintInterface();
+    wh->paintInterface();
 }
 
 std::string Window::initPathBdd() {

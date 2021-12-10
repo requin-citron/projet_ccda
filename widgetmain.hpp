@@ -10,12 +10,14 @@ class WidgetMain : public QWidget
     Q_OBJECT
 public:
     WidgetMain(ContactCatalog *cata);
+    void paintInterface();
     void refreshListWidget(Contact* c);
     void removeContact(Contact* c);
     void rechAvance(QString s);
 private:
     ContactCatalog *cata;
     QListWidget *widgetListContact = new QListWidget();
+    QPushButton *widgetAddContact = new QPushButton();
     size_t getIndexContact(Contact* c);
     Contact* getContact(int index);
     void newContact(Contact* c);
