@@ -16,8 +16,15 @@ class Window : public QMainWindow
 public:
     Window();
     ~Window();
+    void giveApp(QApplication *a);
 private:
+    QApplication *app;
+    QTranslator trans;
     QWidget *currentWidgetTmp = nullptr;
+    QAction *actionQuitter = new QAction();
+    QAction *actionPicture = new QAction();
+    QAction *actionJson = new QAction();
+    QToolBar *toolBarRech = new QToolBar("Recherche");
     WidgetMain *wm;
     WidgetContact *wc;
     WidgetHist *wh;
@@ -25,8 +32,9 @@ private:
     ContactCatalog cata;
     QStackedLayout *layStacked;
     QAction** actionLangues = new QAction*[2];
-    QPushButton *widgetHist;
+    QPushButton *widgetHist = new QPushButton();
     QLineEdit *widgetRech = new QLineEdit();
+    void paintInterface();
 private slots:
     std::string initPathBdd();
     void rechAvance(QString s);
