@@ -59,6 +59,15 @@ void WidgetInter::editText() {
 
 void WidgetInter::saveText(){
     currentInter->setContenu(this->widgetContenu->toPlainText().toStdString());
+    std::stringstream ss (this->widgetTags->text().toStdString());
+    std::string tmp;
+    std::list<std::string> lst;
+    while(getline(ss, tmp, ' ')){
+        if(tmp != "" && tmp != " ")lst.push_back(tmp);
+        std::cout << "TAG " << tmp << std::endl;
+    }
+    this->currentInter->mergeTag(&lst);
+
     emit refreshInteraction(this->currentInter);
 }
 

@@ -125,6 +125,11 @@ public:
     \param name nom du tag a unlink
   */
   void unlinkTag(std::string name);
+  //! merge une list de tag avec la list courrante
+  /*!
+      \param pointeur sur la list de tag
+   */
+  void mergeTag(std::list<std::string> *lst);
 };
 
 #endif
