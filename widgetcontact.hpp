@@ -8,13 +8,13 @@ class WidgetContact : public QWidget
 {
     Q_OBJECT
 public:
-    WidgetContact();
+    WidgetContact(std::string url);
     void paintInterface();
     void configContact(Contact* c);
     Contact* getContact();
     void refreshInteraction();
 private:
-    std::string url = "/home/thibaultdupre1999/CetC++/Qt/CDAA/projet_ccda/file/";
+    std::string url;
     Contact* currentContact = nullptr;
     QLabel *writePre = new QLabel();
     QLabel *writeNom = new QLabel();
@@ -36,7 +36,6 @@ private slots:
     void quitter();
     void deleteContact();
     void choosePhoto();
-    void changePathPicture();
     void changeContact();
     void printInter(QListWidgetItem* i);
     void createInter();

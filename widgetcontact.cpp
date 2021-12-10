@@ -1,6 +1,7 @@
 #include "widgetcontact.hpp"
 
-WidgetContact::WidgetContact() : QWidget() {
+WidgetContact::WidgetContact(std::string url) : QWidget() {
+    this->url = url;
     paintInterface();
     QFormLayout *l1 = new QFormLayout;
     l1->addRow(writePre, widgetFirstName);
@@ -119,10 +120,6 @@ void WidgetContact::choosePhoto() {
         widgetPhoto->setIcon(QIcon(pixmap));
         widgetPhoto->setIconSize(pixmap.rect().size());
     }
-}
-
-void WidgetContact::changePathPicture() {
-    url = QFileDialog::getExistingDirectory(this, tr("Renseignez la position du fichier d'image"), QString::fromStdString(url)).toStdString()+"/";
 }
 
 Interaction* WidgetContact::getInteraction(int index) {

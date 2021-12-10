@@ -4,60 +4,59 @@
 <context>
     <name>WidgetContact</name>
     <message>
-        <location filename="widgetcontact.cpp" line="42"/>
+        <location filename="widgetcontact.cpp" line="43"/>
         <source>Prénom</source>
         <translation>First name</translation>
     </message>
     <message>
-        <location filename="widgetcontact.cpp" line="43"/>
+        <location filename="widgetcontact.cpp" line="44"/>
         <source>Nom</source>
         <translation>Last Name</translation>
     </message>
     <message>
-        <location filename="widgetcontact.cpp" line="44"/>
+        <location filename="widgetcontact.cpp" line="45"/>
         <source>Entreprise</source>
         <translation>Company</translation>
     </message>
     <message>
-        <location filename="widgetcontact.cpp" line="45"/>
+        <location filename="widgetcontact.cpp" line="46"/>
         <source>Mail</source>
         <translation>Mail</translation>
     </message>
     <message>
-        <location filename="widgetcontact.cpp" line="46"/>
+        <location filename="widgetcontact.cpp" line="47"/>
         <source>Téléphone</source>
         <translation>Phone</translation>
     </message>
     <message>
-        <location filename="widgetcontact.cpp" line="47"/>
+        <location filename="widgetcontact.cpp" line="48"/>
         <source>Ajouter une interaction</source>
         <translation>Add interaction</translation>
     </message>
     <message>
-        <location filename="widgetcontact.cpp" line="48"/>
+        <location filename="widgetcontact.cpp" line="49"/>
         <source>Enregistrer</source>
         <translation>Save</translation>
     </message>
     <message>
-        <location filename="widgetcontact.cpp" line="49"/>
+        <location filename="widgetcontact.cpp" line="50"/>
         <source>Supprimer</source>
         <translation>Remove</translation>
     </message>
     <message>
-        <location filename="widgetcontact.cpp" line="58"/>
-        <location filename="widgetcontact.cpp" line="106"/>
+        <location filename="widgetcontact.cpp" line="59"/>
+        <location filename="widgetcontact.cpp" line="107"/>
         <source>Choisir une photo</source>
         <translation>Choose a picture</translation>
     </message>
     <message>
-        <location filename="widgetcontact.cpp" line="103"/>
+        <location filename="widgetcontact.cpp" line="104"/>
         <source>Choisie l&apos;image</source>
         <translation>Choose a picture</translation>
     </message>
     <message>
-        <location filename="widgetcontact.cpp" line="125"/>
         <source>Renseignez la position du fichier d&apos;image</source>
-        <translation>Write the image file path</translation>
+        <translation type="vanished">Write the image file path</translation>
     </message>
 </context>
 <context>
@@ -92,24 +91,26 @@
 <context>
     <name>Window</name>
     <message>
-        <location filename="window.cpp" line="53"/>
+        <location filename="window.cpp" line="58"/>
         <source>Gestionnaire de contact</source>
         <translation>Contact manager</translation>
     </message>
     <message>
-        <location filename="window.cpp" line="55"/>
         <source>Intégrer</source>
-        <translation>Incorporate</translation>
+        <translation type="vanished">Incorporate</translation>
     </message>
     <message>
-        <location filename="window.cpp" line="56"/>
         <source>Dossier - photo de profil</source>
-        <translation>Folder - profile picture</translation>
+        <translation type="vanished">Folder - profile picture</translation>
     </message>
     <message>
-        <location filename="window.cpp" line="58"/>
         <source>Fichier - module de traduction</source>
-        <translation>File - translation module</translation>
+        <translation type="vanished">File - translation module</translation>
+    </message>
+    <message>
+        <location filename="window.cpp" line="5"/>
+        <source>Renseignez la position des datas</source>
+        <translation>Write data path</translation>
     </message>
     <message>
         <location filename="window.cpp" line="60"/>
@@ -142,9 +143,8 @@
         <translation>Exit</translation>
     </message>
     <message>
-        <location filename="window.cpp" line="125"/>
         <source>Renseignez la position du fichier de traduction</source>
-        <translation>Write file path translation</translation>
+        <translation type="vanished">Write file path translation</translation>
     </message>
     <message>
         <source>Recherche</source>
@@ -156,14 +156,13 @@
         <translation>History</translation>
     </message>
     <message>
-        <location filename="window.cpp" line="85"/>
+        <location filename="window.cpp" line="83"/>
         <source>Sauvegarder en Json</source>
         <translation>Save on Json</translation>
     </message>
     <message>
-        <location filename="window.cpp" line="119"/>
         <source>Renseignez la position de la BDD</source>
-        <translation>Write BDD path</translation>
+        <translation type="vanished">Write BDD path</translation>
     </message>
 </context>
 </TS>
