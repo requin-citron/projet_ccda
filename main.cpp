@@ -301,7 +301,7 @@ void testDBSave(){
     c->addInteraction("eza", "hh");
     c->addInteraction("ggg", "hh");
     c->addInteraction("aze", "relou");
-    cata.saveDataBase("../bdd");
+    //cata.saveDataBase("../bdd");
     cout << "testDBSave --------------------------------------------END" << endl;
 }
 

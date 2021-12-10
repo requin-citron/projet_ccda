@@ -45,6 +45,7 @@ void ContactCatalog::cleanDataBase(){
 }
 
 void ContactCatalog::initDbConnexion(std::string path){
+    pathBdd = path;
     const QString DRIVER("QSQLITE");
     if(!QSqlDatabase::isDriverAvailable(DRIVER)){
         qWarning() << "Error: SQL DRIVER unavailable";
@@ -64,8 +65,8 @@ void ContactCatalog::eraseDbConnexion(){
     //QSqlDatabase::removeDatabase(name);
 }
 
-void ContactCatalog::saveDataBase(std::string path){
-    this->initDbConnexion(path);
+void ContactCatalog::saveDataBase(){
+    this->initDbConnexion(pathBdd);
     //clean database
     this->cleanDataBase();
     QSqlQuery query;

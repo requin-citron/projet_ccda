@@ -25,7 +25,7 @@ Window::Window() : QMainWindow() {
         menuAutre->addAction(actionQuitter);
         actionQuitter->setShortcut(QKeySequence("Ctrl+q"));
     QToolBar *toolBarRech = addToolBar("Recherche");
-        QLineEdit *widgetRech = new QLineEdit("rech...");
+        QLineEdit *widgetRech = new QLineEdit("");
         toolBarRech->addWidget(widgetRech);
         toolBarRech->addSeparator();
         widgetHist = new QPushButton("Historique");
@@ -51,15 +51,16 @@ Window::Window() : QMainWindow() {
     QObject::connect(widgetHist, SIGNAL(clicked()), this, SLOT(printHist()));
     QObject::connect(wm, SIGNAL(printContact(Contact*)), this, SLOT(editContact(Contact*)));
     QObject::connect(wc, SIGNAL(refreshContact(Contact*)), this, SLOT(changeFocusMain(Contact*)));
-    QObject::connect(wi, SIGNAL(refreshInteraction(Interaction *)), this, SLOT(changeFocusInteraction(Interaction *)));
     QObject::connect(wc, SIGNAL(removeContact(Contact*)), this, SLOT(removeContact(Contact*)));
     QObject::connect(wc, SIGNAL(printInter(Interaction*)), this, SLOT(editInter(Interaction*)));
     QObject::connect(wh, SIGNAL(quitterHist()), this, SLOT(quitterHist()));
-
+    QObject::connect(wi, SIGNAL(refreshInteraction()), this, SLOT(changeFocusInteraction()));
+    QObject::connect(wi, SIGNAL(deleteInteraction()), this, SLOT(deleteInteraction()));
 }
 
 Window::~Window() {
     delete[] actionLangues;
+    //cata.saveDataBase();
 }
 
 void Window::saveJson() {
@@ -103,7 +104,14 @@ void Window::changeFocusMain(Contact* c) {
     wm->refreshListWidget(c);
     layStacked->setCurrentWidget(wm);
 }
-void Window::changeFocusInteraction(Interaction* inte){
+
+void Window::deleteInteraction() {
+    wc->getContact()->eraseInteraction(wi->getInter());
+    changeFocusInteraction();
+}
+
+void Window::changeFocusInteraction() {
+    wc->refreshInteraction();
     this->layStacked->setCurrentWidget(wc);
 }
 
