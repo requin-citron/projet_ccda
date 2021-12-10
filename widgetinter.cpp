@@ -66,7 +66,6 @@ void WidgetInter::saveText(){
     std::list<std::string> lst;
     while(getline(ss, tmp, ' ')){
         if(tmp != "" && tmp != " ")lst.push_back(tmp);
-        std::cout << "TAG " << tmp << std::endl;
     }
     this->currentInter->mergeTag(&lst);
     emit refreshInteraction();
