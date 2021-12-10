@@ -49,6 +49,14 @@ void WidgetInter::configInter(Interaction *i) {
     widgetTags->setText(tmp.left(tmp.size()-1));
 }
 
+void WidgetInter::rechAvance(QString s) {
+    for (int t=0; t<widgetListTodo->count(); t++)
+        if (widgetListTodo->item(t)->text().toLower().contains(s.toLower()))
+            widgetListTodo->item(t)->setHidden(false);
+        else
+            widgetListTodo->item(t)->setHidden(true);
+}
+
 void WidgetInter::refreshTodo() {
     widgetListTodo->clear();
     for (auto t: *currentInter->getTodo())

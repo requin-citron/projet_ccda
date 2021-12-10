@@ -12,6 +12,7 @@ public:
     void paintInterface();
     Interaction* getInter();
     void configInter(Interaction* i);
+    void rechAvance(QString s);
 private:
     Interaction* currentInter = nullptr;
     bool textChange = false;
