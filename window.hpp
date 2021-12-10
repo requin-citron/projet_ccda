@@ -24,7 +24,6 @@ private:
     QAction *actionQuitter = new QAction();
     QAction *actionPicture = new QAction();
     QAction *actionJson = new QAction();
-    QToolBar *toolBarRech = new QToolBar("Recherche");
     WidgetMain *wm;
     WidgetContact *wc;
     WidgetHist *wh;
