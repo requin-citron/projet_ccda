@@ -48,7 +48,7 @@ void WidgetInter::refreshTodo() {
     widgetListTodo->clear();
     for (auto t: *currentInter->getTodo())
         if (t->second!=nullptr)
-            widgetListTodo->addItem(QString::fromStdString(t->second->printAll()+">\n"+t->first));
+            widgetListTodo->addItem(QString::fromStdString(t->second->print()+">\n"+t->first));
         else
             widgetListTodo->addItem(QString::fromStdString("->\n"+t->first));
 }

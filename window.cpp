@@ -4,8 +4,8 @@ Window::Window() : QMainWindow() {
     cata.loadDataBase(initPathBdd());
     setWindowTitle("Gestionnaire de contact");
     setMinimumSize(800,800);
-    QMenu *menuImporter = menuBar()->addMenu("Linker");
-        QAction *actionPicture = new QAction("Photos de profils");
+    QMenu *menuImporter = menuBar()->addMenu("Intégrer");
+        QAction *actionPicture = new QAction("Dossier - photo de profil");
         menuImporter->addAction(actionPicture);
     QMenu *menuExporter = menuBar()->addMenu("Exporter");
         QAction *actionJson = new QAction("Json");
@@ -20,7 +20,7 @@ Window::Window() : QMainWindow() {
         actionLangues[1] = new QAction("Anglais");
         menuLangue->addAction(actionLangues[1]);
         actionLangues[1]->setCheckable(true);
-    QMenu *menuAutre = menuBar()->addMenu("Autres");
+    QMenu *menuAutre = menuBar()->addMenu("Autre");
         QAction *actionQuitter = new QAction("Quitter");
         menuAutre->addAction(actionQuitter);
         actionQuitter->setShortcut(QKeySequence("Ctrl+q"));
