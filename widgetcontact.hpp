@@ -16,6 +16,14 @@ public:
 private:
     std::string url = "/home/thibaultdupre1999/CetC++/Qt/CDAA/projet_ccda/file/";
     Contact* currentContact = nullptr;
+    QLabel *writePre = new QLabel();
+    QLabel *writeNom = new QLabel();
+    QLabel *writeEnt = new QLabel();
+    QLabel *writeMail = new QLabel();
+    QLabel *writeTel = new QLabel();
+    QPushButton *widgetNewInter = new QPushButton();
+    QPushButton *widgetSave = new QPushButton();
+    QPushButton *widgetDel = new QPushButton();
     QPushButton *widgetPhoto = new QPushButton();
     QLineEdit *widgetFirstName = new QLineEdit();
     QLineEdit *widgetLastName = new QLineEdit();
