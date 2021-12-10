@@ -17,7 +17,6 @@ public:
     Window(QApplication *a);
     ~Window();
     std::string url = "";
-    void saveDataBase();
 private:
     QApplication *app;
     QTranslator *trans = nullptr;
@@ -35,8 +34,6 @@ private:
     QLineEdit *widgetRech = new QLineEdit();
     void paintInterface();
 private slots:
-    //void initPath();
-    //void changePathTranslate();
     void rechAvance(QString s);
     void editContact(Contact* c);
     void editInter(Interaction* i);
