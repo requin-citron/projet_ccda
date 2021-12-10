@@ -13,10 +13,10 @@ public:
     void configInter(Interaction* i);
 private:
     Interaction* currentInter = nullptr;
-    QLabel *widgetNameContact = new QLabel("Dominique Marteau");
+    QLabel *widgetNameContact = new QLabel();
     QTextEdit *widgetContenu = new QTextEdit();
     QListWidget *widgetListTodo = new QListWidget();
-    QLineEdit *widgetTags = new QLineEdit("merde, truc, bidule");
+    QLineEdit *widgetTags = new QLineEdit();
     void refreshTodo();
 private slots:
     void editText();
