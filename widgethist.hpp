@@ -11,6 +11,7 @@ public:
     WidgetHist();
     void paintInterface();
     void configHist(HistLocal* h);
+    void rechAvance(QString s);
 private:
     QListWidget *widgetListHist = new QListWidget();
     QPushButton *widgetQuitter = new QPushButton();

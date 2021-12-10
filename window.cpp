@@ -91,6 +91,12 @@ void Window::saveJson() {
 void Window::rechAvance(QString s) {
     if (layStacked->currentWidget()==wm)
         wm->rechAvance(s);
+    else if (layStacked->currentWidget()==wi)
+        wi->rechAvance(s);
+    else if (layStacked->currentWidget()==wc)
+        wc->rechAvance(s);
+    else if (layStacked->currentWidget()==wh)
+        wh->rechAvance(s);
 }
 
 void Window::changeLangue() {
@@ -115,11 +121,13 @@ void Window::changeLangue() {
 void Window::editContact(Contact* c) {
     wc->configContact(c);
     layStacked->setCurrentWidget(wc);
+    rechAvance(widgetRech->text());
 }
 
 void Window::editInter(Interaction* i) {
     wi->configInter(i);
     layStacked->setCurrentWidget(wi);
+    rechAvance(widgetRech->text());
 }
 
 void Window::changeFocusMain(Contact* c) {
@@ -136,6 +144,7 @@ void Window::deleteInteraction() {
 void Window::changeFocusInteraction() {
     wc->refreshInteraction();
     this->layStacked->setCurrentWidget(wc);
+    rechAvance(widgetRech->text());
 }
 
 void Window::removeContact(Contact* c) {
@@ -159,6 +168,7 @@ void Window::printHist() {
         currentWidgetTmp = wc;
     }
     layStacked->setCurrentWidget(wh);
+    rechAvance(widgetRech->text());
 }
 
 void Window::quitterHist() {

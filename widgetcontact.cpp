@@ -86,6 +86,14 @@ void WidgetContact::refreshInteraction() {
 
 void WidgetContact::quitter() {emit refreshContact(currentContact);}
 
+void WidgetContact::rechAvance(QString s) {
+    for (int t=0; t<widgetListInteraction->count(); t++)
+        if (widgetListInteraction->item(t)->text().toLower().contains(s.toLower()))
+            widgetListInteraction->item(t)->setHidden(false);
+        else
+            widgetListInteraction->item(t)->setHidden(true);
+}
+
 void WidgetContact::changeContact() {
     if (widgetFirstName->text().toStdString()!=currentContact->getFirstName())
         currentContact->setFirstName(widgetFirstName->text().toStdString());

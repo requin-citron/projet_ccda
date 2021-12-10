@@ -14,6 +14,14 @@ void WidgetHist::paintInterface() {
     widgetQuitter->setText(tr("Continuer"));
 }
 
+void WidgetHist::rechAvance(QString s) {
+    for (int t=0; t<widgetListHist->count(); t++)
+        if (widgetListHist->item(t)->text().toLower().contains(s.toLower()))
+            widgetListHist->item(t)->setHidden(false);
+        else
+            widgetListHist->item(t)->setHidden(true);
+}
+
 void WidgetHist::configHist(HistLocal* h) {
     widgetListHist->clear();
     for (auto cur: *h->getLst())

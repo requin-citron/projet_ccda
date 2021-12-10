@@ -13,6 +13,7 @@ public:
     void configContact(Contact* c);
     Contact* getContact();
     void refreshInteraction();
+    void rechAvance(QString s);
 private:
     std::string url;
     Contact* currentContact = nullptr;
