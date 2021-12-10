@@ -175,14 +175,11 @@ void Interaction::mergeTag(std::list<std::string> *lst){
         end1=lst->end();
         while(it1!=end1){
             if((*it)->getName() == *it1){
-                std::cout << "MAGIE" <<(*it)->getName() << std::endl;
                 flag=true;
             }
             it1++;
         }
-        std::cout << "TAG "<<(*it)->getName()<<"flag "<<flag << std::endl ;
         if(flag == false){
-            std::cout << "unlink " << (*it)->getName() << std::endl;
             this->unlinkTag((*it++)->getName());
         }
         it++;
