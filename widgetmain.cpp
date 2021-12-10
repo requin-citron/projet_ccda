@@ -16,6 +16,14 @@ WidgetMain::WidgetMain(ContactCatalog *cata) : QWidget(), cata(cata) {
     QObject::connect(widgetListContact, SIGNAL(itemDoubleClicked(QListWidgetItem*)),this, SLOT(printContact(QListWidgetItem*)));
 }
 
+void WidgetMain::rechAvance(QString s) {
+    for (int t=0; t<widgetListContact->count(); t++)
+        if (widgetListContact->item(t)->text().toLower().contains(s.toLower()))
+            widgetListContact->item(t)->setHidden(false);
+        else
+            widgetListContact->item(t)->setHidden(true);
+}
+
 size_t WidgetMain::getIndexContact(Contact *c) {
     size_t t=0;
     for (Contact *tmp: *cata->getContactLst())

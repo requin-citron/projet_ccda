@@ -12,6 +12,7 @@ public:
     WidgetMain(ContactCatalog *cata);
     void refreshListWidget(Contact* c);
     void removeContact(Contact* c);
+    void rechAvance(QString s);
 private:
     ContactCatalog *cata;
     QListWidget *widgetListContact = new QListWidget();

@@ -25,7 +25,6 @@ Window::Window() : QMainWindow() {
         menuAutre->addAction(actionQuitter);
         actionQuitter->setShortcut(QKeySequence("Ctrl+q"));
     QToolBar *toolBarRech = addToolBar("Recherche");
-        QLineEdit *widgetRech = new QLineEdit("");
         toolBarRech->addWidget(widgetRech);
         toolBarRech->addSeparator();
         widgetHist = new QPushButton("Historique");
@@ -43,11 +42,13 @@ Window::Window() : QMainWindow() {
     QWidget *container = new QWidget();
     container->setLayout(layStacked);
     setCentralWidget(container);
+
     QObject::connect(actionQuitter, SIGNAL(triggered()), qApp, SLOT(quit()));
     QObject::connect(actionPicture, SIGNAL(triggered()), wc, SLOT(changePathPicture()));
     QObject::connect(actionJson, SIGNAL(triggered()), this, SLOT(saveJson()));
     QObject::connect(actionLangues[0], SIGNAL(triggered()), this, SLOT(changeLangue()));
     QObject::connect(actionLangues[1], SIGNAL(triggered()), this, SLOT(changeLangue()));
+    QObject::connect(widgetRech, SIGNAL(textChanged(QString)), this, SLOT(rechAvance(QString)));
     QObject::connect(widgetHist, SIGNAL(clicked()), this, SLOT(printHist()));
     QObject::connect(wm, SIGNAL(printContact(Contact*)), this, SLOT(editContact(Contact*)));
     QObject::connect(wc, SIGNAL(refreshContact(Contact*)), this, SLOT(changeFocusMain(Contact*)));
@@ -59,6 +60,8 @@ Window::Window() : QMainWindow() {
 }
 
 Window::~Window() {
+    delete actionLangues[0];
+    delete actionLangues[1];
     delete[] actionLangues;
     //cata.saveDataBase();
 }
@@ -71,6 +74,11 @@ void Window::saveJson() {
         QTextStream stream(&file);
         stream << QString::fromStdString(text+"\n");
     }
+}
+
+void Window::rechAvance(QString s) {
+    if (layStacked->currentWidget()==wm)
+        wm->rechAvance(s);
 }
 
 void Window::changeLangue() {
@@ -103,6 +111,7 @@ void Window::editInter(Interaction* i) {
 void Window::changeFocusMain(Contact* c) {
     wm->refreshListWidget(c);
     layStacked->setCurrentWidget(wm);
+    rechAvance(widgetRech->text());
 }
 
 void Window::deleteInteraction() {
@@ -118,6 +127,7 @@ void Window::changeFocusInteraction() {
 void Window::removeContact(Contact* c) {
     wm->removeContact(c);
     layStacked->setCurrentWidget(wm);
+    rechAvance(widgetRech->text());
 }
 
 void Window::printHist() {
@@ -140,5 +150,6 @@ void Window::printHist() {
 void Window::quitterHist() {
     widgetHist->setEnabled(true);
     layStacked->setCurrentWidget(currentWidgetTmp);
+    rechAvance(widgetRech->text());
     currentWidgetTmp = nullptr;
 }
