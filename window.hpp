@@ -14,16 +14,14 @@ class Window : public QMainWindow
 {
     Q_OBJECT
 public:
-    Window();
+    Window(QApplication *a);
     ~Window();
-    void giveApp(QApplication *a);
+    std::string url = "";
 private:
     QApplication *app;
     QTranslator *trans = nullptr;
     QWidget *currentWidgetTmp = nullptr;
     QAction *actionQuitter = new QAction();
-    QAction *actionChangePathTrad = new QAction();
-    QAction *actionPicture = new QAction();
     QAction *actionJson = new QAction();
     WidgetMain *wm;
     WidgetContact *wc;
@@ -36,8 +34,8 @@ private:
     QLineEdit *widgetRech = new QLineEdit();
     void paintInterface();
 private slots:
-    std::string initPathBdd();
-    void changePathTranslate();
+    //void initPath();
+    //void changePathTranslate();
     void rechAvance(QString s);
     void editContact(Contact* c);
     void editInter(Interaction* i);

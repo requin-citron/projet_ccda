@@ -1,8 +1,15 @@
 #include "window.hpp"
 
-Window::Window() : QMainWindow() {
-    cata.loadDataBase(initPathBdd());
-
+Window::Window(QApplication* a) : QMainWindow() {
+    app = a;
+    url = QFileDialog::getExistingDirectory(this, tr("Renseignez la position des datas")).toStdString(); //getOpenFileName(this, tr("Renseignez la position des datas")).toStdString();
+    cata.loadDataBase(url+"/bdd");
+    QFile file(QString::fromStdString(url+"/style.qss"));
+    file.open(QFile::ReadOnly | QFile::Text);
+    QTextStream stream(&file);
+    app->setStyleSheet(stream.readAll());
+    trans = new QTranslator();
+    trans->load(QString::fromStdString(url+"/ccda_en.qm"));
     setMinimumSize(800,800);
     actionLangues[0] = new QAction();
     actionLangues[1] = new QAction();
@@ -20,7 +27,7 @@ Window::Window() : QMainWindow() {
     paintInterface();
 
     wm = new WidgetMain(&cata);
-    wc = new WidgetContact();
+    wc = new WidgetContact(url);
     wh = new WidgetHist();
     wi = new WidgetInter();
     layStacked = new QStackedLayout;
@@ -33,8 +40,6 @@ Window::Window() : QMainWindow() {
     setCentralWidget(container);
 
     QObject::connect(actionQuitter, SIGNAL(triggered()), qApp, SLOT(quit()));
-    QObject::connect(actionPicture, SIGNAL(triggered()), wc, SLOT(changePathPicture()));
-    QObject::connect(actionChangePathTrad, SIGNAL(triggered()), this, SLOT(changePathTranslate()));
     QObject::connect(actionJson, SIGNAL(triggered()), this, SLOT(saveJson()));
     QObject::connect(actionLangues[0], SIGNAL(triggered()), this, SLOT(changeLangue()));
     QObject::connect(actionLangues[1], SIGNAL(triggered()), this, SLOT(changeLangue()));
@@ -52,11 +57,6 @@ Window::Window() : QMainWindow() {
 void Window::paintInterface() {
     setWindowTitle(tr("Gestionnaire de contact"));
     menuBar()->clear();
-    QMenu *menuImporter = menuBar()->addMenu(tr("Intégrer"));
-        actionPicture->setText(tr("Dossier - photo de profil"));
-        menuImporter->addAction(actionPicture);
-        actionChangePathTrad->setText(tr("Fichier - module de traduction"));
-        menuImporter->addAction(actionChangePathTrad);
     QMenu *menuExporter = menuBar()->addMenu(tr("Exporter"));
         actionJson->setText("Json");
         menuExporter->addAction(actionJson);
@@ -78,8 +78,6 @@ Window::~Window() {
     //cata.saveDataBase();
 }
 
-void Window::giveApp(QApplication *a) {app=a;}
-
 void Window::saveJson() {
     std::string text = cata.saveJson();
     QString fileName = QFileDialog::getSaveFileName(this, tr("Sauvegarder en Json"));
@@ -96,7 +94,6 @@ void Window::rechAvance(QString s) {
 }
 
 void Window::changeLangue() {
-    if (trans==nullptr) changePathTranslate();
     if (actionLangues[0]->isEnabled()) {
         actionLangues[0]->setEnabled(false);
         actionLangues[1]->setEnabled(true);
@@ -113,16 +110,6 @@ void Window::changeLangue() {
     wc->paintInterface();
     wi->paintInterface();
     wh->paintInterface();
-}
-
-std::string Window::initPathBdd() {
-   QString url = QFileDialog::getOpenFileName(this, tr("Renseignez la position de la BDD"));
-   return url.toStdString();
-}
-
-void Window::changePathTranslate() {
-    trans = new QTranslator();
-    trans->load(QFileDialog::getOpenFileName(this, tr("Renseignez la position du fichier de traduction")));
 }
 
 void Window::editContact(Contact* c) {
