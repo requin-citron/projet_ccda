@@ -2,6 +2,7 @@
 
 WidgetContact::WidgetContact(std::string url) : QWidget() {
     this->url = url;
+    this->widgetListInteraction->setStyleSheet("QListWidget {font-size: 20px;}");
     paintInterface();
     QFormLayout *l1 = new QFormLayout;
     l1->addRow(writePre, widgetFirstName);
