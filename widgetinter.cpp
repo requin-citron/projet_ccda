@@ -69,10 +69,8 @@ void WidgetInter::saveText(){
         std::cout << "TAG " << tmp << std::endl;
     }
     this->currentInter->mergeTag(&lst);
-
     emit refreshInteraction();
 }
-
 
 void WidgetInter::delInter() {
     emit deleteInteraction();
