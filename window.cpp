@@ -13,6 +13,11 @@ Window::Window() : QMainWindow() {
     actionLangues[1]->setCheckable(true);
     actionJson->setShortcut(QKeySequence("Ctrl+s"));
     actionQuitter->setShortcut(QKeySequence("Ctrl+q"));
+    QToolBar *toolBarRech = addToolBar("Recherche");
+    toolBarRech->addWidget(widgetRech);
+    toolBarRech->addSeparator();
+    toolBarRech->addWidget(widgetHist);
+    toolBarRech->addSeparator();
     paintInterface();
 
     wm = new WidgetMain(&cata);
@@ -61,12 +66,7 @@ void Window::paintInterface() {
     QMenu *menuAutre = menuBar()->addMenu(tr("Autre"));
         actionQuitter->setText(tr("Quitter"));
         menuAutre->addAction(actionQuitter);
-    toolBarRech->clear();
-    toolBarRech->addWidget(widgetRech);
-    toolBarRech->addSeparator();
     widgetHist->setText(tr("Historique"));
-    toolBarRech->addWidget(widgetHist);
-    toolBarRech->addSeparator();
 }
 
 Window::~Window() {

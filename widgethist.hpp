@@ -13,6 +13,7 @@ public:
     void configHist(HistLocal* h);
 private:
     QListWidget *widgetListHist = new QListWidget();
+    QPushButton *widgetQuitter = new QPushButton();
 private slots:
     void quitter();
 signals:
