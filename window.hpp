@@ -26,8 +26,10 @@ private:
     QStackedLayout *layStacked;
     QAction** actionLangues = new QAction*[2];
     QPushButton *widgetHist;
+    QLineEdit *widgetRech = new QLineEdit();
 private slots:
     std::string initPathBdd();
+    void rechAvance(QString s);
     void editContact(Contact* c);
     void editInter(Interaction* i);
     void changeFocusMain(Contact* c);
