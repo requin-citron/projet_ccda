@@ -22,7 +22,7 @@ private slots:
     void editText();
     void saveText();
 signals:
-    void refreshInteraction(Interaction *inte);
+    void refreshInteraction();
 };
 
 #endif // WIDGETINTER_HPP
