@@ -1,25 +1,23 @@
 #include "widgetcontact.hpp"
 
 WidgetContact::WidgetContact() : QWidget() {
+    paintInterface();
     QFormLayout *l1 = new QFormLayout;
-    l1->addRow("Prénom", widgetFirstName);
-    l1->addRow("Nom", widgetLastName);
-    l1->addRow("Entreprise", widgetEntreprise);
-    l1->addRow("Mail", widgetMail);
-    l1->addRow("Téléphone", widgetPhone);
-    QPushButton *widgetNewInter = new QPushButton(tr("Ajouter une interaction"));
+    l1->addRow(writePre, widgetFirstName);
+    l1->addRow(writeNom, widgetLastName);
+    l1->addRow(writeEnt, widgetEntreprise);
+    l1->addRow(writeMail, widgetMail);
+    l1->addRow(writeTel, widgetPhone);
     QVBoxLayout *l2 = new QVBoxLayout;
     l2->addWidget(widgetPhoto);
     l2->addLayout(l1);
     l2->addWidget(widgetNewInter);
     QVBoxLayout *l3 = new QVBoxLayout;
-    l3->addWidget(new QLabel("Interactions :"));
+    l3->addWidget(new QLabel("Interaction :"));
     l3->addWidget(widgetListInteraction);
     QHBoxLayout *l4 = new QHBoxLayout;
     l4->addLayout(l2);
     l4->addLayout(l3);
-    QPushButton *widgetSave = new QPushButton(tr("Enregistrer"));
-    QPushButton *widgetDel = new QPushButton(tr("Supprimer"));
     QGridLayout *l5 = new QGridLayout;
     l5->addWidget(widgetSave,0,0,1,3);
     l5->addWidget(widgetDel,0,3);
@@ -41,7 +39,14 @@ WidgetContact::WidgetContact() : QWidget() {
 }
 
 void WidgetContact::paintInterface() {
-
+    writePre->setText(tr("Prénom"));
+    writeNom->setText(tr("Nom"));
+    writeEnt->setText(tr("Entreprise"));
+    writeMail->setText(tr("Mail"));
+    writeTel->setText(tr("Téléphone"));
+    widgetNewInter->setText(tr("Ajouter une interaction"));
+    widgetSave->setText(tr("Enregistrer"));
+    widgetDel->setText(tr("Supprimer"));
 }
 
 Contact* WidgetContact::getContact() {return currentContact;}
