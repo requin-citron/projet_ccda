@@ -11,6 +11,7 @@ public:
     WidgetContact();
     void configContact(Contact* c);
     Contact* getContact();
+    void refreshInteraction();
 private:
     std::string url = "/home/thibaultdupre1999/CetC++/Qt/CDAA/projet_ccda/file/";
     Contact* currentContact = nullptr;

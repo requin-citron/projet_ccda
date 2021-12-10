@@ -31,12 +31,13 @@ private slots:
     void editContact(Contact* c);
     void editInter(Interaction* i);
     void changeFocusMain(Contact* c);
-    void changeFocusInteraction(Interaction *inte);
+    void changeFocusInteraction();
     void removeContact(Contact* c);
     void saveJson();
     void changeLangue();
     void printHist();
     void quitterHist();
+    void deleteInteraction();
 };
 
 #endif // WINDOW_HPP

@@ -58,8 +58,12 @@ void WidgetContact::configContact(Contact* c) {
     widgetEntreprise->setText(QString::fromStdString(c->getEnterprise()));
     widgetMail->setText(QString::fromStdString(c->getMail()));
     widgetPhone->setText(QString::fromStdString(c->getPhone()));
+    refreshInteraction();
+}
+
+void WidgetContact::refreshInteraction() {
     widgetListInteraction->clear();
-    for (Interaction* i: *c->getInteractionLst()) {
+    for (Interaction* i: *currentContact->getInteractionLst()) {
         QString tmp = QString::fromStdString(i->getContenu());
         tmp.replace(tmp.indexOf("\n"),1,'-');
         if (tmp.size()>=30)
