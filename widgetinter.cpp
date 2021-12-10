@@ -58,7 +58,7 @@ void WidgetInter::editText() {
 }
 
 void WidgetInter::saveText(){
-    currentInter->setContenu(this->widgetContenu->toPlainText().toStdString());
-    emit refreshInteraction(this->currentInter);
+    currentInter->setContenu(widgetContenu->toPlainText().toStdString());
+    emit refreshInteraction();
 }
 
