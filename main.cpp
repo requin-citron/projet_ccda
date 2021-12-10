@@ -41,6 +41,7 @@ int main(int argc, char *argv[]) {
   //cata.saveDataBase();
 
   return a.exec();
+  //return 0;
 }
 
 void showHist(ContactCatalog *cata){
@@ -271,8 +272,13 @@ void testTodo(){
   TagList tags_lst;
   Contact *chevalo = new Contact("kleman", "l3", "sans23.re", "commit.leaks@gmail.com","0605040302", "/tmp/kamtar", &tags_lst);
   chevalo->addInteraction("@todo kamion @date 12/12/2001\n@todo magie","pwn");
+  auto curr=chevalo->getInteractionLst()->begin();
+  (*curr)->setContenu("@todo azeaze @date 12/12/2001\n");
+  //(*curr)->setContenu("@todo azeaze @date 12/12/2001\n@todo azeazeaze\n@todo azeazeazeeazeazeaze\nazeazeaze");
   showHist(chevalo);
   for(auto &it:*(chevalo->getInteractionLst())){
+    //it->setContenu("@todo kamion @date 12/12/2001\n@todo magie");
+    //it->setContenu("@todo azeaze @date 12/12/2001\n@todo azeazeaze");
     for(auto &od: *(it->getTodo())){
         showTodo(od);
     }

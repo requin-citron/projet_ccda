@@ -31,6 +31,7 @@ private slots:
     void editContact(Contact* c);
     void editInter(Interaction* i);
     void changeFocusMain(Contact* c);
+    void changeFocusInteraction(Interaction *inte);
     void removeContact(Contact* c);
     void saveJson();
     void changeLangue();

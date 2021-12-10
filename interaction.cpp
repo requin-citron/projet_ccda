@@ -44,10 +44,10 @@ void Interaction::unlinkAll(){
   }
 }
 
-void Interaction::setContenu(std::string magie){
+void Interaction::setContenu(std::string magie, bool hist){
   this->contenu = magie;
   this->parser();
-  this->local_hist->insertHist(this->target,this, CHANGE_CONTENUE);
+  if(hist)this->local_hist->insertHist(this->target,this, CHANGE_CONTENUE);
 }
 
 void Interaction::addTag(std::string tag){
@@ -128,10 +128,12 @@ std::pair<std::string,Date*>* Interaction::treat(std::string s){
   /////////////////////////////////////////
   r->first = magie;
   size_t date = s.find("@date");
-  if (date!=std::string::npos && s.size()>=date+16)
-      r->second = new Date(s.substr(date+6,10));
-  else
+  if (date!=std::string::npos && s.size()>=date+16){
+      r->second = new Date(s.substr(date+6));
+  }
+  else{
       r->second = NULL;
+  }
   return r;
 }
 
@@ -140,17 +142,20 @@ void Interaction::parser(){
   std::stringstream ss( this->contenu );
   std::string tmp;
   while (getline(ss,tmp,'\n'))
-      if (tmp.substr(0,6)=="@todo ")
+      if (tmp.length()>6 && tmp.substr(0,6)=="@todo ")
           this->todo_lst.push_back(treat(tmp.substr(6)));
 }
 
 void Interaction::destroy_lst_todo(){
   //destroy todo_lst
   //todo_lst.clear();
-  for(auto &it: this->todo_lst){
-    delete it->second;
-    delete it;
+  auto it = this->todo_lst.begin();
+  auto end  = this->todo_lst.end();
+  while(it != end){
+     if((*it)->second != NULL)delete (*it)->second;
+     delete (*it++);
   }
+  this->todo_lst.clear();
 }
 
 std::list<std::pair<std::string,Date*>*>* Interaction::getTodo(){
