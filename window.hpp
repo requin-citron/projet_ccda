@@ -17,6 +17,7 @@ public:
     Window();
     ~Window();
     void giveApp(QApplication *a);
+    void saveDataBase();
 private:
     QApplication *app;
     QTranslator *trans = nullptr;

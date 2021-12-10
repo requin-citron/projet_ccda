@@ -1,6 +1,7 @@
 #include "widgetinter.hpp"
 
 WidgetInter::WidgetInter() : QWidget() {
+    widgetListTodo->setStyleSheet("QListWidget {font-size: 20px;}");
     QFormLayout *l1 = new QFormLayout;
     l1->addRow("Tags",widgetTags);
     QVBoxLayout *l2 = new QVBoxLayout;
@@ -52,7 +53,8 @@ void WidgetInter::refreshTodo() {
     widgetListTodo->clear();
     for (auto t: *currentInter->getTodo())
         if (t->second!=nullptr)
-            widgetListTodo->addItem(QString::fromStdString(t->second->print()+">\n"+t->first));
+            if(t->second->grand())widgetListTodo->addItem(QString::fromStdString(t->second->printAll()+">\n"+t->first));
+            else widgetListTodo->addItem(QString::fromStdString(t->second->print()+">\n"+t->first));
         else
             widgetListTodo->addItem(QString::fromStdString("->\n"+t->first));
 }

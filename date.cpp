@@ -25,6 +25,7 @@ Date::Date(std::string s) : Date() {
             d->tm_hour = std::stoi(hour);
             d->tm_min = std::stoi(min);
             d->tm_sec = std::stoi(sec);
+            this->grand_flag=true;
         }
     }
 }
@@ -37,6 +38,7 @@ int Date::year() const {return d->tm_year+1900;}
 int Date::hour() const {return d->tm_hour;}
 int Date::min() const {return d->tm_min;}
 int Date::sec() const {return d->tm_sec;}
+bool Date::grand() const {return this->grand_flag;}
 
 std::string Date::print() const {
     std::stringstream ss;

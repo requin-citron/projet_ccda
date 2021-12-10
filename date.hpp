@@ -14,6 +14,7 @@ class Date {
     private:
         //! la structure tm appartenant au C
         tm *d;
+        bool grand_flag=false;
     public:
         //! constructeur
         Date();
@@ -33,6 +34,8 @@ class Date {
         int min() const;
         //! accesseurs de l'attribut interne à tm
         int sec() const;
+        //! accesseurs de l'attribut grand
+        bool grand() const;
         //! affichage simplifié avec juste la date
         std::string print() const;
         //! affichage complet avec les heures

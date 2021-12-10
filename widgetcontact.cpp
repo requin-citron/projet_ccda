@@ -1,6 +1,7 @@
 #include "widgetcontact.hpp"
 
 WidgetContact::WidgetContact() : QWidget() {
+    this->widgetListInteraction->setStyleSheet("QListWidget {font-size: 20px;}");
     paintInterface();
     QFormLayout *l1 = new QFormLayout;
     l1->addRow(writePre, widgetFirstName);
