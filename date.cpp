@@ -10,14 +10,22 @@ Date::Date(std::string s) : Date() {
     int day = std::stoi(s.substr(0,2));
     int mon = std::stoi(s.substr(3,2))-1;
     int year = std::stoi(s.substr(6));
+    std::string hour;
+    std::string min;
+    std::string sec;
     if (day<1||day>31||mon<0||mon>11||year<1900||year>3000) return;
     d->tm_mday = day;
     d->tm_mon = mon;
     d->tm_year = year-1900;
     if(s.length()==19){
-        d->tm_hour = std::stoi(s.substr(11));
-        d->tm_min = std::stoi(s.substr(14));
-        d->tm_sec = std::stoi(s.substr(17));
+        hour = s.substr(11);
+        min = s.substr(14);
+        sec = s.substr(17);
+        if(hour[0]>='0' && hour[0]<='9' && min[0]>='0' && min[0]<='9' && sec[0]>='0' && sec[0]<='9'){
+            d->tm_hour = std::stoi(hour);
+            d->tm_min = std::stoi(min);
+            d->tm_sec = std::stoi(sec);
+        }
     }
 }
 

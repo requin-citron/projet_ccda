@@ -20,6 +20,9 @@ private:
     void refreshTodo();
 private slots:
     void editText();
+    void saveText();
+signals:
+    void refreshInteraction(Interaction *inte);
 };
 
 #endif // WIDGETINTER_HPP

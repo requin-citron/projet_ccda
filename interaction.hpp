@@ -104,7 +104,7 @@ public:
   /*!
     \param magie chaine contenant la nouvelle interaction
   */
-  void setContenu(std::string magie);
+  void setContenu(std::string magie,bool hist=true);
   //! fonction d'ajout de tag
   /*!
     \param tag nom du nouveau tag
