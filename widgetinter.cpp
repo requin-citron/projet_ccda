@@ -14,8 +14,7 @@ WidgetInter::WidgetInter() : QWidget() {
     QGridLayout *l4 = new QGridLayout;
     l4->addLayout(l2,0,0);
     l4->addLayout(l3,0,3,1,3);
-    QPushButton *widgetSave = new QPushButton(tr("Enregistrer"));
-    QPushButton *widgetDel = new QPushButton(tr("Supprimer"));
+    paintInterface();
     QGridLayout *l5 = new QGridLayout;
     l5->addWidget(widgetSave,0,0,1,3);
     l5->addWidget(widgetDel,0,3);
@@ -33,7 +32,8 @@ WidgetInter::WidgetInter() : QWidget() {
 }
 
 void WidgetInter::paintInterface() {
-
+    widgetSave->setText(tr("Enregistrer"));
+    widgetDel->setText(tr("Supprimer"));
 }
 
 void WidgetInter::configInter(Interaction *i) {

@@ -19,6 +19,8 @@ private:
     QTextEdit *widgetContenu = new QTextEdit();
     QListWidget *widgetListTodo = new QListWidget();
     QLineEdit *widgetTags = new QLineEdit();
+    QPushButton *widgetSave = new QPushButton();
+    QPushButton *widgetDel = new QPushButton();
     void refreshTodo();
 private slots:
     void editText();
