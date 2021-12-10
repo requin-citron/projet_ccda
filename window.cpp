@@ -180,3 +180,8 @@ void Window::quitterHist() {
     rechAvance(widgetRech->text());
     currentWidgetTmp = nullptr;
 }
+
+void Window::saveDataBase(){
+    this->cata.saveDataBase();
+}
+

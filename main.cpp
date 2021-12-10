@@ -12,6 +12,7 @@ int main(int argc, char *argv[]) {
   Window w;
   w.giveApp(&a);
   w.show();
-
-  return a.exec();
+  int ret = a.exec();
+  w.saveDataBase();
+  return ret;
 }
