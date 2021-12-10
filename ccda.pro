@@ -21,7 +21,8 @@ SOURCES += \
     widgetcontact.cpp \
     widgetmain.cpp \
     widgethist.cpp \
-    widgetinter.cpp
+    widgetinter.cpp \
+    testcase.cpp
 
 HEADERS += \
     contact.hpp \
@@ -35,7 +36,10 @@ HEADERS += \
     widgetcontact.hpp \
     widgetmain.hpp \
     widgethist.hpp \
-    widgetinter.hpp
+    widgetinter.hpp \
+    testcase.hpp
+
+TRANSLATIONS = ccda_en.ts
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -7,7 +7,7 @@ WidgetContact::WidgetContact() : QWidget() {
     l1->addRow("Entreprise", widgetEntreprise);
     l1->addRow("Mail", widgetMail);
     l1->addRow("Téléphone", widgetPhone);
-    QPushButton *widgetNewInter = new QPushButton("Ajouter une interaction");
+    QPushButton *widgetNewInter = new QPushButton(tr("Ajouter une interaction"));
     QVBoxLayout *l2 = new QVBoxLayout;
     l2->addWidget(widgetPhoto);
     l2->addLayout(l1);
@@ -18,8 +18,8 @@ WidgetContact::WidgetContact() : QWidget() {
     QHBoxLayout *l4 = new QHBoxLayout;
     l4->addLayout(l2);
     l4->addLayout(l3);
-    QPushButton *widgetSave = new QPushButton("Enregistrer");
-    QPushButton *widgetDel = new QPushButton("Supprimer");
+    QPushButton *widgetSave = new QPushButton(tr("Enregistrer"));
+    QPushButton *widgetDel = new QPushButton(tr("Supprimer"));
     QGridLayout *l5 = new QGridLayout;
     l5->addWidget(widgetSave,0,0,1,3);
     l5->addWidget(widgetDel,0,3);
@@ -46,7 +46,7 @@ void WidgetContact::configContact(Contact* c) {
     currentContact = c;
     QPixmap pixmap(QString::fromStdString(url+c->getPathPicture()));
     if (pixmap.isNull()) {
-        widgetPhoto->setText("Choisir une photo");
+        widgetPhoto->setText(tr("Choisir une photo"));
         widgetPhoto->setIcon(QIcon());
     } else {
         widgetPhoto->setText("");
@@ -91,10 +91,10 @@ void WidgetContact::changeContact() {
 void WidgetContact::deleteContact() {emit removeContact(currentContact);}
 
 void WidgetContact::choosePhoto() {
-    QString fichier = QFileDialog::getOpenFileName(this, "Choisie l'image", QString::fromStdString(url), "Images (*.png *.jpg *.jpeg)");
+    QString fichier = QFileDialog::getOpenFileName(this, tr("Choisie l'image"), QString::fromStdString(url), "Images (*.png *.jpg *.jpeg)");
     QPixmap pixmap(fichier);
     if (pixmap.isNull()) {
-        widgetPhoto->setText("Choisir une photo");
+        widgetPhoto->setText(tr("Choisir une photo"));
         widgetPhoto->setIcon(QIcon());
     } else {
         int ind = fichier.lastIndexOf('/')+1;
@@ -113,7 +113,7 @@ void WidgetContact::choosePhoto() {
 }
 
 void WidgetContact::changePathPicture() {
-    url = QFileDialog::getExistingDirectory(this, "Renseignez la position du fichier d'image", QString::fromStdString(url)).toStdString()+"/";
+    url = QFileDialog::getExistingDirectory(this, tr("Renseignez la position du fichier d'image"), QString::fromStdString(url)).toStdString()+"/";
 }
 
 Interaction* WidgetContact::getInteraction(int index) {
