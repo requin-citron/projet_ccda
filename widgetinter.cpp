@@ -1,6 +1,8 @@
 #include "widgetinter.hpp"
 
 WidgetInter::WidgetInter() : QWidget() {
+    // construire les composants avec les bon texte
+    paintInterface();
     widgetListTodo->setStyleSheet("QListWidget {font-size: 20px;}");
     QFormLayout *l1 = new QFormLayout;
     l1->addRow("Tags",widgetTags);
@@ -39,6 +41,7 @@ void WidgetInter::paintInterface() {
 }
 
 void WidgetInter::configInter(Interaction *i) {
+    // configuration de l'interaction lorsque WidgetContact demande d'afficher WidgetInter
     currentInter = i;
     textChange = false;
     widgetNameContact->setText(QString::fromStdString(i->getContact()->getFirstName()+" "+i->getContact()->getLastName()+" ("+std::to_string(i->getContact()->getId())+")"));
@@ -51,6 +54,7 @@ void WidgetInter::configInter(Interaction *i) {
 }
 
 void WidgetInter::rechAvance(QString s) {
+    // Lors de l'edition da la bar de recherche de la toolbar c'est cette focntion qui affine la liste
     for (int t=0; t<widgetListTodo->count(); t++)
         if (widgetListTodo->item(t)->text().toLower().contains(s.toLower()))
             widgetListTodo->item(t)->setHidden(false);

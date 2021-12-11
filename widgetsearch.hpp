@@ -17,7 +17,7 @@ public:
     void paintInterface();
     //! reload le widget pour qu'il soit a jour
     void reloadSelf();
-    //! filtre avec la barre sup
+    //! si on demande une recherche rapide
     void rechAvance(QString &s);
 private:
     //! catalogue global de l'app
