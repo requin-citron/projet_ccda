@@ -81,3 +81,8 @@ void WidgetMain::printContact(QListWidgetItem* i) {
     if (c!=nullptr)
         emit printContact(c);
 }
+
+Contact *WidgetMain::getCurrentContact(){
+    if(this->widgetListContact->count() == 0) return NULL;
+    return this->getContact(this->widgetListContact->row(this->widgetListContact->currentItem()));
+}

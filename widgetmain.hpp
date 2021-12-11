@@ -18,6 +18,8 @@ public:
     void removeContact(Contact* c);
     //! si on demande une recherche rapide
     void rechAvance(QString s);
+    //! renvois le contact selectionne
+    Contact *getCurrentContact();
 private:
     //! variable pour acceder a la list des contacts
     ContactCatalog *cata;

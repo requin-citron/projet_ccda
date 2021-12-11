@@ -171,3 +171,8 @@ void WidgetContact::createInter() {
     // pour demander a Window d'afficher une nouvelle interaction
     emit printInter(currentContact->addInteraction("interaction...","tag..."));
 }
+
+Interaction *WidgetContact::getCurrentInteraction(){
+    if(this->widgetListInteraction->count() == 0) return NULL;
+    return this->getInteraction(this->widgetListInteraction->row(this->widgetListInteraction->currentItem()));
+}
