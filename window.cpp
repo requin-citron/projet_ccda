@@ -42,6 +42,7 @@ Window::Window(QApplication* a) : QMainWindow() {
     wh = new WidgetHist();
     wi = new WidgetInter();
     ws = new WidgetSearch(&cata);
+    // layout permetant de gerer plusieurs pages
     layStacked = new QStackedLayout;
     layStacked->addWidget(wm);
     layStacked->addWidget(wc);

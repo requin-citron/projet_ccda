@@ -9,6 +9,7 @@ class WidgetHist : public QWidget
     Q_OBJECT
 public:
     WidgetHist();
+    //! pour recharger les composants avec du texte lors d'une changement de language
     void paintInterface();
     void configHist(HistLocal* h);
     void rechAvance(QString s);

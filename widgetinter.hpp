@@ -9,6 +9,7 @@ class WidgetInter : public QWidget
     Q_OBJECT
 public:
     WidgetInter();
+    //! pour recharger les composants avec du texte lors d'une changement de language
     void paintInterface();
     Interaction* getInter();
     void configInter(Interaction* i);

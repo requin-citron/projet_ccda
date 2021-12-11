@@ -10,6 +10,7 @@ class WidgetMain : public QWidget
     Q_OBJECT
 public:
     WidgetMain(ContactCatalog *cata);
+    //! pour recharger les composants avec du texte lors d'une changement de language
     void paintInterface();
     void refreshListWidget(Contact* c);
     void removeContact(Contact* c);
