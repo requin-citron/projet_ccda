@@ -55,21 +55,12 @@ Contact* WidgetContact::getContact() {return currentContact;}
 
 void WidgetContact::configContact(Contact* c) {
     currentContact = c;
-    QPixmap pixmap(QString::fromStdString(url+c->getPathPicture()));
-    if (pixmap.isNull()) {
-        widgetPhoto->setText(tr("Choisir une photo"));
-        widgetPhoto->setIcon(QIcon());
-    } else {
-        widgetPhoto->setText("");
-        widgetPhoto->setIcon(QIcon(pixmap));
-        widgetPhoto->setIconSize(pixmap.rect().size());
-    }
     widgetFirstName->setText(QString::fromStdString(c->getFirstName()));
     widgetLastName->setText(QString::fromStdString(c->getLastName()));
     widgetEntreprise->setText(QString::fromStdString(c->getEnterprise()));
     widgetMail->setText(QString::fromStdString(c->getMail()));
     widgetPhone->setText(QString::fromStdString(c->getPhone()));
-    this->displayPhoto(QString::fromStdString(this->url +"/"+ c->getPathPicture()));
+    displayPhoto(QString::fromStdString(url+"/"+c->getPathPicture()));
     refreshInteraction();
 }
 
@@ -112,7 +103,7 @@ void WidgetContact::deleteContact() {emit removeContact(currentContact);}
 
 void WidgetContact::choosePhoto() {
     QString fichier = QFileDialog::getOpenFileName(this, tr("Choisie l'image"), QString::fromStdString(url), "Images (*.png *.jpg *.jpeg)");
-    this->displayPhoto(fichier);
+    displayPhoto(fichier);
 }
 
 void WidgetContact::displayPhoto(QString path){
