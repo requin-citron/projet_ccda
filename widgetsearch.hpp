@@ -20,7 +20,7 @@ public:
     void rechAvance(QString &s);
 private:
     //! catalogue global de l'app
-    ContactCatalog *cata = NULL;
+    ContactCatalog *cata = nullptr;
     //! list des tags
     QComboBox *widgetCombo = new QComboBox();
     //! bouton de suppresion

@@ -131,7 +131,7 @@ void Window::changeLangue() {
     wc->paintInterface();
     wi->paintInterface();
     wh->paintInterface();
-    //ws->paintInterface();
+    ws->paintInterface();
 }
 
 void Window::editContact(Contact* c) {
