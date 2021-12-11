@@ -9,6 +9,7 @@ class WidgetContact : public QWidget
     Q_OBJECT
 public:
     WidgetContact(std::string url);
+    //! pour recharger les composants avec du texte lors d'une changement de language
     void paintInterface();
     void configContact(Contact* c);
     Contact* getContact();

@@ -13,6 +13,7 @@ class WidgetSearch : public QWidget
     Q_OBJECT
 public:
     WidgetSearch(ContactCatalog *cata);
+    //! pour recharger les composants avec du texte lors d'une changement de language
     void paintInterface();
     //! reload le widget pour qu'il soit a jour
     void reloadSelf();
