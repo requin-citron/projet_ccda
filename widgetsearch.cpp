@@ -4,14 +4,14 @@ WidgetSearch::WidgetSearch(ContactCatalog *cata) : QWidget(){
     this->cata = cata;
     widgetListSearch->setStyleSheet("QListWidget {font-size: 20px;}");
     paintInterface();
-    QVBoxLayout *l1 = new QVBoxLayout;
-    QHBoxLayout *l2 = new QHBoxLayout;
-    l2->addWidget(widgetCombo);
-    l2->addWidget(widgetSuprr);
-    l1->addLayout(l2);
-    l1->addWidget(widgetListSearch);
-    l1->addWidget(widgetBack);
-    setLayout(l1);
+    QGridLayout *l1 = new QGridLayout;
+    l1->addWidget(widgetCombo,0,0,1,3);
+    l1->addWidget(widgetSuprr,0,3);
+    QVBoxLayout *l2 = new QVBoxLayout;
+    l2->addLayout(l1);
+    l2->addWidget(widgetListSearch);
+    l2->addWidget(widgetBack);
+    setLayout(l2);
     QObject::connect(widgetBack,SIGNAL(clicked()), this , SLOT(handlerBack()));
    // changement dans la list deroulante
     QObject::connect(widgetCombo,SIGNAL(currentTextChanged(const QString&)),this, SLOT(reloadOnChange(const QString&)));

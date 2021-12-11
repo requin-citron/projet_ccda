@@ -1,9 +1,13 @@
 #include "widgetcontact.hpp"
 
 WidgetContact::WidgetContact(std::string url) : QWidget() {
+    // enregistrement de l'url pour trouver les images
     this->url = url;
+    // modification rapide du css pour reduire la taille
     this->widgetListInteraction->setStyleSheet("QListWidget {font-size: 20px;}");
+    // construire les composants avec les bon texte
     paintInterface();
+    // construction de l'interface
     QFormLayout *l1 = new QFormLayout;
     l1->addRow(writePre, widgetFirstName);
     l1->addRow(writeNom, widgetLastName);
