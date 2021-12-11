@@ -109,8 +109,8 @@ void Window::paintInterface() {
     QMenu *menuAutre = menuBar()->addMenu(tr("Autre"));
         actionQuitter->setText(tr("Quitter"));
         menuAutre->addAction(actionQuitter);
-        this->actionDel->setText(tr("Suppr item select"));
-        menuAutre->addAction(this->actionDel);
+        actionDel->setText(tr("Supprimer l'item sélectionné"));
+        menuAutre->addAction(actionDel);
     widgetHist->setText(tr("Historique"));
 }
 
