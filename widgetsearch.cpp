@@ -74,7 +74,7 @@ void WidgetSearch::deleteTag(){
 Interaction *WidgetSearch::searchInte(QListWidgetItem* ptr){
     int index = widgetListSearch->row(ptr);
     std::string tmp = widgetCombo->currentText().toStdString();
-    if(tmp=="") return NULL;
+    if(tmp=="") return nullptr;
     widgetListSearch->clear();
     if(tmp == DEFAULT_MESSAGE){
         for(auto &it: *cata->getContactLst()){
@@ -93,12 +93,12 @@ Interaction *WidgetSearch::searchInte(QListWidgetItem* ptr){
             index--;
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 void WidgetSearch::printInter(QListWidgetItem* ptr){
     Interaction *tmp = this->searchInte(ptr);
-    if(tmp == NULL) return;
+    if(tmp == nullptr) return;
      emit sigInte(tmp);
 
 }
