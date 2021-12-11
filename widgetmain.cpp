@@ -14,6 +14,7 @@ WidgetMain::WidgetMain(ContactCatalog *cata) : QWidget(), cata(cata) {
 }
 
 void WidgetMain::paintInterface() {
+    // redefinition de chaque composant avec du texte pour charger la traduction
     widgetAddContact->setText(tr("Ajouter un Contact"));
 }
 

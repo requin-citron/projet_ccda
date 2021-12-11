@@ -33,6 +33,7 @@ WidgetInter::WidgetInter() : QWidget() {
 }
 
 void WidgetInter::paintInterface() {
+    // redefinition de chaque composant avec du texte pour charger la traduction
     widgetSave->setText(tr("Enregistrer"));
     widgetDel->setText(tr("Supprimer"));
 }

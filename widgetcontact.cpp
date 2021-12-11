@@ -41,6 +41,7 @@ WidgetContact::WidgetContact(std::string url) : QWidget() {
 }
 
 void WidgetContact::paintInterface() {
+    // redefinition de chaque composant avec du texte pour charger la traduction
     writePre->setText(tr("Prénom"));
     writeNom->setText(tr("Nom"));
     writeEnt->setText(tr("Entreprise"));
