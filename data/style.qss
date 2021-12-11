@@ -118,7 +118,7 @@ QLineEdit {
 	border-width: 1px;
 	border-style: solid;
 	border-color: #4fa08b;
-	background-color: #ab0f0f;
+	background-color: #bababa;
 	color: #000000;
 }
 
@@ -546,12 +546,12 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
 
 QListWidget {
 	border : 2px solid black;
-	background : #630e0e;
+	background : #2b2222;
 	font-size: 50px;
 }
 
 QListWidget QScrollBar {
-	background : lightblue;
+	background : lightred;
 }
 
 QListView::item {
@@ -564,4 +564,12 @@ QListView::item:selected {
 	border : 2px solid black;
 	background : #ab0f0f;
 	color : #000000;
+}
+
+QComboBox::item{
+	background-color: #222B2E;
+}
+
+QComboBox::item:selected{
+	background-color: #1b2f36;
 }

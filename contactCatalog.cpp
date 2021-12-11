@@ -330,3 +330,8 @@ std::string ContactCatalog::saveJson(){
     byteArray = QJsonDocument(jsonObj).toJson();
     return byteArray.toStdString();
 }
+
+TagList *ContactCatalog::getTagList(){
+    return &this->tag_lst;
+}
+

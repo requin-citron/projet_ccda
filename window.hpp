@@ -9,6 +9,7 @@
 #include "widgetcontact.hpp"
 #include "widgethist.hpp"
 #include "widgetinter.hpp"
+#include "widgetsearch.hpp"
 
 class Window : public QMainWindow
 {
@@ -23,10 +24,14 @@ private:
     QWidget *currentWidgetTmp = nullptr;
     QAction *actionQuitter = new QAction();
     QAction *actionJson = new QAction();
+    //! menu recherche
+    QAction *actionSearch = new QAction();
     WidgetMain *wm;
     WidgetContact *wc;
     WidgetHist *wh;
     WidgetInter *wi;
+    //! widget des fenetre avancé
+    WidgetSearch *ws;
     ContactCatalog cata;
     QStackedLayout *layStacked;
     QAction** actionLangues = new QAction*[2];
@@ -39,11 +44,13 @@ private slots:
     void editInter(Interaction* i);
     void changeFocusMain(Contact* c);
     void changeFocusInteraction();
+    void changeFocusSearch();
     void removeContact(Contact* c);
     void saveJson();
     void changeLangue();
     void printHist();
     void quitterHist();
+    void quitterSearch();
     void deleteInteraction();
 };
 

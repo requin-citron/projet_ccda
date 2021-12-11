@@ -127,6 +127,11 @@ size_t Contact::getInteractionId(){
   return ret;
 }
 
+std::string Contact::getFormat(){
+    std::string ret = this->firstName + " " + this->lastName + "(" + std::to_string(this->id)+")";
+    return ret;
+}
+
 std::ostream& operator<<(std::ostream &os, Contact &curr){
   os << "firstName :" << curr.getFirstName() << std::endl;
   os << "lastName :" << curr.getLastName() << std::endl;
