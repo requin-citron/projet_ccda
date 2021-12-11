@@ -32,6 +32,7 @@ private:
     QLineEdit *widgetMail = new QLineEdit();
     QLineEdit *widgetPhone = new QLineEdit();
     QListWidget *widgetListInteraction = new QListWidget();
+    void displayPhoto(QString path);
     Interaction* getInteraction(int index);
 private slots:
     void quitter();

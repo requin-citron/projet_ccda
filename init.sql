@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS tags (
     name TEXT NOT NULL,
     id_contact INTEGER NOT NULL,
     id_interaction INTEGER NOT NULL,
-    PRIMARY KEY (id_contact, id_interaction)
+    PRIMARY KEY (name, id_contact, id_interaction)
     FOREIGN KEY (id_interaction)
       REFERENCES interactions (id_interaction)
       ON DELETE CASCADE

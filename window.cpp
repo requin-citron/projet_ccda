@@ -3,7 +3,8 @@
 Window::Window(QApplication* a) : QMainWindow() {
     app = a;
     url = QFileDialog::getExistingDirectory(this, tr("Renseignez la position des datas")).toStdString(); //getOpenFileName(this, tr("Renseignez la position des datas")).toStdString();
-    cata.loadDataBase(url+"/bdd");
+    this->bdd_path=url+"/bdd";
+    cata.loadDataBase(this->bdd_path);
     QFile file(QString::fromStdString(url+"/style.qss"));
     file.open(QFile::ReadOnly | QFile::Text);
     QTextStream stream(&file);
@@ -88,7 +89,7 @@ Window::~Window() {
     delete actionLangues[0];
     delete actionLangues[1];
     delete[] actionLangues;
-    cata.saveDataBase();
+    cata.saveDataBase(this->bdd_path);
 }
 
 void Window::saveJson() {
@@ -140,6 +141,7 @@ void Window::editContact(Contact* c) {
 }
 
 void Window::editInter(Interaction* i) {
+    this->widgetHist->setDisabled(false);
     wi->configInter(i);
     //LET MET HERE
     wc->configContact(i->getContact());

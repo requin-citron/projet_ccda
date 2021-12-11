@@ -98,7 +98,7 @@ Contact* Interaction::getContact(){
 std::string Interaction::getFormat(){
     std::string ret=this->contenu;
     for(size_t i=0;i<this->contenu.length();i++){
-        if(this->contenu[i] == '\n') this->contenu[i]='-';
+        if(this->contenu[i] == '\n') ret[i]='-';
     }
     if(ret.length()>=30){
         ret = ret.substr(0,30) + "...";

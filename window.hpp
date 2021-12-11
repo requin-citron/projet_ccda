@@ -19,6 +19,7 @@ public:
     ~Window();
     std::string url = "";
 private:
+    std::string bdd_path;
     QApplication *app;
     QTranslator *trans = nullptr;
     QWidget *currentWidgetTmp = nullptr;
