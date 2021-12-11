@@ -3,7 +3,9 @@
 WidgetInter::WidgetInter() : QWidget() {
     // construire les composants avec les bon texte
     paintInterface();
+    // modification rapide du css pour reduire la taille
     widgetListTodo->setStyleSheet("QListWidget {font-size: 20px;}");
+    //construction de l'interface
     QFormLayout *l1 = new QFormLayout;
     l1->addRow("Tags",widgetTags);
     QVBoxLayout *l2 = new QVBoxLayout;
@@ -28,9 +30,13 @@ WidgetInter::WidgetInter() : QWidget() {
     l6->addLayout(l5);
     setLayout(l6);
 
+    // pour changer le contenu
     QObject::connect(widgetContenu, SIGNAL(textChanged()), this, SLOT(editText()));
+    // pour changer les tags
     QObject::connect(widgetTags, SIGNAL(editingFinished()), this, SLOT(editTag()));
+    // pour sauvegarder
     QObject::connect(widgetSave, SIGNAL(clicked()), this, SLOT(saveText()));
+    // pour supprimer
     QObject::connect(widgetDel, SIGNAL(clicked()), this, SLOT(delInter()));
 }
 
@@ -63,6 +69,7 @@ void WidgetInter::rechAvance(QString s) {
 }
 
 void WidgetInter::refreshTodo() {
+    // lorsque le contenue est changer, on regenere directment les todos
     widgetListTodo->clear();
     for (auto t: *currentInter->getTodo())
         if (t->second!=nullptr)
@@ -75,6 +82,7 @@ void WidgetInter::refreshTodo() {
 Interaction* WidgetInter::getInter() {return currentInter;}
 
 void WidgetInter::editText() {
+    // si le contenue est different on enregistre
     if (currentInter->getContenu()!=widgetContenu->toPlainText().toStdString()) {
         textChange = true;
         currentInter->setContenu(widgetContenu->toPlainText().toStdString(),false);
@@ -83,6 +91,7 @@ void WidgetInter::editText() {
 }
 
 void WidgetInter::editTag() {
+    // edition des tags
     std::stringstream ss (this->widgetTags->text().toStdString());
     std::string tmp;
     std::list<std::string> lst;
@@ -93,6 +102,7 @@ void WidgetInter::editTag() {
 }
 
 void WidgetInter::saveText(){
+    // quitter en sauvegardant le contenue
     if (textChange)
         currentInter->setContenu(this->widgetContenu->toPlainText().toStdString());
     emit refreshInteraction();
