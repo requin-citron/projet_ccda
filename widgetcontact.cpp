@@ -31,16 +31,21 @@ WidgetContact::WidgetContact(std::string url) : QWidget() {
     l6->addLayout(l4);
     l6->addLayout(l5);
     setLayout(l6);
-
+    // editer une information du contact
     QObject::connect(widgetFirstName, SIGNAL(editingFinished()), this, SLOT(changeContact()));
     QObject::connect(widgetLastName, SIGNAL(editingFinished()), this, SLOT(changeContact()));
     QObject::connect(widgetEntreprise, SIGNAL(editingFinished()), this, SLOT(changeContact()));
     QObject::connect(widgetMail, SIGNAL(editingFinished()), this, SLOT(changeContact()));
     QObject::connect(widgetPhone, SIGNAL(editingFinished()), this, SLOT(changeContact()));
+    // editer la photo du contact
     QObject::connect(widgetPhoto, SIGNAL(clicked()), this, SLOT(choosePhoto()));
+    // preparer le passage pour aller dans WidgetInter
     QObject::connect(widgetListInteraction, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(printInter(QListWidgetItem*)));
+    // preparer le passage pour aller dans WidgetInter avec une nouvelle interaction
     QObject::connect(widgetNewInter, SIGNAL(clicked()),this, SLOT(createInter()));
+    // retourner dans WidgetMain en sauvegardant
     QObject::connect(widgetSave, SIGNAL(clicked()), this, SLOT(quitter()));
+    // retourner dans WidgetMain en supprimant le contact
     QObject::connect(widgetDel, SIGNAL(clicked()), this, SLOT(deleteContact()));
 }
 
@@ -61,6 +66,7 @@ void WidgetContact::paintInterface() {
 Contact* WidgetContact::getContact() {return currentContact;}
 
 void WidgetContact::configContact(Contact* c) {
+    // configuration du contact lorsque WidgetMain demande d'afficher WidgetContact
     currentContact = c;
     widgetFirstName->setText(QString::fromStdString(c->getFirstName()));
     widgetLastName->setText(QString::fromStdString(c->getLastName()));
@@ -72,6 +78,7 @@ void WidgetContact::configContact(Contact* c) {
 }
 
 void WidgetContact::refreshInteraction() {
+    // recharger la liste des interactions, lors d'une edition ou lors du demarrage
     widgetListInteraction->clear();
     for (Interaction* i: *currentContact->getInteractionLst()) {
         QString tmp = QString::fromStdString(i->getContenu());
@@ -86,6 +93,7 @@ void WidgetContact::refreshInteraction() {
 void WidgetContact::quitter() {emit refreshContact(currentContact);}
 
 void WidgetContact::rechAvance(QString s) {
+    // Lors de l'edition da la bar de recherche de la toolbar c'est cette focntion qui affine la liste
     for (int t=0; t<widgetListInteraction->count(); t++)
         if (widgetListInteraction->item(t)->text().toLower().contains(s.toLower()))
             widgetListInteraction->item(t)->setHidden(false);
@@ -94,6 +102,7 @@ void WidgetContact::rechAvance(QString s) {
 }
 
 void WidgetContact::changeContact() {
+    // edition du contact
     if (widgetFirstName->text().toStdString()!=currentContact->getFirstName())
         currentContact->setFirstName(widgetFirstName->text().toStdString());
     if (widgetLastName->text().toStdString()!=currentContact->getLastName())
@@ -109,25 +118,34 @@ void WidgetContact::changeContact() {
 void WidgetContact::deleteContact() {emit removeContact(currentContact);}
 
 void WidgetContact::choosePhoto() {
+    // modification de la photo
     QString fichier = QFileDialog::getOpenFileName(this, tr("Choisie l'image"), QString::fromStdString(url), "Images (*.png *.jpg *.jpeg)");
     displayPhoto(fichier);
 }
 
 void WidgetContact::displayPhoto(QString path){
+    // affichage de la photo
     QPixmap pixmap(path);
     if (pixmap.isNull()) {
+        // si on trouve pas de photo on affiche un texte
         widgetPhoto->setText(tr("Choisir une photo"));
         widgetPhoto->setIcon(QIcon());
     } else {
+        // si on a bien trouve une image
         int ind = path.lastIndexOf('/')+1;
+        // on recupaire le chemain
         QString urlTmp = path.left(ind);
+        // on recupaire le nom
         QString nameFile = path.right(path.size()-ind);
+        // on met a jours le nom du fichier dans contact
         if (urlTmp.toStdString()==(url+"/"))
             currentContact->setPathPicture(nameFile.toStdString());
         else {
+            // si le chemin est different du chemin du fichier data on fais un backup sur le fichier data
             QFile::copy(path, QString::fromStdString(url+"/backup_")+nameFile);
             currentContact->setPathPicture("backup_"+nameFile.toStdString());
         }
+        // et on met la photo sur le bouton
         widgetPhoto->setText("");
         widgetPhoto->setIcon(QIcon(pixmap));
         widgetPhoto->setIconSize(pixmap.rect().size());
@@ -135,6 +153,7 @@ void WidgetContact::displayPhoto(QString path){
 }
 
 Interaction* WidgetContact::getInteraction(int index) {
+    // fonction pour trouver list[index]
     for (Interaction *tmp: *currentContact->getInteractionLst())
         if (index--==0)
             return tmp;
@@ -142,11 +161,13 @@ Interaction* WidgetContact::getInteraction(int index) {
 }
 
 void WidgetContact::printInter(QListWidgetItem* i) {
+    // pour demander a Window d'afficher l'interaction
     Interaction* tmp = getInteraction(widgetListInteraction->row(i));
     if (tmp!=nullptr)
         emit printInter(tmp);
 }
 
 void WidgetContact::createInter() {
+    // pour demander a Window d'afficher une nouvelle interaction
     emit printInter(currentContact->addInteraction("interaction...","tag..."));
 }
