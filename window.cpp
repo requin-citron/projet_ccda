@@ -243,6 +243,8 @@ void Window::quitterHist() {
 
 void Window::quitterSearch(){
     widgetHist->setEnabled(true);
+    if(this->currentWidgetTmp == NULL) this->currentWidgetTmp = this->wm;
+    else if(this->currentWidgetTmp == this->wc) this->wc->refreshInteraction();
     layStacked->setCurrentWidget(this->currentWidgetTmp);
     currentWidgetTmp = nullptr;
 }
