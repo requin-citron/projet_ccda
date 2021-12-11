@@ -2,9 +2,8 @@
 
 Window::Window(QApplication* a) : QMainWindow() {
     app = a;
-    url = QFileDialog::getExistingDirectory(this, tr("Renseignez la position des datas")).toStdString(); //getOpenFileName(this, tr("Renseignez la position des datas")).toStdString();
-    this->bdd_path=url+"/bdd";
-    cata.loadDataBase(this->bdd_path);
+    url = QFileDialog::getExistingDirectory(this, tr("Renseignez la position des datas")).toStdString();
+    cata.loadDataBase(url+"/database.db");
     QFile file(QString::fromStdString(url+"/style.qss"));
     file.open(QFile::ReadOnly | QFile::Text);
     QTextStream stream(&file);
@@ -21,7 +20,7 @@ Window::Window(QApplication* a) : QMainWindow() {
     actionJson->setShortcut(QKeySequence("Ctrl+s"));
     actionQuitter->setShortcut(QKeySequence("Ctrl+q"));
     //! shortcut recherche avance
-    this->actionSearch->setShortcut(QKeySequence("Ctrl+f"));
+    actionSearch->setShortcut(QKeySequence("Ctrl+f"));
     QToolBar *toolBarRech = addToolBar("Recherche");
     toolBarRech->addWidget(widgetRech);
     toolBarRech->addSeparator();
@@ -33,13 +32,13 @@ Window::Window(QApplication* a) : QMainWindow() {
     wc = new WidgetContact(url);
     wh = new WidgetHist();
     wi = new WidgetInter();
-    this->ws = new WidgetSearch(&this->cata);
+    ws = new WidgetSearch(&cata);
     layStacked = new QStackedLayout;
     layStacked->addWidget(wm);
     layStacked->addWidget(wc);
     layStacked->addWidget(wh);
     layStacked->addWidget(wi);
-    this->layStacked->addWidget(ws);
+    layStacked->addWidget(ws);
     QWidget *container = new QWidget();
     container->setLayout(layStacked);
     setCentralWidget(container);
@@ -48,7 +47,7 @@ Window::Window(QApplication* a) : QMainWindow() {
     QObject::connect(actionJson, SIGNAL(triggered()), this, SLOT(saveJson()));
     QObject::connect(actionLangues[0], SIGNAL(triggered()), this, SLOT(changeLangue()));
     QObject::connect(actionLangues[1], SIGNAL(triggered()), this, SLOT(changeLangue()));
-    QObject::connect(this->actionSearch, SIGNAL(triggered()),this, SLOT(changeFocusSearch()));
+    QObject::connect(actionSearch, SIGNAL(triggered()),this, SLOT(changeFocusSearch()));
     QObject::connect(widgetRech, SIGNAL(textChanged(QString)), this, SLOT(rechAvance(QString)));
     QObject::connect(widgetHist, SIGNAL(clicked()), this, SLOT(printHist()));
     QObject::connect(wm, SIGNAL(printContact(Contact*)), this, SLOT(editContact(Contact*)));
@@ -56,10 +55,10 @@ Window::Window(QApplication* a) : QMainWindow() {
     QObject::connect(wc, SIGNAL(removeContact(Contact*)), this, SLOT(removeContact(Contact*)));
     QObject::connect(wc, SIGNAL(printInter(Interaction*)), this, SLOT(editInter(Interaction*)));
     // connect double clic
-    QObject::connect(this->ws, SIGNAL(sigInte(Interaction*)), this, SLOT(editInter(Interaction*)));
-    QObject::connect(wh, SIGNAL(quitterHist()), this, SLOT(quitterHist()));
+    QObject::connect(ws, SIGNAL(sigInte(Interaction*)), this, SLOT(editInter(Interaction*)));
     // bouton revenir en arrière
-    QObject::connect(this->ws, SIGNAL(goBack()),this, SLOT(quitterSearch()));
+    QObject::connect(ws, SIGNAL(goBack()),this, SLOT(quitterSearch()));
+    QObject::connect(wh, SIGNAL(quitterHist()), this, SLOT(quitterHist()));
     QObject::connect(wi, SIGNAL(refreshInteraction()), this, SLOT(changeFocusInteraction()));
     QObject::connect(wi, SIGNAL(deleteInteraction()), this, SLOT(deleteInteraction()));
 }
@@ -75,13 +74,13 @@ void Window::paintInterface() {
         menuLangue->addAction(actionLangues[0]);
         actionLangues[1]->setText(tr("Anglais"));
         menuLangue->addAction(actionLangues[1]);
+        //ajout
+    QMenu *menuSearch = menuBar()->addMenu(tr("Recherche"));
+        actionSearch->setText(tr("Recherche Avancé"));
+        menuSearch->addAction(this->actionSearch);
     QMenu *menuAutre = menuBar()->addMenu(tr("Autre"));
         actionQuitter->setText(tr("Quitter"));
         menuAutre->addAction(actionQuitter);
-    //ajout
-    QMenu *menuSearch = menuBar()->addMenu(tr("Recherche"));
-           this->actionSearch->setText(tr("Recherche Avancé"));
-            menuSearch->addAction(this->actionSearch);
     widgetHist->setText(tr("Historique"));
 }
 
@@ -89,7 +88,7 @@ Window::~Window() {
     delete actionLangues[0];
     delete actionLangues[1];
     delete[] actionLangues;
-    cata.saveDataBase(this->bdd_path);
+    cata.saveDataBase(url+"/database.db");
 }
 
 void Window::saveJson() {
@@ -111,7 +110,7 @@ void Window::rechAvance(QString s) {
         wc->rechAvance(s);
     else if (layStacked->currentWidget()==wh)
         wh->rechAvance(s);
-    else if (this->layStacked->currentWidget()==this->ws)
+    else if (layStacked->currentWidget()==ws)
         ws->rechAvance(s);
 }
 
@@ -132,6 +131,7 @@ void Window::changeLangue() {
     wc->paintInterface();
     wi->paintInterface();
     wh->paintInterface();
+    //ws->paintInterface();
 }
 
 void Window::editContact(Contact* c) {
@@ -141,9 +141,8 @@ void Window::editContact(Contact* c) {
 }
 
 void Window::editInter(Interaction* i) {
-    this->widgetHist->setDisabled(false);
+    widgetHist->setEnabled(true);
     wi->configInter(i);
-    //LET MET HERE
     wc->configContact(i->getContact());
     layStacked->setCurrentWidget(wi);
     rechAvance(widgetRech->text());
@@ -157,10 +156,10 @@ void Window::changeFocusMain(Contact* c) {
 
 //! focus sur la fenêtre de recherche
 void Window::changeFocusSearch(){
-    this->widgetHist->setDisabled(true);
-    this->ws->reloadSelf();
-    this->currentWidgetTmp = this->layStacked->currentWidget();
-    this->layStacked->setCurrentWidget(this->ws);
+    widgetHist->setEnabled(false);
+    ws->reloadSelf();
+    currentWidgetTmp = layStacked->currentWidget();
+    layStacked->setCurrentWidget(ws);
 }
 
 void Window::deleteInteraction() {
@@ -170,7 +169,7 @@ void Window::deleteInteraction() {
 
 void Window::changeFocusInteraction() {
     wc->refreshInteraction();
-    this->layStacked->setCurrentWidget(wc);
+    layStacked->setCurrentWidget(wc);
     rechAvance(widgetRech->text());
 }
 
@@ -206,7 +205,7 @@ void Window::quitterHist() {
 }
 
 void Window::quitterSearch(){
-    this->widgetHist->setDisabled(false);
-    this->layStacked->setCurrentWidget(this->currentWidgetTmp);
-    this->currentWidgetTmp = NULL;
+    widgetHist->setEnabled(true);
+    layStacked->setCurrentWidget(this->currentWidgetTmp);
+    currentWidgetTmp = nullptr;
 }
