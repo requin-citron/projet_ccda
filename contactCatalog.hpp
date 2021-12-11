@@ -37,8 +37,6 @@ private:
   TagList tag_lst;
   //! historique local
   HistLocal *local_hist = NULL;
-  //! connexion a la bdd
-  QSqlDatabase db;
   //! crée une connexion a la base de donnee
   void initDbConnexion(std::string path);
   //! supprime la connexion a la base de donnee
@@ -49,6 +47,10 @@ private:
    Attention il faut que la db soit ouverte.
    */
   void cleanDataBase();
+  //! sauvegarde le catalogue dans la DB interne
+  void safeSaveDataBase(std::string path);
+  //! importation de la base de donnée interne
+  void safeLoadDataBase(std::string path);
 
 public:
   //! constructeur
@@ -83,7 +85,7 @@ public:
   */
   void eraseContact(Contact *c);
   //! sauvegarde le catalogue dans la DB
-  void saveDataBase();
+  void saveDataBase(std::string path);
   //! importation de la base de donnée
   void loadDataBase(std::string path);
   //! sauvegarde en json

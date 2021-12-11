@@ -44,195 +44,19 @@ void ContactCatalog::cleanDataBase(){
     }
 }
 
-void ContactCatalog::initDbConnexion(std::string path){
-    pathBdd = path;
-    const QString DRIVER("QSQLITE");
-    if(!QSqlDatabase::isDriverAvailable(DRIVER)){
-        qWarning() << "Error: SQL DRIVER unavailable";
-        exit(1);
-    }
-    this->db =  QSqlDatabase::addDatabase(DRIVER);
-    this->db.setDatabaseName(QString::fromStdString(path));
-    if(!this->db.open()){
-        qWarning() << "Error: " << this->db.lastError();
-        exit(1);
-    }
-}
+
 
 void ContactCatalog::eraseDbConnexion(){
-    const QString name = this->db.connectionName();
-    this->db.close();
-    //QSqlDatabase::removeDatabase(name);
+    QSqlDatabase::removeDatabase("qt_sql_default_connection");
 }
 
-void ContactCatalog::saveDataBase(){
-    this->initDbConnexion(pathBdd);
-    //clean database
-    this->cleanDataBase();
-    QSqlQuery query;
-    // historique global
-    for(auto &it: *this->local_hist->getLst()){
-        query.prepare("INSERT INTO history_global (contenue, dt) "
-                      "VALUES (:contenue, :dt)");
-        query.bindValue(":contenue", QString::fromStdString(it->first));
-        query.bindValue(":dt",QString::fromStdString(it->second.printAll()));
-        if(!query.exec()){
-            qWarning() << "Error: " << query.lastError().text();
-            exit(1);
-        }
-    }
-    //contact interaction historique locaux
-    QVariant id;
-    QVariant id_inte;
-    //contact
-    for(auto &it: this->contact_lst){
-        id.setValue(it->getId());
-        query.prepare("INSERT INTO contacts (id, email, first_name, last_name, enterprise, phone, photo) "
-                      "VALUES (:id, :email, :first_name, :last_name, :enterprise, :phone, :photo)");
-        query.bindValue(":id", id);
-        query.bindValue(":email",QString::fromStdString(it->getMail()));
-        query.bindValue(":first_name", QString::fromStdString(it->getFirstName()));
-        query.bindValue(":last_name", QString::fromStdString(it->getLastName()));
-        query.bindValue(":enterprise", QString::fromStdString(it->getEnterprise()));
-        query.bindValue(":phone", QString::fromStdString(it->getPhone()));
-        query.bindValue(":photo",QString::fromStdString(it->getPathPicture()));
-        if(!query.exec()){
-            qWarning() << "Error: " << query.lastError().text();
-            exit(1);
-        }
-        //gestion des historiques
-        for(auto &hist_contact: *(it->getHist()->getLst())){
-            query.prepare("INSERT INTO history_contact (id_contact, contenue, dt) "
-                          "VALUES (:id_contact, :contenue, :dt)");
-            query.bindValue(":id_contact", id);
-            query.bindValue(":contenue",QString::fromStdString(hist_contact->first));
-            query.bindValue(":dt", QString::fromStdString(hist_contact->second.printAll()));
-            if(!query.exec()){
-                qWarning() << "Error: " << query.lastError().text();
-                exit(1);
-            }
-        }
-        //gestion des interaction
-        for(auto &inte_local: *it->getInteractionLst()){
-            query.prepare("INSERT INTO interactions (id_contact, id_interaction, contenue) "
-                          "VALUES (:id_contact, :id_interaction, :contenue)");
-            query.bindValue(":id_contact", id);
-            id_inte.setValue(inte_local->getId());
-            query.bindValue(":id_interaction",id_inte);
-            query.bindValue(":contenue", QString::fromStdString(inte_local->getContenu()));
-            if(!query.exec()){
-                qWarning() << "Error: " << query.lastError().text();
-                exit(1);
-            }
-            //historique local a l'interaction
-            for(auto &hist_inte: *(inte_local->getHist()->getLst())){
-                query.prepare("INSERT INTO history_interaction (id_contact, id_interaction, contenue, dt) "
-                              "VALUES (:id_contact,:id_interaction, :contenue, :dt)");
-                query.bindValue(":id_contact", id);
-                query.bindValue(":id_interaction",id_inte);
-                query.bindValue(":contenue", QString::fromStdString(hist_inte->first));
-                query.bindValue(":dt", QString::fromStdString(hist_inte->second.printAll()));
-                if(!query.exec()){
-                    qWarning() << "Error: " << query.lastError().text();
-                    exit(1);
-                }
-            }
-            //tags
-            for(auto &tag : *inte_local->getTags()){
-                query.prepare("INSERT INTO tags (name,id_contact, id_interaction) "
-                              "VALUES (:name, :id_contact, :id_interaction)");
-                query.bindValue(":name",QString::fromStdString(tag->getName()));
-                query.bindValue(":id_contact",id);
-                query.bindValue(":id_interaction",id_inte);
-                if(!query.exec()){
-                    qWarning() << "Error: " << query.lastError().text();
-                    exit(1);
-                }
-            }
-        }
-    }
+void ContactCatalog::saveDataBase(std::string path){
+    this->safeSaveDataBase(path);
     this->eraseDbConnexion();
 }
 
 void ContactCatalog::loadDataBase(std::string path){
-    this->initDbConnexion(path);
-    //importation des contacts
-    QSqlQuery query;
-    QSqlQuery query1;
-    QSqlQuery query2;
-    if(!query.exec("SELECT * FROM contacts ORDER BY id ASC;")){
-        qWarning() << "Error: " << query.lastError().text();
-        exit(1);
-    }
-    Contact *tmp = NULL;
-    Interaction *inte_tmp = NULL;
-    QVariant magie;
-    QVariant magie1;
-    while (query.next()) {
-        tmp = new Contact((size_t)query.value(0).toInt(), query.value(2).toString().toStdString(),
-                    query.value(3).toString().toStdString(), query.value(3).toString().toStdString(),
-                    query.value(1).toString().toStdString(), query.value(5).toString().toStdString(),
-                    query.value(6).toString().toStdString(),&this->tag_lst);
-        // les injection sql pas pour nous
-        magie.setValue(tmp->getId());
-        // gestion historique
-        query1.prepare("SELECT contenue, dt FROM history_contact WHERE id_contact=:chevalo;");
-        query1.bindValue(":chevalo", magie);
-        if(!query1.exec()){
-            qWarning() << "Error: SQL DRIVER unavailable";
-            exit(1);
-        }
-        while(query1.next()){
-            tmp->getHist()->insertHist(query1.value(0).toString().toStdString(), query1.value(1).toString().toStdString());
-        }
-        // gestion interaction
-         query1.prepare("SELECT id_interaction, contenue FROM interactions WHERE id_contact=:chevalo ORDER BY id_interaction ASC;");
-         query1.bindValue(":chevalo", magie);
-         if(!query1.exec()){
-             qWarning() << "Error: SQL DRIVER unavailable";
-             exit(1);
-         }
-         while(query1.next()){
-             tmp->addInteraction((size_t)query1.value(0).toInt(), query1.value(1).toString().toStdString());
-             inte_tmp = *(--tmp->getInteractionLst()->end());
-             magie1.setValue(query1.value(0));
-             //historique
-             query2.prepare("SELECT contenue, dt FROM history_interaction WHERE id_contact=:id_c and id_interaction=:id_inte;");
-             query2.bindValue(":id_c", magie);
-             query2.bindValue(":id_inte", magie1);
-             if(!query2.exec()){
-                 qWarning() << "Error: SQL DRIVER unavailable";
-                 exit(1);
-             }
-
-             while(query2.next()){
-                 inte_tmp->getHist()->insertHist(query2.value(0).toString().toStdString(), query2.value(1).toString().toStdString());
-             }
-             //tag
-             query2.prepare("SELECT name FROM tags WHERE id_contact=:id_c and id_interaction=:id_inte;");
-             query2.bindValue(":id_c", magie);
-             query2.bindValue(":id_inte", magie1);
-
-             if(!query2.exec()){
-                 qWarning() << "Error: SQL DRIVER unavailable";
-                 exit(1);
-             }
-
-             while(query2.next()){
-                 inte_tmp->addTagUnLog(query2.value(0).toString().toStdString());
-             }
-
-         }
-         this->contact_lst.push_back(tmp);
-    }
-    // gestion global hist
-    if(!query1.exec("SELECT contenue, dt from history_global;")){
-        qWarning() << "Error: SQL DRIVER unavailable";
-        exit(1);
-    }
-    while(query1.next()){
-        this->local_hist->insertHist(query1.value(0).toString().toStdString(), query1.value(1).toString().toStdString());
-    }
+    this->safeLoadDataBase(path);
     this->eraseDbConnexion();
 }
 
@@ -335,3 +159,197 @@ TagList *ContactCatalog::getTagList(){
     return &this->tag_lst;
 }
 
+void ContactCatalog::safeLoadDataBase(std::string path){
+    pathBdd = path;
+    //! connexion a la bdd
+    QSqlDatabase db;
+    const QString DRIVER("QSQLITE");
+    if(!QSqlDatabase::isDriverAvailable(DRIVER)){
+        qWarning() << "Error: SQL DRIVER unavailable";
+        exit(1);
+    }
+    db =  QSqlDatabase::addDatabase(DRIVER);
+    db.setDatabaseName(QString::fromStdString(path));
+    if(!db.open()){
+        qWarning() << "Error: " << db.lastError();
+        exit(1);
+    }
+    //importation des contacts
+    QSqlQuery query;
+    QSqlQuery query1;
+    QSqlQuery query2;
+    if(!query.exec("SELECT * FROM contacts ORDER BY id ASC;")){
+        qWarning() << "Error: " << query.lastError().text();
+        exit(1);
+    }
+    Contact *tmp = NULL;
+    Interaction *inte_tmp = NULL;
+    QVariant magie;
+    QVariant magie1;
+    while (query.next()) {
+        tmp = new Contact((size_t)query.value(0).toInt(), query.value(2).toString().toStdString(),
+                    query.value(3).toString().toStdString(), query.value(3).toString().toStdString(),
+                    query.value(1).toString().toStdString(), query.value(5).toString().toStdString(),
+                    query.value(6).toString().toStdString(),&this->tag_lst);
+        // les injection sql pas pour nous
+        magie.setValue(tmp->getId());
+        // gestion historique
+        query1.prepare("SELECT contenue, dt FROM history_contact WHERE id_contact=:chevalo;");
+        query1.bindValue(":chevalo", magie);
+        if(!query1.exec()){
+            qWarning() << "Error: SQL DRIVER unavailable";
+            exit(1);
+        }
+        while(query1.next()){
+            tmp->getHist()->insertHist(query1.value(0).toString().toStdString(), query1.value(1).toString().toStdString());
+        }
+        // gestion interaction
+         query1.prepare("SELECT id_interaction, contenue FROM interactions WHERE id_contact=:chevalo ORDER BY id_interaction ASC;");
+         query1.bindValue(":chevalo", magie);
+         if(!query1.exec()){
+             qWarning() << "Error: SQL DRIVER unavailable";
+             exit(1);
+         }
+         while(query1.next()){
+             tmp->addInteraction((size_t)query1.value(0).toInt(), query1.value(1).toString().toStdString());
+             inte_tmp = *(--tmp->getInteractionLst()->end());
+             magie1.setValue(query1.value(0));
+             //historique
+             query2.prepare("SELECT contenue, dt FROM history_interaction WHERE id_contact=:id_c and id_interaction=:id_inte;");
+             query2.bindValue(":id_c", magie);
+             query2.bindValue(":id_inte", magie1);
+             if(!query2.exec()){
+                 qWarning() << "Error: SQL DRIVER unavailable";
+                 exit(1);
+             }
+
+             while(query2.next()){
+                 inte_tmp->getHist()->insertHist(query2.value(0).toString().toStdString(), query2.value(1).toString().toStdString());
+             }
+             //tag
+             query2.prepare("SELECT name FROM tags WHERE id_contact=:id_c and id_interaction=:id_inte;");
+             query2.bindValue(":id_c", magie);
+             query2.bindValue(":id_inte", magie1);
+
+             if(!query2.exec()){
+                 qWarning() << "Error: SQL DRIVER unavailable";
+                 exit(1);
+             }
+
+             while(query2.next()){
+                 inte_tmp->addTagUnLog(query2.value(0).toString().toStdString());
+             }
+
+         }
+         this->contact_lst.push_back(tmp);
+    }
+    // gestion global hist
+    if(!query1.exec("SELECT contenue, dt from history_global;")){
+        qWarning() << "Error: SQL DRIVER unavailable";
+        exit(1);
+    }
+    while(query1.next()){
+        this->local_hist->insertHist(query1.value(0).toString().toStdString(), query1.value(1).toString().toStdString());
+    }
+}
+
+void ContactCatalog::safeSaveDataBase(std::string path){
+        pathBdd = path;
+        //! connexion a la bdd
+        QSqlDatabase db;
+        const QString DRIVER("QSQLITE");
+        if(!QSqlDatabase::isDriverAvailable(DRIVER)){
+            qWarning() << "Error: SQL DRIVER unavailable";
+            exit(1);
+        }
+        db =  QSqlDatabase::addDatabase(DRIVER);
+        db.setDatabaseName(QString::fromStdString(path));
+        if(!db.open()){
+            qWarning() << "Error: " << db.lastError();
+            exit(1);
+        }
+        //clean database
+        this->cleanDataBase();
+        QSqlQuery query;
+        // historique global
+        for(auto &it: *this->local_hist->getLst()){
+            query.prepare("INSERT INTO history_global (contenue, dt) "
+                          "VALUES (:contenue, :dt)");
+            query.bindValue(":contenue", QString::fromStdString(it->first));
+            query.bindValue(":dt",QString::fromStdString(it->second.printAll()));
+            if(!query.exec()){
+                qWarning() << "Error: " << query.lastError().text();
+                exit(1);
+            }
+        }
+        //contact interaction historique locaux
+        QVariant id;
+        QVariant id_inte;
+        //contact
+        for(auto &it: this->contact_lst){
+            id.setValue(it->getId());
+            query.prepare("INSERT INTO contacts (id, email, first_name, last_name, enterprise, phone, photo) "
+                          "VALUES (:id, :email, :first_name, :last_name, :enterprise, :phone, :photo)");
+            query.bindValue(":id", id);
+            query.bindValue(":email",QString::fromStdString(it->getMail()));
+            query.bindValue(":first_name", QString::fromStdString(it->getFirstName()));
+            query.bindValue(":last_name", QString::fromStdString(it->getLastName()));
+            query.bindValue(":enterprise", QString::fromStdString(it->getEnterprise()));
+            query.bindValue(":phone", QString::fromStdString(it->getPhone()));
+            query.bindValue(":photo",QString::fromStdString(it->getPathPicture()));
+            if(!query.exec()){
+                qWarning() << "Error: " << query.lastError().text();
+                exit(1);
+            }
+            //gestion des historiques
+            for(auto &hist_contact: *(it->getHist()->getLst())){
+                query.prepare("INSERT INTO history_contact (id_contact, contenue, dt) "
+                              "VALUES (:id_contact, :contenue, :dt)");
+                query.bindValue(":id_contact", id);
+                query.bindValue(":contenue",QString::fromStdString(hist_contact->first));
+                query.bindValue(":dt", QString::fromStdString(hist_contact->second.printAll()));
+                if(!query.exec()){
+                    qWarning() << "Error: " << query.lastError().text();
+                    exit(1);
+                }
+            }
+            //gestion des interaction
+            for(auto &inte_local: *it->getInteractionLst()){
+                query.prepare("INSERT INTO interactions (id_contact, id_interaction, contenue) "
+                              "VALUES (:id_contact, :id_interaction, :contenue)");
+                query.bindValue(":id_contact", id);
+                id_inte.setValue(inte_local->getId());
+                query.bindValue(":id_interaction",id_inte);
+                query.bindValue(":contenue", QString::fromStdString(inte_local->getContenu()));
+                if(!query.exec()){
+                    qWarning() << "Error: " << query.lastError().text();
+                    exit(1);
+                }
+                //historique local a l'interaction
+                for(auto &hist_inte: *(inte_local->getHist()->getLst())){
+                    query.prepare("INSERT INTO history_interaction (id_contact, id_interaction, contenue, dt) "
+                                  "VALUES (:id_contact,:id_interaction, :contenue, :dt)");
+                    query.bindValue(":id_contact", id);
+                    query.bindValue(":id_interaction",id_inte);
+                    query.bindValue(":contenue", QString::fromStdString(hist_inte->first));
+                    query.bindValue(":dt", QString::fromStdString(hist_inte->second.printAll()));
+                    if(!query.exec()){
+                        qWarning() << "Error: " << query.lastError().text();
+                        exit(1);
+                    }
+                }
+                //tags
+                for(auto &tag : *inte_local->getTags()){
+                    query.prepare("INSERT INTO tags (name,id_contact, id_interaction) "
+                                  "VALUES (:name, :id_contact, :id_interaction)");
+                    query.bindValue(":name",QString::fromStdString(tag->getName()));
+                    query.bindValue(":id_contact",id);
+                    query.bindValue(":id_interaction",id_inte);
+                    if(!query.exec()){
+                        qWarning() << "Error: " << query.lastError().text();
+                        exit(1);
+                    }
+                }
+            }
+        }
+}

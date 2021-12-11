@@ -69,6 +69,7 @@ void WidgetContact::configContact(Contact* c) {
     widgetEntreprise->setText(QString::fromStdString(c->getEnterprise()));
     widgetMail->setText(QString::fromStdString(c->getMail()));
     widgetPhone->setText(QString::fromStdString(c->getPhone()));
+    this->displayPhoto(QString::fromStdString(this->url +"/"+ c->getPathPicture()));
     refreshInteraction();
 }
 
@@ -111,18 +112,22 @@ void WidgetContact::deleteContact() {emit removeContact(currentContact);}
 
 void WidgetContact::choosePhoto() {
     QString fichier = QFileDialog::getOpenFileName(this, tr("Choisie l'image"), QString::fromStdString(url), "Images (*.png *.jpg *.jpeg)");
-    QPixmap pixmap(fichier);
+    this->displayPhoto(fichier);
+}
+
+void WidgetContact::displayPhoto(QString path){
+    QPixmap pixmap(path);
     if (pixmap.isNull()) {
         widgetPhoto->setText(tr("Choisir une photo"));
         widgetPhoto->setIcon(QIcon());
     } else {
-        int ind = fichier.lastIndexOf('/')+1;
-        QString urlTmp = fichier.left(ind);
-        QString nameFile = fichier.right(fichier.size()-ind);
+        int ind = path.lastIndexOf('/')+1;
+        QString urlTmp = path.left(ind);
+        QString nameFile = path.right(path.size()-ind);
         if (urlTmp.toStdString()==(url+"/"))
             currentContact->setPathPicture(nameFile.toStdString());
         else {
-            QFile::copy(fichier, QString::fromStdString(url+"backup_")+nameFile);
+            QFile::copy(path, QString::fromStdString(url+"backup_")+nameFile);
             currentContact->setPathPicture("backup_"+nameFile.toStdString());
         }
         widgetPhoto->setText("");
