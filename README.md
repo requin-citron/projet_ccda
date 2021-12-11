@@ -29,7 +29,7 @@ Set up du projet
 4. Mettre à jour les modules
   `git submodule update`
 5. make
-  `make`
+  `mkdir -p build && cd build && qmake ../ccda.pro && make -j 8`
 6. Générer la doc (Optional)
   `make doc`
 <!-- ```make``` -->
@@ -43,5 +43,5 @@ Logiciel de gestion de contact avec un système de tag, de todo et de date.
 ## Roadmap
 
 - [x] Création des classes
-- [-] Gestion de la base de données
-- [-] Création d'une interface graphique
+- [x] Gestion de la base de données
+- [x] Création d'une interface graphique
