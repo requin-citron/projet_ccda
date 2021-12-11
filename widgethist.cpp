@@ -11,7 +11,7 @@ WidgetHist::WidgetHist() : QWidget() {
 }
 
 void WidgetHist::paintInterface() {
-    widgetQuitter->setText(tr("Continuer"));
+    widgetQuitter->setText(tr("Retour"));
 }
 
 void WidgetHist::rechAvance(QString s) {

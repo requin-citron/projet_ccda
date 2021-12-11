@@ -1,9 +1,6 @@
 #include "widgetmain.hpp"
 
 WidgetMain::WidgetMain(ContactCatalog *cata) : QWidget(), cata(cata) {
-    //widgetListContact->setStyleSheet("QListWidget {border : 2px solid black;background : lightgreen; font-size: 50px;}"
-    //                                 "QListWidget QScrollBar {background : lightblue;}"
-    //                                 "QListView::item:selected {border : 2px solid black;background : green;}");
     for (Contact* c: *cata->getContactLst())
         newContact(c);
     paintInterface();
