@@ -23,6 +23,7 @@ WidgetSearch::WidgetSearch(ContactCatalog *cata) : QWidget(){
 }
 
 void WidgetSearch::paintInterface() {
+    // redefinition de chaque composant avec du texte pour charger la traduction
     widgetBack->setText(tr("Retour"));
     widgetSuprr->setText(tr("Supprimer le tag"));
 }
@@ -52,7 +53,6 @@ void WidgetSearch::reloadOnChange(const QString &text){
             }
         }
     }else{ // grab par tag
-        // ligne de forceur
         for(auto &it: *cata->getTagList()->findTag(tmp)->getInteraction()){
             widgetListSearch->addItem(QString::fromStdString(it->getContact()->getFormat()+it->getFormat()));
         }

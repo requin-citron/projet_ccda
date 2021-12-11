@@ -11,6 +11,7 @@ WidgetHist::WidgetHist() : QWidget() {
 }
 
 void WidgetHist::paintInterface() {
+    // redefinition de chaque composant avec du texte pour charger la traduction
     widgetQuitter->setText(tr("Retour"));
 }
 
