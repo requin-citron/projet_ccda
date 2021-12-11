@@ -28,7 +28,7 @@ Window::Window(QApplication* a) : QMainWindow() {
     actionJson->setShortcut(QKeySequence("Ctrl+s"));
     actionQuitter->setShortcut(QKeySequence("Ctrl+q"));
     actionSearch->setShortcut(QKeySequence("Ctrl+f"));
-    this->actionDel->setShortcut(QKeySequence("Ctrl+w"));
+    actionDel->setShortcut(QKeySequence("Ctrl+w"));
     // toolbar
     QToolBar *toolBarRech = addToolBar("Recherche");
     toolBarRech->addWidget(widgetRech);
@@ -64,7 +64,7 @@ Window::Window(QApplication* a) : QMainWindow() {
     // pour aller sur la page WidgetShearch
     QObject::connect(actionSearch, SIGNAL(triggered()),this, SLOT(changeFocusSearch()));
     // pour suprr l'element selectione
-    QObject::connect(this->actionDel,SIGNAL(triggered()), this, SLOT(deleteSelected()));
+    QObject::connect(actionDel,SIGNAL(triggered()), this, SLOT(deleteSelected()));
     // pour affiner la recherche
     QObject::connect(widgetRech, SIGNAL(textChanged(QString)), this, SLOT(rechAvance(QString)));
     // pour aller sur la page WidgetHist
@@ -105,7 +105,7 @@ void Window::paintInterface() {
         //ajout
     QMenu *menuSearch = menuBar()->addMenu(tr("Recherche"));
         actionSearch->setText(tr("Recherche Avancé"));
-        menuSearch->addAction(this->actionSearch);
+        menuSearch->addAction(actionSearch);
     QMenu *menuAutre = menuBar()->addMenu(tr("Autre"));
         actionQuitter->setText(tr("Quitter"));
         menuAutre->addAction(actionQuitter);
@@ -243,32 +243,32 @@ void Window::quitterHist() {
 
 void Window::quitterSearch(){
     widgetHist->setEnabled(true);
-    if(this->currentWidgetTmp == NULL) this->currentWidgetTmp = this->wm;
-    else if(this->currentWidgetTmp == this->wc) this->wc->refreshInteraction();
-    layStacked->setCurrentWidget(this->currentWidgetTmp);
+    if(currentWidgetTmp == nullptr) currentWidgetTmp = wm;
+    else if(currentWidgetTmp == wc) wc->refreshInteraction();
+    layStacked->setCurrentWidget(currentWidgetTmp);
     currentWidgetTmp = nullptr;
 }
 void Window::deleteSelected(){
-    Interaction *tmp = NULL;
-    Contact *tmp1 = NULL;
-    if(this->layStacked->currentWidget() == this->wm){
-        tmp1 = this->wm->getCurrentContact();
-        if(tmp1!=NULL){
-            this->wm->removeContact(tmp1);
+    Interaction *tmp = nullptr;
+    Contact *tmp1 = nullptr;
+    if(layStacked->currentWidget() == wm){
+        tmp1 = wm->getCurrentContact();
+        if(tmp1!=nullptr){
+            wm->removeContact(tmp1);
         }
 
-    }else if(this->layStacked->currentWidget() == this->wc){
-        tmp = this->wc->getCurrentInteraction();
-        if(tmp !=NULL){
-            this->wc->getContact()->eraseInteraction(tmp);
-            this->wc->refreshInteraction();
+    }else if(layStacked->currentWidget() == wc){
+        tmp = wc->getCurrentInteraction();
+        if(tmp !=nullptr){
+            wc->getContact()->eraseInteraction(tmp);
+            wc->refreshInteraction();
         }
 
-    } else if(this->layStacked->currentWidget() == this->ws){
-        tmp = this->ws->getSelectItem();
-        if(tmp != NULL){
+    } else if(layStacked->currentWidget() == ws){
+        tmp = ws->getSelectItem();
+        if(tmp != nullptr){
             tmp->getContact()->eraseInteraction(tmp);
         }
-        this->ws->reloadOnChange(this->ws->getTag());
+        ws->reloadOnChange(ws->getTag());
     }
 }
