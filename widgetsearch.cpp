@@ -1,10 +1,11 @@
 #include "widgetsearch.hpp"
 
-WidgetSearch::WidgetSearch(ContactCatalog *cata) : QWidget(){
-    this->cata = cata;
+WidgetSearch::WidgetSearch(ContactCatalog *cata) : QWidget(), cata(cata) {
+    // modification rapide du css pour reduire la taille
     widgetListSearch->setStyleSheet("QListWidget {font-size: 20px;}");
     // construire les composants avec les bon texte
     paintInterface();
+    // construction de l'interface
     QGridLayout *l1 = new QGridLayout;
     l1->addWidget(widgetCombo,0,0,1,3);
     l1->addWidget(widgetSuprr,0,3);
@@ -13,13 +14,15 @@ WidgetSearch::WidgetSearch(ContactCatalog *cata) : QWidget(){
     l2->addWidget(widgetListSearch);
     l2->addWidget(widgetBack);
     setLayout(l2);
+    // pour quitter la recherche
     QObject::connect(widgetBack,SIGNAL(clicked()), this , SLOT(handlerBack()));
-   // changement dans la list deroulante
+    // changement dans la list deroulante
     QObject::connect(widgetCombo,SIGNAL(currentTextChanged(const QString&)),this, SLOT(reloadOnChange(const QString&)));
     // suppresion d'un tag
     QObject::connect(widgetSuprr, SIGNAL(clicked()), this, SLOT(deleteTag()));
     // double clic sur une interaction
     QObject::connect(widgetListSearch, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(printInter(QListWidgetItem*)));
+    // recharge la combo
     reloadSelf();
 }
 
@@ -34,6 +37,7 @@ void WidgetSearch::handlerBack(){
 }
 
 void WidgetSearch::reloadSelf(){
+    // recharge la combo
     widgetCombo->clear();
     widgetCombo->addItem(DEFAULT_MESSAGE);
     for(auto &it: *cata->getTagList()->getTagList()){
@@ -83,7 +87,6 @@ void WidgetSearch::printInter(QListWidgetItem* ptr){
              }
          }
      }else{ // grab par tag
-         // ligne de forceur
          for(auto &it: *cata->getTagList()->findTag(tmp)->getInteraction()){
              if(index==0){
                  emit sigInte(it);
