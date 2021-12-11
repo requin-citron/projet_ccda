@@ -3,6 +3,7 @@
 WidgetMain::WidgetMain(ContactCatalog *cata) : QWidget(), cata(cata) {
     for (Contact* c: *cata->getContactLst())
         newContact(c);
+    // construire les composants avec les bon texte
     paintInterface();
     QVBoxLayout *l1 = new QVBoxLayout;
     l1->addWidget(widgetListContact);
@@ -19,6 +20,7 @@ void WidgetMain::paintInterface() {
 }
 
 void WidgetMain::rechAvance(QString s) {
+    // Lors de l'edition da la bar de recherche de la toolbar c'est cette focntion qui affine la liste
     for (int t=0; t<widgetListContact->count(); t++)
         if (widgetListContact->item(t)->text().toLower().contains(s.toLower()))
             widgetListContact->item(t)->setHidden(false);

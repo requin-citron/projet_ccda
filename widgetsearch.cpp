@@ -3,6 +3,7 @@
 WidgetSearch::WidgetSearch(ContactCatalog *cata) : QWidget(){
     this->cata = cata;
     widgetListSearch->setStyleSheet("QListWidget {font-size: 20px;}");
+    // construire les composants avec les bon texte
     paintInterface();
     QGridLayout *l1 = new QGridLayout;
     l1->addWidget(widgetCombo,0,0,1,3);
@@ -95,6 +96,7 @@ void WidgetSearch::printInter(QListWidgetItem* ptr){
 }
 
 void WidgetSearch::rechAvance(QString &s){
+    // Lors de l'edition da la bar de recherche de la toolbar c'est cette focntion qui affine la liste
     for(int i=0; i<widgetListSearch->count();i++){
         if(widgetListSearch->item(i)->text().toLower().contains(s.toLower())){
             widgetListSearch->item(i)->setHidden(false);

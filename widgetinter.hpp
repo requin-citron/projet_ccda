@@ -12,7 +12,9 @@ public:
     //! pour recharger les composants avec du texte lors d'une changement de language
     void paintInterface();
     Interaction* getInter();
+    //! configurer l'interaction
     void configInter(Interaction* i);
+    //! si on demande une recherche rapide
     void rechAvance(QString s);
 private:
     Interaction* currentInter = nullptr;
