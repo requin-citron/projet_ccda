@@ -48,18 +48,31 @@ private:
     //! pour recharger les composants avec du texte lors d'une changement de language
     void paintInterface();
 private slots:
+    //! pour l'affinage rapide sur une interface
     void rechAvance(QString s);
+    //! pour editer un contact
     void editContact(Contact* c);
+    //! pour editer une interaction
     void editInter(Interaction* i);
+    //! retourner dans le WidgetMain
     void changeFocusMain(Contact* c);
+    //! retourner dans WidgetContact
     void changeFocusInteraction();
+    //! aller dans WidgetSearch
     void changeFocusSearch();
+    //! supprimer un contact
     void removeContact(Contact* c);
+    //! sauvegarde en json
     void saveJson();
+    //! changer la langue
     void changeLangue();
+    //! aller dans WidgetHist
     void printHist();
+    //! quitter WidgetHist
     void quitterHist();
+    //! quitter WidgetSearch
     void quitterSearch();
+    //! supprimer une interaction
     void deleteInteraction();
 };
 
