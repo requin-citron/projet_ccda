@@ -43,7 +43,7 @@ void WidgetSearch::reloadSelf(){
     for(auto &it: *cata->getTagList()->getTagList()){
         widgetCombo->addItem(QString::fromStdString(it->getName()));
     }
-    reloadOnChange(DEFAULT_MESSAGE);
+    reloadOnChange(this->widgetCombo->currentText());
 }
 
 void WidgetSearch::reloadOnChange(const QString &text){
@@ -71,30 +71,35 @@ void WidgetSearch::deleteTag(){
     reloadSelf();
 }
 
+Interaction *WidgetSearch::searchInte(QListWidgetItem* ptr){
+    int index = widgetListSearch->row(ptr);
+    std::string tmp = widgetCombo->currentText().toStdString();
+    if(tmp=="") return NULL;
+    widgetListSearch->clear();
+    if(tmp == DEFAULT_MESSAGE){
+        for(auto &it: *cata->getContactLst()){
+            for(auto &ot: *it->getInteractionLst()){
+                if(index==0){
+                     return ot;
+                }
+                index--;
+            }
+        }
+    }else{ // grab par tag
+        for(auto &it: *cata->getTagList()->findTag(tmp)->getInteraction()){
+            if(index==0){
+                return it;
+            }
+            index--;
+        }
+    }
+    return NULL;
+}
+
 void WidgetSearch::printInter(QListWidgetItem* ptr){
-     int index = widgetListSearch->row(ptr);
-     std::string tmp = widgetCombo->currentText().toStdString();
-     if(tmp=="") return;
-     widgetListSearch->clear();
-     if(tmp == DEFAULT_MESSAGE){
-         for(auto &it: *cata->getContactLst()){
-             for(auto &ot: *it->getInteractionLst()){
-                 if(index==0){
-                      emit sigInte(ot);
-                      return;
-                 }
-                 index--;
-             }
-         }
-     }else{ // grab par tag
-         for(auto &it: *cata->getTagList()->findTag(tmp)->getInteraction()){
-             if(index==0){
-                 emit sigInte(it);
-                 return;
-             }
-             index--;
-         }
-     }
+    Interaction *tmp = this->searchInte(ptr);
+    if(tmp == NULL) return;
+     emit sigInte(tmp);
 
 }
 
@@ -107,4 +112,12 @@ void WidgetSearch::rechAvance(QString &s){
             widgetListSearch->item(i)->setHidden(true);
         }
     }
+}
+
+Interaction* WidgetSearch::getSelectItem(){
+    return this->searchInte(this->widgetListSearch->currentItem());
+}
+
+QString WidgetSearch::getTag(){
+    return this->widgetCombo->currentText();
 }

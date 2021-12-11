@@ -19,6 +19,8 @@ public:
     void refreshInteraction();
     //! si on demande une recherche rapide
     void rechAvance(QString s);
+    //! revoit l'interaction selectione(simple clic)
+    Interaction *getCurrentInteraction();
 private:
     //! l'url de data
     std::string url;

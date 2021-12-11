@@ -19,6 +19,10 @@ public:
     void reloadSelf();
     //! si on demande une recherche rapide
     void rechAvance(QString &s);
+    //! revois l'interaction selectioner (simple clic)
+    Interaction *getSelectItem();
+    //! get current tag
+    QString getTag();
 private:
     //! catalogue global de l'app
     ContactCatalog *cata = nullptr;
@@ -30,6 +34,8 @@ private:
     QListWidget *widgetListSearch = new QListWidget();
     //! bouton de retour en arriere
     QPushButton *widgetBack = new QPushButton();
+    //! recherche l'interaction depuis le combobox
+    Interaction *searchInte(QListWidgetItem* ptr);
 public slots:
     //! handler bouton retour en arrire
     void handlerBack();

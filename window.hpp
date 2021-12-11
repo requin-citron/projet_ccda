@@ -32,6 +32,7 @@ private:
     QAction *actionJson = new QAction();
     QAction *actionSearch = new QAction();
     QAction** actionLangues = new QAction*[2];
+    QAction *actionDel = new QAction();
     //! widgets (gerer globalement pour pouvoir appliquer la traduction)
     QPushButton *widgetHist = new QPushButton();
     QLineEdit *widgetRech = new QLineEdit();
@@ -74,6 +75,8 @@ private slots:
     void quitterSearch();
     //! supprimer une interaction
     void deleteInteraction();
+    //! supprime l'element courant
+    void deleteSelected();
 };
 
 #endif // WINDOW_HPP
