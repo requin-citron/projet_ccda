@@ -49,6 +49,8 @@ void WidgetContact::paintInterface() {
     widgetNewInter->setText(tr("Ajouter une interaction"));
     widgetSave->setText(tr("Enregistrer"));
     widgetDel->setText(tr("Supprimer"));
+    if (currentContact!=nullptr)
+        displayPhoto(QString::fromStdString(url+"/"+currentContact->getPathPicture()));
 }
 
 Contact* WidgetContact::getContact() {return currentContact;}
@@ -118,7 +120,7 @@ void WidgetContact::displayPhoto(QString path){
         if (urlTmp.toStdString()==(url+"/"))
             currentContact->setPathPicture(nameFile.toStdString());
         else {
-            QFile::copy(path, QString::fromStdString(url+"backup_")+nameFile);
+            QFile::copy(path, QString::fromStdString(url+"/backup_")+nameFile);
             currentContact->setPathPicture("backup_"+nameFile.toStdString());
         }
         widgetPhoto->setText("");
