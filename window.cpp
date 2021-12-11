@@ -19,6 +19,8 @@ Window::Window(QApplication* a) : QMainWindow() {
     actionLangues[1]->setCheckable(true);
     actionJson->setShortcut(QKeySequence("Ctrl+s"));
     actionQuitter->setShortcut(QKeySequence("Ctrl+q"));
+    //! shortcut recherche avance
+    this->actionSearch->setShortcut(QKeySequence("Ctrl+f"));
     QToolBar *toolBarRech = addToolBar("Recherche");
     toolBarRech->addWidget(widgetRech);
     toolBarRech->addSeparator();
@@ -30,11 +32,13 @@ Window::Window(QApplication* a) : QMainWindow() {
     wc = new WidgetContact(url);
     wh = new WidgetHist();
     wi = new WidgetInter();
+    this->ws = new WidgetSearch(&this->cata);
     layStacked = new QStackedLayout;
     layStacked->addWidget(wm);
     layStacked->addWidget(wc);
     layStacked->addWidget(wh);
     layStacked->addWidget(wi);
+    this->layStacked->addWidget(ws);
     QWidget *container = new QWidget();
     container->setLayout(layStacked);
     setCentralWidget(container);
@@ -43,13 +47,18 @@ Window::Window(QApplication* a) : QMainWindow() {
     QObject::connect(actionJson, SIGNAL(triggered()), this, SLOT(saveJson()));
     QObject::connect(actionLangues[0], SIGNAL(triggered()), this, SLOT(changeLangue()));
     QObject::connect(actionLangues[1], SIGNAL(triggered()), this, SLOT(changeLangue()));
+    QObject::connect(this->actionSearch, SIGNAL(triggered()),this, SLOT(changeFocusSearch()));
     QObject::connect(widgetRech, SIGNAL(textChanged(QString)), this, SLOT(rechAvance(QString)));
     QObject::connect(widgetHist, SIGNAL(clicked()), this, SLOT(printHist()));
     QObject::connect(wm, SIGNAL(printContact(Contact*)), this, SLOT(editContact(Contact*)));
     QObject::connect(wc, SIGNAL(refreshContact(Contact*)), this, SLOT(changeFocusMain(Contact*)));
     QObject::connect(wc, SIGNAL(removeContact(Contact*)), this, SLOT(removeContact(Contact*)));
     QObject::connect(wc, SIGNAL(printInter(Interaction*)), this, SLOT(editInter(Interaction*)));
+    // connect double clic
+    QObject::connect(this->ws, SIGNAL(sigInte(Interaction*)), this, SLOT(editInter(Interaction*)));
     QObject::connect(wh, SIGNAL(quitterHist()), this, SLOT(quitterHist()));
+    // bouton revenir en arrière
+    QObject::connect(this->ws, SIGNAL(goBack()),this, SLOT(quitterSearch()));
     QObject::connect(wi, SIGNAL(refreshInteraction()), this, SLOT(changeFocusInteraction()));
     QObject::connect(wi, SIGNAL(deleteInteraction()), this, SLOT(deleteInteraction()));
 }
@@ -68,6 +77,10 @@ void Window::paintInterface() {
     QMenu *menuAutre = menuBar()->addMenu(tr("Autre"));
         actionQuitter->setText(tr("Quitter"));
         menuAutre->addAction(actionQuitter);
+    //ajout
+    QMenu *menuSearch = menuBar()->addMenu(tr("Recherche"));
+           this->actionSearch->setText(tr("Recherche Avancé"));
+            menuSearch->addAction(this->actionSearch);
     widgetHist->setText(tr("Historique"));
 }
 
@@ -97,6 +110,8 @@ void Window::rechAvance(QString s) {
         wc->rechAvance(s);
     else if (layStacked->currentWidget()==wh)
         wh->rechAvance(s);
+    else if (this->layStacked->currentWidget()==this->ws)
+        ws->rechAvance(s);
 }
 
 void Window::changeLangue() {
@@ -126,6 +141,8 @@ void Window::editContact(Contact* c) {
 
 void Window::editInter(Interaction* i) {
     wi->configInter(i);
+    //LET MET HERE
+    wc->configContact(i->getContact());
     layStacked->setCurrentWidget(wi);
     rechAvance(widgetRech->text());
 }
@@ -134,6 +151,14 @@ void Window::changeFocusMain(Contact* c) {
     wm->refreshListWidget(c);
     layStacked->setCurrentWidget(wm);
     rechAvance(widgetRech->text());
+}
+
+//! focus sur la fenêtre de recherche
+void Window::changeFocusSearch(){
+    this->widgetHist->setDisabled(true);
+    this->ws->reloadSelf();
+    this->currentWidgetTmp = this->layStacked->currentWidget();
+    this->layStacked->setCurrentWidget(this->ws);
 }
 
 void Window::deleteInteraction() {
@@ -176,4 +201,10 @@ void Window::quitterHist() {
     layStacked->setCurrentWidget(currentWidgetTmp);
     rechAvance(widgetRech->text());
     currentWidgetTmp = nullptr;
+}
+
+void Window::quitterSearch(){
+    this->widgetHist->setDisabled(false);
+    this->layStacked->setCurrentWidget(this->currentWidgetTmp);
+    this->currentWidgetTmp = NULL;
 }

@@ -95,6 +95,18 @@ Contact* Interaction::getContact(){
   return this->target;
 }
 
+std::string Interaction::getFormat(){
+    std::string ret=this->contenu;
+    for(size_t i=0;i<this->contenu.length();i++){
+        if(this->contenu[i] == '\n') this->contenu[i]='-';
+    }
+    if(ret.length()>=30){
+        ret = ret.substr(0,30) + "...";
+    }
+    ret = "\tInter ("+std::to_string(this->id)+")\n"+ret;
+    return ret;
+}
+
 //peut etre rajouter un flag en cas d'erreur
 void Interaction::unlinkTag(std::string name){
   std::list<Tag*>::iterator it = this->tags_lst.begin();

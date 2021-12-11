@@ -17,6 +17,7 @@ SOURCES += \
     main.cpp \
     tag.cpp \
     tagList.cpp \
+    widgetsearch.cpp \
     window.cpp \
     widgetcontact.cpp \
     widgetmain.cpp \
@@ -32,6 +33,7 @@ HEADERS += \
     interaction.hpp \
     tag.hpp \
     tagList.hpp \
+    widgetsearch.hpp \
     window.hpp \
     widgetcontact.hpp \
     widgetmain.hpp \

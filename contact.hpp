@@ -122,6 +122,11 @@ public:
   HistLocal *getHist();
   //! fonction qui renvoie l'identifiant de l'intéraction
   size_t getInteractionId();
+  //! fonction qui renvoie un string formate
+  /*!
+   * \return envois un string formate pour les case de l'ui
+   */
+  std::string getFormat();
   //! erase Interaction
   // \param inte pointeur sur l'intéraction à supprimer
   void eraseInteraction(Interaction *inte);

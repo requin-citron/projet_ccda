@@ -88,6 +88,11 @@ public:
   void loadDataBase(std::string path);
   //! sauvegarde en json
   std::string saveJson();
+  //! renvois un pointeur sur l'object tag_list
+  /*!
+    \return pointeur sur la list global des tags
+   */
+  TagList *getTagList();
 
 };
 

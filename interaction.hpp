@@ -99,6 +99,12 @@ public:
     \return pointeur sur la list des paires de todo
   */
   std::list<std::pair<std::string,Date*>*>* getTodo();
+  //! renvois l'interaction formate
+  /*!
+       \return string de l'interaction formater pour etre affiche dans de petit espace
+       la fonction permet de formater l'interaction pour quelle tienne dans une petite case
+   */
+  std::string getFormat();
 
   //! fonction de modification du contenu
   /*!
