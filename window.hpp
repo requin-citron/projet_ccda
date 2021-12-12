@@ -33,6 +33,7 @@ private:
     QAction *actionSearch = new QAction();
     QAction** actionLangues = new QAction*[2];
     QAction *actionDel = new QAction();
+    QAction *actionInfo = new QAction();
     //! widgets (gerer globalement pour pouvoir appliquer la traduction)
     QPushButton *widgetHist = new QPushButton();
     QLineEdit *widgetRech = new QLineEdit();
@@ -77,6 +78,8 @@ private slots:
     void deleteInteraction();
     //! supprime l'element courant
     void deleteSelected();
+    //! affiche la boite de dialogue avec les info general
+    void showInfo();
 };
 
 #endif // WINDOW_HPP

@@ -28,6 +28,7 @@ Window::Window(QApplication* a) : QMainWindow() {
     actionJson->setShortcut(QKeySequence("Ctrl+s"));
     actionQuitter->setShortcut(QKeySequence("Ctrl+q"));
     actionSearch->setShortcut(QKeySequence("Ctrl+f"));
+    actionInfo->setShortcut(QKeySequence("Ctrl+i"));
     actionDel->setShortcut(QKeySequence("Ctrl+w"));
     // toolbar
     QToolBar *toolBarRech = addToolBar("Recherche");
@@ -63,6 +64,8 @@ Window::Window(QApplication* a) : QMainWindow() {
     QObject::connect(actionLangues[1], SIGNAL(triggered()), this, SLOT(changeLangue()));
     // pour aller sur la page WidgetShearch
     QObject::connect(actionSearch, SIGNAL(triggered()),this, SLOT(changeFocusSearch()));
+    // pour affiche les info general
+    QObject::connect(actionInfo,SIGNAL(triggered()), this, SLOT(showInfo()));
     // pour suprr l'element selectione
     QObject::connect(actionDel,SIGNAL(triggered()), this, SLOT(deleteSelected()));
     // pour affiner la recherche
@@ -111,6 +114,8 @@ void Window::paintInterface() {
         menuAutre->addAction(actionQuitter);
         actionDel->setText(tr("Supprimer l'item sélectionné"));
         menuAutre->addAction(actionDel);
+        actionInfo->setText(tr("Info général"));
+        menuAutre->addAction(actionInfo);
     widgetHist->setText(tr("Historique"));
 }
 
@@ -271,4 +276,9 @@ void Window::deleteSelected(){
         }
         ws->reloadOnChange(ws->getTag());
     }
+}
+
+void Window::showInfo(){
+    std::string contact = "Vous avez " + std::to_string(this->cata.getContactLst()->size()) + " Contact" + "\n";
+     QMessageBox::information(this, tr("Information Général"), tr(contact.c_str()));
 }
