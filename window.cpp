@@ -109,12 +109,12 @@ void Window::paintInterface() {
     QMenu *menuSearch = menuBar()->addMenu(tr("Recherche"));
         actionSearch->setText(tr("Recherche Avancé"));
         menuSearch->addAction(actionSearch);
-    QMenu *menuAutre = menuBar()->addMenu(tr("Autre"));
+    QMenu *menuAutre = menuBar()->addMenu(tr("Autres"));
         actionQuitter->setText(tr("Quitter"));
         menuAutre->addAction(actionQuitter);
         actionDel->setText(tr("Supprimer l'item sélectionné"));
         menuAutre->addAction(actionDel);
-        actionInfo->setText(tr("Info général"));
+        actionInfo->setText(tr("Informations générales"));
         menuAutre->addAction(actionInfo);
     widgetHist->setText(tr("Historique"));
 }
@@ -253,6 +253,7 @@ void Window::quitterSearch(){
     layStacked->setCurrentWidget(currentWidgetTmp);
     currentWidgetTmp = nullptr;
 }
+
 void Window::deleteSelected(){
     Interaction *tmp = nullptr;
     Contact *tmp1 = nullptr;
@@ -279,13 +280,12 @@ void Window::deleteSelected(){
 }
 
 void Window::showInfo(){
-    std::string contact = "Vous avez " + std::to_string(this->cata.getContactLst()->size()) + " Contacts" + "\n";
+    QString s = tr("Vous avez ") + QString::fromStdString(std::to_string(this->cata.getContactLst()->size())) + " Contacts\n";
     size_t nb_interaction=0;
-    for(auto &it: *this->cata.getContactLst()){
+    for(auto &it: *this->cata.getContactLst())
         nb_interaction += it->getInteractionLst()->size();
-    }
-    std::string interaction = "Vous avez " + std::to_string(nb_interaction) + " Interaction" + "\n";
-    std::string tag = "Vous avez " + std::to_string(this->cata.getTagList()->getTagList()->size()) + " Tags" + "\n";
-    std::string global = contact + interaction + tag;
-    QMessageBox::information(this, tr("Information Général"), tr(global.c_str()));
+    s += tr("Vous avez ") + QString::fromStdString(std::to_string(nb_interaction)) + " Interactions\n";
+
+    s += tr("Vous avez ") + QString::fromStdString(std::to_string(this->cata.getTagList()->getTagList()->size())) + " Tags";
+    QMessageBox::information(this, tr("Information Général"), s);
 }
