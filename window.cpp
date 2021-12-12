@@ -3,7 +3,11 @@
 Window::Window(QApplication* a) : QMainWindow() {
     app = a;
     // recuperation du fichier contenant toutes nos ressources externe (traduction, base de donne, css, photo)
-    url = QFileDialog::getExistingDirectory(this, tr("Renseignez la position des datas")).toStdString();
+    do {
+        url = QFileDialog::getExistingDirectory(this, tr("Renseignez la position des datas")).toStdString();
+        if (url.empty())
+            QMessageBox::information(this, "Erreur", "Vous n'avez pas chargé de fichier");
+    } while (url.empty());
     // chargement de la base de donne
     cata.loadDataBase(url+"/database.db");
     // chargement du css
@@ -110,12 +114,12 @@ void Window::paintInterface() {
         actionSearch->setText(tr("Recherche Avancé"));
         menuSearch->addAction(actionSearch);
     QMenu *menuAutre = menuBar()->addMenu(tr("Autres"));
-        actionQuitter->setText(tr("Quitter"));
-        menuAutre->addAction(actionQuitter);
         actionDel->setText(tr("Supprimer l'item sélectionné"));
         menuAutre->addAction(actionDel);
         actionInfo->setText(tr("Informations générales"));
         menuAutre->addAction(actionInfo);
+        actionQuitter->setText(tr("Quitter"));
+        menuAutre->addAction(actionQuitter);
     widgetHist->setText(tr("Historique"));
 }
 
@@ -280,12 +284,11 @@ void Window::deleteSelected(){
 }
 
 void Window::showInfo(){
-    QString s = tr("Vous avez ") + QString::fromStdString(std::to_string(this->cata.getContactLst()->size())) + " Contacts\n";
+    QString s = tr("Vous avez") + " " + QString::fromStdString(std::to_string(this->cata.getContactLst()->size())) + " Contacts\n";
     size_t nb_interaction=0;
     for(auto &it: *this->cata.getContactLst())
         nb_interaction += it->getInteractionLst()->size();
-    s += tr("Vous avez ") + QString::fromStdString(std::to_string(nb_interaction)) + " Interactions\n";
-
-    s += tr("Vous avez ") + QString::fromStdString(std::to_string(this->cata.getTagList()->getTagList()->size())) + " Tags";
+    s += tr("Vous avez") + " " + QString::fromStdString(std::to_string(nb_interaction)) + " Interactions\n";
+    s += tr("Vous avez") + " " + QString::fromStdString(std::to_string(this->cata.getTagList()->getTagList()->size())) + " Tags";
     QMessageBox::information(this, tr("Information Général"), s);
 }
