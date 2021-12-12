@@ -24,12 +24,54 @@ void WidgetMain::paintInterface() {
 }
 
 void WidgetMain::rechAvance(QString s) {
-    // Lors de l'edition da la bar de recherche de la toolbar c'est cette focntion qui affine la liste
-    for (int t=0; t<widgetListContact->count(); t++)
-        if (widgetListContact->item(t)->text().toLower().contains(s.toLower()))
-            widgetListContact->item(t)->setHidden(false);
-        else
-            widgetListContact->item(t)->setHidden(true);
+    QString tmp;
+    Contact *c = nullptr;
+    bool flag=false;
+    if(s.startsWith("//")){
+        if(s.startsWith("//lastname:")){
+            tmp=s.mid(11);
+        }else if(s.startsWith("//firstname:")){
+            tmp=s.mid(12);
+        }else if(s.startsWith("//comp:")){
+            tmp=s.mid(7);
+        }else if(s.startsWith("//email:")){
+            tmp=s.mid(8);
+        }
+        for(int t=0; t<widgetListContact->count(); t++){
+            c = getContact(t);
+            flag=false;
+            if(s.startsWith("//lastname:")){
+                if(QString::fromStdString(c->getLastName()).toLower().contains(tmp.toLower())){
+                    flag=true;
+                }
+            }else if(s.startsWith("//firstname:")){
+                if(QString::fromStdString(c->getFirstName()).toLower().contains(tmp.toLower())){
+                    flag=true;
+                }
+            }else if(s.startsWith("//comp:")){
+                if(QString::fromStdString(c->getEnterprise()).toLower().contains(tmp.toLower())){
+                    flag=true;
+                }
+            }else if(s.startsWith("//email:")){
+                if(QString::fromStdString(c->getMail()).toLower().contains(tmp.toLower())){
+                    flag=true;
+                }
+            }
+            if(flag){
+                widgetListContact->item(t)->setHidden(false);
+            }else{
+                widgetListContact->item(t)->setHidden(true);
+            }
+
+        }
+    }else{
+        // Lors de l'edition da la bar de recherche de la toolbar c'est cette focntion qui affine la liste
+        for (int t=0; t<widgetListContact->count(); t++)
+            if (widgetListContact->item(t)->text().toLower().contains(s.toLower()))
+                widgetListContact->item(t)->setHidden(false);
+            else
+                widgetListContact->item(t)->setHidden(true);
+    }
 }
 
 size_t WidgetMain::getIndexContact(Contact *c) {

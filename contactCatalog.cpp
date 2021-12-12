@@ -188,7 +188,7 @@ void ContactCatalog::safeLoadDataBase(std::string path){
     QVariant magie1;
     while (query.next()) {
         tmp = new Contact((size_t)query.value(0).toInt(), query.value(2).toString().toStdString(),
-                    query.value(3).toString().toStdString(), query.value(3).toString().toStdString(),
+                    query.value(3).toString().toStdString(), query.value(4).toString().toStdString(),
                     query.value(1).toString().toStdString(), query.value(5).toString().toStdString(),
                     query.value(6).toString().toStdString(),&this->tag_lst);
         // les injection sql pas pour nous

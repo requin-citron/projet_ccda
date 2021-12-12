@@ -74,8 +74,7 @@ void WidgetSearch::deleteTag(){
 Interaction *WidgetSearch::searchInte(QListWidgetItem* ptr){
     int index = widgetListSearch->row(ptr);
     std::string tmp = widgetCombo->currentText().toStdString();
-    if(tmp=="") return nullptr;
-    widgetListSearch->clear();
+    if(tmp=="") return NULL;
     if(tmp == DEFAULT_MESSAGE){
         for(auto &it: *cata->getContactLst()){
             for(auto &ot: *it->getInteractionLst()){
@@ -93,29 +92,60 @@ Interaction *WidgetSearch::searchInte(QListWidgetItem* ptr){
             index--;
         }
     }
-    return nullptr;
+    return NULL;
 }
 
 void WidgetSearch::printInter(QListWidgetItem* ptr){
     Interaction *tmp = this->searchInte(ptr);
-    if(tmp == nullptr) return;
+    widgetListSearch->clear();
+    if(tmp == NULL) return;
      emit sigInte(tmp);
 
 }
 
 void WidgetSearch::rechAvance(QString &s){
     // Lors de l'edition da la bar de recherche de la toolbar c'est cette focntion qui affine la liste
-    for(int i=0; i<widgetListSearch->count();i++){
-        if(widgetListSearch->item(i)->text().toLower().contains(s.toLower())){
-            widgetListSearch->item(i)->setHidden(false);
-        }else{
-            widgetListSearch->item(i)->setHidden(true);
+    Interaction *tmp=NULL;
+    std::string stringD1;
+    std::string stringD2;
+
+    if(s.length() == 23 && s.startsWith("//")){
+        stringD1 = s.toStdString().substr(2,10);
+        stringD2 = s.toStdString().substr(13);
+        Date d1(stringD1);
+        Date d2(stringD2);
+        bool flag;
+        for(int i=0; i<widgetListSearch->count();i++){
+            tmp = searchInte(widgetListSearch->item(i));
+            flag=false;
+            for(auto &it: *tmp->getTodo()){
+                if(it->second != NULL){
+                    if((*it->second) > d1 && (*it->second) < d2){
+                        flag=true;
+                    }
+                }
+            }
+            if(flag){
+                widgetListSearch->item(i)->setHidden(false);
+            }else{
+                widgetListSearch->item(i)->setHidden(true);
+            }
+        }
+    }else{
+        for(int i=0; i<widgetListSearch->count();i++){
+            if(QString::fromStdString(searchInte(widgetListSearch->item(i))->getContenu()).toLower().contains(s.toLower())){
+                widgetListSearch->item(i)->setHidden(false);
+            }else{
+                widgetListSearch->item(i)->setHidden(true);
+            }
         }
     }
 }
 
 Interaction* WidgetSearch::getSelectItem(){
-    return this->searchInte(this->widgetListSearch->currentItem());
+    Interaction *tmp =  this->searchInte(this->widgetListSearch->currentItem());
+    widgetListSearch->clear();
+    return tmp;
 }
 
 QString WidgetSearch::getTag(){

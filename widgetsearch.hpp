@@ -5,6 +5,7 @@
 #include "contactCatalog.hpp"
 #include "tagList.hpp"
 #include "interaction.hpp"
+#include "date.hpp"
 //! message quand aucun tag est selectionne doit IMPERATIVEMENT contenir un espace
 #define DEFAULT_MESSAGE "None "
 
