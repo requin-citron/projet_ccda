@@ -573,3 +573,6 @@ QComboBox::item{
 QComboBox::item:selected{
 	background-color: #1b2f36;
 }
+QMessageBox{
+	background-color: #393a45;
+}

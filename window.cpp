@@ -279,6 +279,13 @@ void Window::deleteSelected(){
 }
 
 void Window::showInfo(){
-    std::string contact = "Vous avez " + std::to_string(this->cata.getContactLst()->size()) + " Contact" + "\n";
-     QMessageBox::information(this, tr("Information Général"), tr(contact.c_str()));
+    std::string contact = "Vous avez " + std::to_string(this->cata.getContactLst()->size()) + " Contacts" + "\n";
+    size_t nb_interaction=0;
+    for(auto &it: *this->cata.getContactLst()){
+        nb_interaction += it->getInteractionLst()->size();
+    }
+    std::string interaction = "Vous avez " + std::to_string(nb_interaction) + " Interaction" + "\n";
+    std::string tag = "Vous avez " + std::to_string(this->cata.getTagList()->getTagList()->size()) + " Tags" + "\n";
+    std::string global = contact + interaction + tag;
+    QMessageBox::information(this, tr("Information Général"), tr(global.c_str()));
 }
