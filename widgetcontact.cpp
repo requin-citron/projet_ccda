@@ -115,7 +115,10 @@ void WidgetContact::changeContact() {
         currentContact->setPhone(widgetPhone->text().toStdString());
 }
 
-void WidgetContact::deleteContact() {emit removeContact(currentContact);}
+void WidgetContact::deleteContact() {
+    emit removeContact(currentContact);
+    currentContact=nullptr;
+}
 
 void WidgetContact::choosePhoto() {
     // modification de la photo
